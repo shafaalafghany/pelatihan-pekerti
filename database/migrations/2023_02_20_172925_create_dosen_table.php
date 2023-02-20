@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('ktp', 150)->nullable();
             $table->string('sk_dosen', 150)->nullable();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable()->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

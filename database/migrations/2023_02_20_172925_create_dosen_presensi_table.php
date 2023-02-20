@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('dosen_presensi', function (Blueprint $table) {
             $table->comment('');
-            $table->integer('id_user')->index('fk_user_dosen_presensi');
-            $table->integer('id_sesi')->index('fk_presensi_sesi');
+            $table->integer('id_dosen')->index('fk_dosen_dosen_presensi');
+            $table->integer('id_sesi')->index('fk_dosen_presensi_sesi');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('password');
             $table->enum('role', ['superadmin', 'staff']);
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 
