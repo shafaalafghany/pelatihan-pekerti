@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('id_tugas')->index('fk_tugas_tugas_dosen');
             $table->integer('id_dosen')->index('fk_dosen_tugas_dosen');
-            $table->string('file');
+            $table->string('berkas_tugas', 150);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

@@ -23,8 +23,9 @@ return new class extends Migration
             $table->string('token_verification')->nullable();
             $table->string('gelar_depan', 50)->nullable();
             $table->string('gelar_belakang', 50)->nullable();
-            $table->string('ktp', 150)->nullable();
-            $table->string('sk_dosen', 150)->nullable();
+            $table->string('berkas_ktp', 150)->nullable();
+            $table->string('berkas_sk_dosen', 150)->nullable();
+            $table->string('berkas_kartu_peserta', 150)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

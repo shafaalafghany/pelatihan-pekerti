@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sesi', function (Blueprint $table) {
+        Schema::create('pembayaran', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_pelatihan')->index('fk_pelatihan_sesi');
-            $table->string('nama', 100);
-            $table->string('tanggal', 0);
+            $table->integer('id_dosen')->index('fk_dosen_pembayaran');
+            $table->string('invoice', 50);
+            $table->tinyInteger('status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sesi');
+        Schema::dropIfExists('pembayaran');
     }
 };

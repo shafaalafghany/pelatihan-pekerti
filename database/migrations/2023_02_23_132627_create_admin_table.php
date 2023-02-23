@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tugas', function (Blueprint $table) {
+        Schema::create('admin', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_sesi')->index('fk_tugas_sesi');
-            $table->string('judul', 100);
-            $table->string('deskripsi', 255);
-            $table->string('batas_pengumpulan', 15);
+            $table->integer('name');
+            $table->string('email', 150)->unique('email');
+            $table->string('password');
+            $table->enum('role', ['superadmin', 'staff']);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tugas');
+        Schema::dropIfExists('admin');
     }
 };
