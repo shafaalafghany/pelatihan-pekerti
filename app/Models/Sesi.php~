@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $id_pelatihan
  * @property string $nama
- * @property string $keterangan
  * @property string $tanggal
  * @property string $created_at
  * @property string $updated_at
@@ -29,7 +28,7 @@ class Sesi extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_pelatihan', 'nama', 'keterangan', 'tanggal', 'created_at', 'updated_at'];
+    protected $fillable = ['id_pelatihan', 'nama', 'tanggal', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -2,43 +2,62 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+/**
+ * @property integer $id
+ * @property string $email
+ * @property string $password
+ * @property string $fullname
+ * @property boolean $is_active
+ * @property string $token_verification
+ * @property string $gelar_depan
+ * @property string $gelar_belakang
+ * @property string $ktp
+ * @property string $sk_dosen
+ * @property string $created_at
+ * @property string $updated_at
+ * @property Sesi[] $sesis
+ * @property Pembayaran[] $pembayarans
+ * @property TugasDosen[] $tugasDosens
+ */
+class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    /**
+     * The table associated with the model.
+     * 
+     * @var string
+     */
+    protected $table = 'dosen';
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'gelar_depan', 'gelar_belakang', 'ktp', 'sk_dosen', 'created_at', 'updated_at'];
+
+    protected $hidden = ['password'];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    public function sesis()
+    {
+        return $this->belongsToMany('App\Models\Sesi', 'dosen_presensi', 'id_user', 'id_sesi');
+    }
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    public function pembayarans()
+    {
+        return $this->hasMany('App\Models\Pembayaran', 'id_user');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tugasDosens()
+    {
+        return $this->hasMany('App\Models\TugasDosen', 'id_user');
+    }
 }

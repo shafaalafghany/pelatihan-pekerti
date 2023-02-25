@@ -7,25 +7,34 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property integer $id
  * @property integer $id_dosen
- * @property string $invoice
- * @property boolean $status
+ * @property integer $id_pelatihan
+ * @property string $berkas_sertifikat
  * @property string $created_at
  * @property string $updated_at
+ * @property Pelatihan $pelatihan
  * @property Dosen $dosen
  */
-class Pembayaran extends Model
+class Sertifikat extends Model
 {
     /**
      * The table associated with the model.
      * 
      * @var string
      */
-    protected $table = 'pembayaran';
+    protected $table = 'sertifikat';
 
     /**
      * @var array
      */
-    protected $fillable = ['id_dosen', 'invoice', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['id_dosen', 'id_pelatihan', 'berkas_sertifikat', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pelatihan()
+    {
+        return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
