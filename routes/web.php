@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'register');
     Route::get('/login', 'login');
+    Route::post('/register', 'doRegister');
 });
 
 // Route::get('/cek', function () {
