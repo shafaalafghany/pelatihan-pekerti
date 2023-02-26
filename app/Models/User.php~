@@ -13,12 +13,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $token_verification
  * @property string $gelar_depan
  * @property string $gelar_belakang
- * @property string $ktp
- * @property string $sk_dosen
+ * @property string $berkas_ktp
+ * @property string $berkas_sk_dosen
+ * @property string $berkas_kartu_peserta
  * @property string $created_at
  * @property string $updated_at
- * @property Sesi[] $sesis
+ * @property DosenPelatihan[] $dosenPelatihans
+ * @property DosenPresensi[] $dosenPresensis
+ * @property Nilai[] $nilais
  * @property Pembayaran[] $pembayarans
+ * @property Sertifikat[] $sertifikats
  * @property TugasDosen[] $tugasDosens
  */
 class User extends Model
@@ -33,16 +37,32 @@ class User extends Model
     /**
      * @var array
      */
-    protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'gelar_depan', 'gelar_belakang', 'ktp', 'sk_dosen', 'created_at', 'updated_at'];
+    protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'token_expired', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function sesis()
+    public function dosenPelatihans()
     {
-        return $this->belongsToMany('App\Models\Sesi', 'dosen_presensi', 'id_user', 'id_sesi');
+        return $this->hasMany('App\Models\DosenPelatihan', 'id_dosen');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function dosenPresensis()
+    {
+        return $this->hasMany('App\Models\DosenPresensi', 'id_dosen');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function nilais()
+    {
+        return $this->hasMany('App\Models\Nilai', 'id_dosen');
     }
 
     /**
@@ -50,7 +70,15 @@ class User extends Model
      */
     public function pembayarans()
     {
-        return $this->hasMany('App\Models\Pembayaran', 'id_user');
+        return $this->hasMany('App\Models\Pembayaran', 'id_dosen');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sertifikats()
+    {
+        return $this->hasMany('App\Models\Sertifikat', 'id_dosen');
     }
 
     /**
@@ -58,6 +86,6 @@ class User extends Model
      */
     public function tugasDosens()
     {
-        return $this->hasMany('App\Models\TugasDosen', 'id_user');
+        return $this->hasMany('App\Models\TugasDosen', 'id_dosen');
     }
 }

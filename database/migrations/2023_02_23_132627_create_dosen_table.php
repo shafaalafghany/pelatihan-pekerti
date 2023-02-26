@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('fullname');
             $table->tinyInteger('is_active');
             $table->string('token_verification')->nullable();
+            $table->string('token_expired', 100)->nullable();
             $table->string('gelar_depan', 50)->nullable();
             $table->string('gelar_belakang', 50)->nullable();
             $table->string('berkas_ktp', 150)->nullable();

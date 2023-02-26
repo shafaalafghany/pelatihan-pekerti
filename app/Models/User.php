@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $fullname
  * @property boolean $is_active
  * @property string $token_verification
+ * @property string $token_expired
  * @property string $gelar_depan
  * @property string $gelar_belakang
  * @property string $berkas_ktp
@@ -37,9 +38,7 @@ class User extends Model
     /**
      * @var array
      */
-    protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
-
-    protected $hidden = ['password'];
+    protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'token_expired', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
