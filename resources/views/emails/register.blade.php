@@ -3,7 +3,7 @@
 
 Terimakasih telah mendaftar di PEKERTI, silahkan verifikasi akun anda terlebih dahulu sebelum melakukan login.
 
-<x-mail::button :url="'{{ $link }}'">
+<x-mail::button :url="$url">
 Verifikasi Akun Saya
 </x-mail::button>
 

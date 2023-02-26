@@ -20,10 +20,7 @@ Route::get('/', function () {
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/register', 'register');
-    Route::get('/login', 'login');
     Route::post('/register', 'doRegister');
+    Route::get('/login', 'login');
+    Route::get('/verify-email', 'verifyEmail');
 });
-
-// Route::get('/cek', function () {
-//     return Carbon::now()->addDay(1)->timestamp;
-// });

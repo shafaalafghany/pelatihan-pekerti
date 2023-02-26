@@ -42,11 +42,42 @@ class AuthController extends Controller
 			]);
 		}
 		
-		$link = config('APP_URL') . 'auth/verify-email?id=' . $user->id . '&token=' . $token;
+		$link = 'http://localhost:8000/verify-email?id=' . $user->id . '&token=' . $token;
 		$this->_sendEmail($request->email, $link);
 		return view('auth.register', [
 			'success' => 'silahkan cek email anda untuk melakukan verifikasi akun',
 		]);
+	}
+
+	public function verifyEmail(Request $request) {
+		$id = $request->input('id');
+		$token = $request->input('token');
+		$now = Carbon::now()->timestamp;
+		$user = User::find($id);
+
+		if ($now > $user->token_expired) {
+			return view('auth.verify_email', [
+				'error' => 'user tidak ditemukan atau token telah kedaluarsa',
+			]);
+		}
+		
+		if ($user->token_verification != $token) {
+			return view('auth.verify_email', [
+				'error' => 'user tidak ditemukan atau token telah kedaluarsa',
+			]);
+		}
+
+		$user->is_active = 1;
+		$user->token_verification = null;
+		$user->token_expired = null;
+		
+		if(!$user->save()) {
+			return view('auth.verify_email', [
+				'error' => 'terjadi kesalahan pada sistem, mohon tunggu sejenak',
+			]);
+		}
+
+		return view('auth.verify_email');
 	}
 
 	private function _sendEmail(string $email, string $url) {
