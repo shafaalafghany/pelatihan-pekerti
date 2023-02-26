@@ -40,6 +40,8 @@ class User extends Model
      */
     protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'token_expired', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
 
+    protected $hidden = ['password'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
