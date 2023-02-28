@@ -26,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Sertifikat[] $sertifikats
  * @property TugasDosen[] $tugasDosens
  */
-class User extends Model
+class User extends AuthenticableUser
 {
     /**
      * The table associated with the model.

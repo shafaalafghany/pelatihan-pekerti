@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Admin;
 use App\Mail\Register;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -14,6 +16,30 @@ class AuthController extends Controller
 {
 	public function login() {
 		return view('auth.login');
+	}
+
+	public function doLogin(Request $request) {
+		$credential = $request->validate([
+			'email' => 'required',
+			'password' => 'required',
+			'role' => 'required',
+		]);
+
+		$email = $request->email;
+		$password = $request->password;
+
+		if (Auth::guard($request->role == 'admin' ? 'admin' : 'web')->attempt(['email' => $email, 'password' => $password])) {
+			$request->session()->regenerate();
+
+			// return redirect()->to(route('admin-dashboard'));
+			return redirect()->intended('/landing-page');
+	}
+
+		// if ($request->role == 'admin') {
+		// 	return $this->_adminLogin($request, $email, $password);
+		// } else {
+		// 	return $this->_dosenLogin($request, $email, $password);
+		// }
 	}
 
 	public function register() {
@@ -80,7 +106,74 @@ class AuthController extends Controller
 		return view('auth.verify_email');
 	}
 
-	private function _sendEmail(string $email, string $url) {
+	public function logout(Request $request) {
+		// $role = $request->input('role');
+
+		// if ($role == 'admin') {
+		// 	$request->session()->forget($role);
+		// } else {
+		// 	$request->session()->forget($role);
+		// }
+
+		// return redirect('/login');
+		Auth::logout();
+ 
+    $request->session()->invalidate();
+ 
+    $request->session()->regenerateToken();
+ 
+    return redirect('/');
+	}
+
+	private function _sendEmail(string $email, $url) {
 		Mail::to($email)->send(new Register($email, $url));
+	}
+
+	private function _adminLogin(Request $request, string $email, $password) {
+		$admin = Admin::where('email', $email)->first();
+		if ($admin == null) {
+			return view('auth.login', [
+				'error' => 'email atau password anda salah',
+			]);
+		}
+
+		$isPasswordValid = $this->_checkPassword($admin->password, $password);
+		if (!$isPasswordValid) {
+			return view('auth.login', [
+				'error' => 'email atau password anda salah',
+			]);
+		}
+
+		$request->session()->put('admin', $admin->id);
+		return view('admin.dashboard');
+	}
+
+	private function _dosenLogin(Request $request, string $email, $password) {
+		$user = User::where('email', $email)->first();
+		if ($user == null) {
+			return view('auth.login', [
+				'error' => 'email atau password anda salah',
+			]);
+		}
+
+		if ($user->is_active == 0) {
+			return view('auth.login', [
+				'error' => 'silahkan melakukan verifikasi email terlebih dahulu sebelum login',
+			]);
+		}
+
+		$isPasswordValid = $this->_checkPassword($user->password, $password);
+		if (!$isPasswordValid) {
+			return view('auth.login', [
+				'error' => 'email atau password anda salah',
+			]);
+		}
+
+		$request->session()->put('dosen', $user->id);
+		return view('dashboard');
+	}
+
+	private function _checkPassword(string $hashedPassword, $plainPassword) {
+		return Hash::check($plainPassword, $hashedPassword);
 	}
 }

@@ -61,8 +61,8 @@
                       </div>  
                     @endif
                       <div class="form-group form-group-custom mb-4">
-                        <input type="text" class="form-control" id="username" name="fullname" required>
-                        <label for="username">Nama Lengkap</label>
+                        <input type="text" class="form-control" id="email" name="fullname" required>
+                        <label for="email">Nama Lengkap</label>
                       </div>
                       <div class="form-group form-group-custom mb-4">
                         <input type="email" class="form-control" id="useremail" name="email" required>
