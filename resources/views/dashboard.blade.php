@@ -12,7 +12,8 @@
   </head>
   <body>
     <h1>Anda telah login sebagai Dosen!</h1>
-    <h3>untuk logout klik <a href="/logout?role=dosen">disini</a></h3>
+    {{-- <h3>untuk logout klik <a href="/logout?role=dosen">disini</a></h3> --}}
+    <form action="/logout" method="POST">@csrf<button type="submit"><h3>untuk logout klik disini</h3></button></form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

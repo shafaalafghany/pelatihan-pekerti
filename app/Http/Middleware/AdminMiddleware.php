@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,10 @@ class AdminMiddleware
         // if ($request->session()->exists("dosen")) {
         //     return $next($request);
         // }
+        // dd("test");
         if (Auth::guard('admin')->user()) {
-            return $next($request);
+            // return $next($request);
+            return redirect()->intended('/admin/dashboard');
         }
 
         return redirect("/login");

@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Auth\MustVerifyEmail as AuthMustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property integer $id
@@ -26,8 +29,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property Sertifikat[] $sertifikats
  * @property TugasDosen[] $tugasDosens
  */
-class User extends AuthenticableUser
+class User extends AuthenticableUser implements MustVerifyEmail
 {
+    
+    use AuthMustVerifyEmail, Notifiable;
     /**
      * The table associated with the model.
      * 
@@ -38,7 +43,7 @@ class User extends AuthenticableUser
     /**
      * @var array
      */
-    protected $fillable = ['email', 'password', 'fullname', 'is_active', 'token_verification', 'token_expired', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
+    protected $fillable = ['email', 'password', 'fullname', 'email_verified_at', 'token_verification', 'token_expired', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
 

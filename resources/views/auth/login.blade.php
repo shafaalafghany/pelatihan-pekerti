@@ -39,6 +39,9 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-5 col-sm-8">
 					<div class="card">
+						@if(Session::has('message'))
+							<p class="alert alert-success">{{ Session::get('message') }}</p>
+						@endif
 						<div class="card-body p-4">
 							<div class="p-2">
 								<h5 class="mb-5 text-center">Sign in to continue to Xoric.</h5>

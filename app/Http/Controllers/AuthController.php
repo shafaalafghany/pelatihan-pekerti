@@ -11,12 +11,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class AuthController extends Controller
 {
-	public function login() {
-		return view('auth.login');
-	}
+
+	use AuthenticatesUsers;
+
+	// public function login() {
+	// 	return view('auth.login');
+	// }
+
+	protected function attemptLogin(Request $request)
+    {
+        return Auth::guard($request->role == 'admin' ? 'admin' : 'web')->attempt(['email' => $request->email, 'password' => $request->password]);
+    }
+
 
 	public function doLogin(Request $request) {
 		$credential = $request->validate([
@@ -32,7 +42,7 @@ class AuthController extends Controller
 			$request->session()->regenerate();
 
 			// return redirect()->to(route('admin-dashboard'));
-			return redirect()->intended('/landing-page');
+			return redirect()->intended();
 	}
 
 		// if ($request->role == 'admin') {

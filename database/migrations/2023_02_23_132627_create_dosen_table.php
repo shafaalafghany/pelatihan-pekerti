@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('email', 150)->unique('email');
             $table->string('password');
             $table->string('fullname');
-            $table->tinyInteger('is_active');
+            // $table->tinyInteger('is_active');
             $table->string('token_verification')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('token_expired', 100)->nullable();
             $table->string('gelar_depan', 50)->nullable();
             $table->string('gelar_belakang', 50)->nullable();
