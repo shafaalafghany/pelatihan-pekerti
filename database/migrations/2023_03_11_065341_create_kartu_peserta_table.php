@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pelatihan', function (Blueprint $table) {
+        Schema::create('kartu_peserta', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->string('nama', 150);
-            $table->string('mulai_pendaftaran', 0);
-            $table->string('batas_pendaftaran', 0);
-            $table->integer('kuota_pendaftar');
-            $table->integer('jumlah_pendaftar')->default(0);
+            $table->integer('id_dosen')->index('fk_dosen_kartu_peserta');
+            $table->integer('id_pelatihan')->index('fk_pelatihan_kartu_peserta');
+            $table->string('berkas_kartu_peserta');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pelatihan');
+        Schema::dropIfExists('kartu_peserta');
     }
 };
