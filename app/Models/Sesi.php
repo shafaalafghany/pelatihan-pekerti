@@ -60,6 +60,6 @@ class Sesi extends Model
      */
     public function tugas()
     {
-        return $this->hasMany('App\Models\Tuga', 'id_sesi');
+        return $this->hasMany('App\Models\Tugas', 'id_sesi');
     }
 }

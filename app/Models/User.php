@@ -12,18 +12,19 @@ use Illuminate\Notifications\Notifiable;
  * @property string $email
  * @property string $password
  * @property string $fullname
- * @property boolean $is_active
  * @property string $token_verification
- * @property string $token_expired
+ * @property string $email_verified_at
+ * @property string $nik
+ * @property string $nidn_nidk
  * @property string $gelar_depan
  * @property string $gelar_belakang
  * @property string $berkas_ktp
  * @property string $berkas_sk_dosen
- * @property string $berkas_kartu_peserta
  * @property string $created_at
  * @property string $updated_at
  * @property DosenPelatihan[] $dosenPelatihans
  * @property DosenPresensi[] $dosenPresensis
+ * @property KartuPesertum[] $kartuPesertas
  * @property Nilai[] $nilais
  * @property Pembayaran[] $pembayarans
  * @property Sertifikat[] $sertifikats
@@ -31,7 +32,6 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends AuthenticableUser implements MustVerifyEmail
 {
-    
     use AuthMustVerifyEmail, Notifiable;
     /**
      * The table associated with the model.
@@ -43,7 +43,7 @@ class User extends AuthenticableUser implements MustVerifyEmail
     /**
      * @var array
      */
-    protected $fillable = ['email', 'password', 'fullname', 'email_verified_at', 'token_verification', 'token_expired', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
+    protected $fillable = ['email', 'password', 'fullname', 'token_verification', 'email_verified_at', 'nik', 'nidn_nidk', 'gelar_depan', 'gelar_belakang', 'berkas_ktp', 'berkas_sk_dosen', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
 
@@ -61,6 +61,14 @@ class User extends AuthenticableUser implements MustVerifyEmail
     public function dosenPresensis()
     {
         return $this->hasMany('App\Models\DosenPresensi', 'id_dosen');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function kartuPesertas()
+    {
+        return $this->hasMany('App\Models\KartuPesertum', 'id_dosen');
     }
 
     /**

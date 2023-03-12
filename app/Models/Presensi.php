@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $batas_presensi
  * @property string $created_at
  * @property string $updated_at
- * @property Pelatihan $pelatihan
  * @property Sesi $sesi
+ * @property Pelatihan $pelatihan
  */
 class Presensi extends Model
 {
@@ -32,16 +32,16 @@ class Presensi extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function pelatihan()
+    public function sesi()
     {
-        return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
+        return $this->belongsTo('App\Models\Sesi', 'id_sesi');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function sesi()
+    public function pelatihan()
     {
-        return $this->belongsTo('App\Models\Sesi', 'id_sesi');
+        return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
     }
 }

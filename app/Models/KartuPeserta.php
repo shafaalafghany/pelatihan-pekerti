@@ -8,31 +8,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $id_dosen
  * @property integer $id_pelatihan
- * @property DetailNilai[] $detailNilais
+ * @property string $berkas_kartu_peserta
+ * @property string $created_at
+ * @property string $updated_at
  * @property Pelatihan $pelatihan
  * @property Dosen $dosen
  */
-class Nilai extends Model
+class KartuPeserta extends Model
 {
     /**
      * The table associated with the model.
      * 
      * @var string
      */
-    protected $table = 'nilai';
+    protected $table = 'kartu_peserta';
 
     /**
      * @var array
      */
-    protected $fillable = ['id_dosen', 'id_pelatihan'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function detailNilais()
-    {
-        return $this->hasMany('App\Models\DetailNilai', 'id_nilai');
-    }
+    protected $fillable = ['id_dosen', 'id_pelatihan', 'berkas_kartu_peserta', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

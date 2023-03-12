@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id_tugas
  * @property string $nama_nilai
  * @property integer $nilai
- * @property Tuga $tuga
  * @property Nilai $nilai
+ * @property Tuga $tuga
  */
 class DetailNilai extends Model
 {
@@ -30,16 +30,16 @@ class DetailNilai extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function tugas()
+    public function nilai()
     {
-        return $this->belongsTo('App\Models\Tugas', 'id_tugas');
+        return $this->belongsTo('App\Models\Nilai', 'id_nilai');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function nilai()
+    public function tugas()
     {
-        return $this->belongsTo('App\Models\Nilai', 'id_nilai');
+        return $this->belongsTo('App\Models\Tugas', 'id_tugas');
     }
 }

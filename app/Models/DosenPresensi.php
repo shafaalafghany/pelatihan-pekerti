@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id_sesi
  * @property string $created_at
  * @property string $updated_at
- * @property Dosen $dosen
  * @property Sesi $sesi
+ * @property Dosen $dosen
  */
 class DosenPresensi extends Model
 {
@@ -29,16 +29,16 @@ class DosenPresensi extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function dosen()
+    public function sesi()
     {
-        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
+        return $this->belongsTo('App\Models\Sesi', 'id_sesi');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function sesi()
+    public function dosen()
     {
-        return $this->belongsTo('App\Models\Sesi', 'id_sesi');
+        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
     }
 }

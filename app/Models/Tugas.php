@@ -18,14 +18,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tugas extends Model
 {
-
-    /**
-     * The table associated with the model.
-     * 
-     * @var string
-     */
-    protected $table = 'tugas';
-
     /**
      * @var array
      */

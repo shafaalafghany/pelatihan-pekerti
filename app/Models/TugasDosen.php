@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $id_tugas
  * @property integer $id_dosen
- * @property string $file
+ * @property string $berkas_tugas
  * @property string $created_at
  * @property string $updated_at
- * @property Dosen $dosen
  * @property Tuga $tuga
+ * @property Dosen $dosen
  */
 class TugasDosen extends Model
 {
@@ -26,15 +26,7 @@ class TugasDosen extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_tugas', 'id_dosen', 'file', 'created_at', 'updated_at'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function dosen()
-    {
-        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
-    }
+    protected $fillable = ['id_tugas', 'id_dosen', 'berkas_tugas', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -42,5 +34,13 @@ class TugasDosen extends Model
     public function tugas()
     {
         return $this->belongsTo('App\Models\Tugas', 'id_tugas');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function dosen()
+    {
+        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
     }
 }
