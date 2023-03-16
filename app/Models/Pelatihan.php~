@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  * @property DosenPelatihan[] $dosenPelatihans
+ * @property KartuPeserta[] $kartuPesertas
  * @property Nilai[] $nilais
  * @property Presensi[] $presensis
  * @property Sertifikat[] $sertifikats
@@ -39,6 +40,14 @@ class Pelatihan extends Model
     public function dosenPelatihans()
     {
         return $this->hasMany('App\Models\DosenPelatihan', 'id_pelatihan');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function kartuPesertas()
+    {
+        return $this->hasMany('App\Models\KartuPeserta', 'id_pelatihan');
     }
 
     /**
