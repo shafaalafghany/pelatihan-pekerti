@@ -17,6 +17,7 @@ return new class extends Migration
             $table->comment('');
             $table->integer('id', true);
             $table->string('nama', 150);
+            $table->enum('jenis_pelatihan', ['pekerti', 'aa']);
             $table->string('mulai_pendaftaran');
             $table->string('batas_pendaftaran');
             $table->integer('kuota_pendaftar');

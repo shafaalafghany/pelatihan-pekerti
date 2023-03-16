@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('gelar_belakang', 50)->nullable();
             $table->string('berkas_ktp', 150)->nullable();
             $table->string('berkas_sk_dosen', 150)->nullable();
+            $table->string('berkas_sk_pekerti')->nullable();
+            $table->boolean('is_ktp_validated')->nullable();
+            $table->boolean('is_sk_dosen_validated')->nullable();
+            $table->boolean('is_sk_pekerti_validated')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
