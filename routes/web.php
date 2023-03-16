@@ -35,18 +35,18 @@ Route::get('/', function () {
 //     Route::get('/logout', 'logout');
 // });
 // Route::get('/login', 'showLoginForm@LoginController');
-    Route::get('/verify-email', function () {
-        return view('auth.verify_email');
-    })->name('verify_email');
+Route::get('/verify-email', function () {
+    return view('auth.verify_email');
+})->name('verify_email');
 
 
 
 // Route::get('/dashboard', [PelatihanController::class, 'index'])->middleware([DosenMiddleware::class]);
 // Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware([AdminMiddleware::class])->name('admin-dashboard');
-Route::group(['middleware'=>'role:admin'], function () {
+Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
 });
-Route::group(['middleware'=>'role:web'], function () {
+Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard', [PelatihanController::class, 'index'])->name('dashboard');
 });
 

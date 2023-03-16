@@ -55,7 +55,7 @@ class LoginController extends Controller
         $user = User::whereEmail($request->email)->first();
         // dd($user && !$user->email_verified_at && $request->role == 'dosen',$user , !$user->email_verified_at , $request->role == 'dosen') ;
         if ($user && !$user->email_verified_at && $request->role == 'dosen') {
-            session()->flash('message', 'Email anda belum diverifikasi, KONTOL');
+            session()->flash('message', 'Email anda belum diverifikasi');
             session()->flash('type', 'error');
 
             return redirect()->to(route('verify_email'));
