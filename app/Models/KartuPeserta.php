@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $berkas_kartu_peserta
  * @property string $created_at
  * @property string $updated_at
- * @property Pelatihan $pelatihan
  * @property Dosen $dosen
+ * @property Pelatihan $pelatihan
  */
 class KartuPeserta extends Model
 {
@@ -31,16 +31,16 @@ class KartuPeserta extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function pelatihan()
+    public function dosen()
     {
-        return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
+        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function dosen()
+    public function pelatihan()
     {
-        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
+        return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
     }
 }

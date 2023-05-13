@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pelatihan', function (Blueprint $table) {
+        Schema::create('pembayaran', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->string('nama', 150);
-            $table->enum('jenis_pelatihan', ['pekerti', 'aa']);
-            $table->string('mulai_pendaftaran');
-            $table->string('batas_pendaftaran');
-            $table->integer('kuota_pendaftar');
-            $table->integer('jumlah_pendaftar')->default(0);
+            $table->integer('id_dosen')->index('fk_dosen_pembayaran');
+            $table->string('invoice', 50);
+            $table->string('kode_pembayaran');
+            $table->tinyInteger('status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pelatihan');
+        Schema::dropIfExists('pembayaran');
     }
 };
