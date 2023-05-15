@@ -23,7 +23,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 })->name('landing-page');
 
 // Route::controller(AuthController::class)->group(function () {
@@ -72,7 +72,7 @@ Route::post('/email/resend', 'VerificationController@resend')->name('verificatio
 Route::get('/home', function () {
     // dd(auth()->guard('admin')->user());
     // dd(auth()->user());
-    return view('welcome');
+    return view('dashboard');
 })->name('home');
 
 // Auth::routes();

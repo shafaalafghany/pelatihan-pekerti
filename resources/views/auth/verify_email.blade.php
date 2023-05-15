@@ -40,13 +40,9 @@
                         <div class="card-body p-4">
                             <div class="p-2">
                                 @if (Session::has('message'))
-                                    <p class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</p>
-                                {{-- @endif
-                                @if (isset($error))
-                                    <h5 class="mb-5 text-center">{{ $error }}</h5> --}}
+                                    <h5 class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</h5>
                                 @else
-                                    <h5 class="mb-5 text-center">Akun anda telah terverifikasi, silahkan Login melalui
-                                        link <a href="/login">berikut</a>.</h5>
+                                    <h5 class="mb-5 text-center">Silahkan Login melalui link <a href="/login">berikut</a>.</h5>
                                 @endif
                             </div>
                         </div>

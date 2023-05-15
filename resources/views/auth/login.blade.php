@@ -39,28 +39,13 @@
 			<div class="row justify-content-center">
 				<div class="col-xl-5 col-sm-8">
 					<div class="card">
-						@if(Session::has('message'))
-							<p class="alert alert-success">{{ Session::get('message') }}</p>
-						@endif
 						<div class="card-body p-4">
 							<div class="p-2">
-								<h5 class="mb-5 text-center">Sign in to continue to Xoric.</h5>
+								<h5 class="mb-5 text-center">Login untuk melanjutkan.</h5>
 								<form method="POST" class="form-horizontal" action="/login">
 									@csrf
 									<div class="row">
 										<div class="col-md-12">
-											@if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                          <div class="alert alert-danger mb-0" role="alert">
-                            {{ $error }}
-                          </div>
-                        @endforeach
-											@endif
-											@if (isset($error))
-												<div class="alert alert-danger mb-0" role="alert">
-													{{ $error }}
-												</div>
-											@endif
 											<div class="form-group form-group-custom mb-4">
 												<input type="email" class="form-control" id="email" name="email" required>
 												<label for="email">Email</label>
