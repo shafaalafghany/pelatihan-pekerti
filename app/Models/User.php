@@ -22,6 +22,7 @@ use Illuminate\Notifications\Notifiable;
  * @property string $jenis_kelamin
  * @property string $tempat_lahir
  * @property string $tanggal_lahir
+ * @property string nama_instansi
  * @property string $alamat
  * @property string $provinsi
  * @property string $kota
@@ -60,7 +61,7 @@ class User extends AuthenticableUser implements MustVerifyEmail
     /**
      * @var array
      */
-    protected $fillable = ['id_pelatihan', 'email', 'password', 'fullname', 'token_verification', 'email_verified_at', 'nik', 'nidn_nidk', 'gelar_depan', 'gelar_belakang', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'alamat', 'provinsi', 'kota', 'kode_pos', 'telepon', 'foto_profil', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_sk_pekerti', 'is_ktp_validated', 'is_sk_dosen_validated', 'is_sk_pekerti_validated', 'is_berkas_submited', 'created_at', 'updated_at'];
+    protected $fillable = ['id_pelatihan', 'email', 'password', 'fullname', 'token_verification', 'email_verified_at', 'nik', 'nidn_nidk', 'gelar_depan', 'gelar_belakang', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 'nama_instansi', 'alamat', 'provinsi', 'kota', 'kode_pos', 'telepon', 'foto_profil', 'berkas_ktp', 'berkas_sk_dosen', 'berkas_sk_pekerti', 'is_ktp_validated', 'is_sk_dosen_validated', 'is_sk_pekerti_validated', 'is_berkas_submited', 'created_at', 'updated_at'];
 
     protected $hidden = ['password'];
 

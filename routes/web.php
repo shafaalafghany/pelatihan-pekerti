@@ -72,7 +72,7 @@ Route::post('/email/resend', 'VerificationController@resend')->name('verificatio
 Route::get('/home', function () {
     // dd(auth()->guard('admin')->user());
     // dd(auth()->user());
-    return view('dashboard');
+    return redirect('/dashboard');
 })->name('home');
 
 // Auth::routes();

@@ -63,7 +63,7 @@ class VerificationController extends Controller
         }
 
     
-        session()->flash('message', 'Email anda telah terverifikasi, silahkan login menggunakan akun anda');
+        session()->flash('message', 'Email anda telah terverifikasi, silahkan login menggunakan akun anda.');
 
         return redirect()->to(route('verify_email'));
     }
