@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  */
-class Admin extends AuthenticableUser
+class Admin extends Model
 {
     /**
      * The table associated with the model.

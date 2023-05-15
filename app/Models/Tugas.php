@@ -12,24 +12,25 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $batas_pengumpulan
  * @property string $created_at
  * @property string $updated_at
+ * @property BerkasTuga[] $berkasTugas
  * @property DetailNilai[] $detailNilais
  * @property Sesi $sesi
  * @property TugasDosen[] $tugasDosens
  */
 class Tugas extends Model
 {
-
-    /**
-     * The table associated with the model.
-     * 
-     * @var string
-     */
-    protected $table = 'tugas';
-
     /**
      * @var array
      */
     protected $fillable = ['id_sesi', 'judul', 'deskripsi', 'batas_pengumpulan', 'created_at', 'updated_at'];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function berkasTugas()
+    {
+        return $this->hasMany('App\Models\BerkasTugas', 'id_tugas');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

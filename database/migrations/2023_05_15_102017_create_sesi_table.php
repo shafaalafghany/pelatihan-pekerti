@@ -19,7 +19,9 @@ return new class extends Migration
             $table->integer('id_pelatihan')->index('fk_pelatihan_sesi');
             $table->string('nama', 100);
             $table->string('keterangan', 100)->nullable();
-            $table->string('tanggal', 0);
+            $table->string('tanggal');
+            $table->enum('jenis_pelaksanaan', ['luring', 'daring']);
+            $table->string('tautan_pelaksanaan');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

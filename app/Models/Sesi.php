@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nama
  * @property string $keterangan
  * @property string $tanggal
+ * @property string $jenis_pelaksanaan
+ * @property string $tautan_pelaksanaan
  * @property string $created_at
  * @property string $updated_at
  * @property DosenPresensi[] $dosenPresensis
@@ -29,7 +31,7 @@ class Sesi extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_pelatihan', 'nama', 'keterangan', 'tanggal', 'created_at', 'updated_at'];
+    protected $fillable = ['id_pelatihan', 'nama', 'keterangan', 'tanggal', 'jenis_pelaksanaan', 'tautan_pelaksanaan', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -60,6 +62,6 @@ class Sesi extends Model
      */
     public function tugas()
     {
-        return $this->hasMany('App\Models\Tuga', 'id_sesi');
+        return $this->hasMany('App\Models\Tugas', 'id_sesi');
     }
 }

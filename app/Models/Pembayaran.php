@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id
  * @property integer $id_dosen
  * @property string $invoice
+ * @property string $kode_pembayaran
  * @property boolean $status
  * @property string $created_at
  * @property string $updated_at
@@ -25,7 +26,7 @@ class Pembayaran extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_dosen', 'invoice', 'status', 'created_at', 'updated_at'];
+    protected $fillable = ['id_dosen', 'invoice', 'kode_pembayaran', 'status', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

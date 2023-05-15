@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tugas', function (Blueprint $table) {
+        Schema::create('presensi', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_sesi')->index('fk_tugas_sesi');
-            $table->string('judul', 100);
-            $table->string('deskripsi');
-            $table->string('batas_pengumpulan', 15);
+            $table->integer('id_pelatihan')->index('fk_pelatihan_presensi');
+            $table->integer('id_sesi')->index('fk_sesi_presensi');
+            $table->string('kode_presensi', 50)->unique('kode_presensi');
+            $table->string('batas_presensi', 0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tugas');
+        Schema::dropIfExists('presensi');
     }
 };
