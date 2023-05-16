@@ -1,6 +1,10 @@
 /node_modules
 /public/hot
 /public/storage
+/public/images/foto-profil
+/public/files/ktp
+/public/files/sk-dosen
+/public/files/sk-pekerti
 /storage/*.key
 /vendor
 .env

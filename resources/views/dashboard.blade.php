@@ -30,11 +30,8 @@
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
                             <a href="index.html" class="logo logo-dark">
-                                <span class="logo-sm">
-                                    <img src="assets/images/logo-sm-dark.png" alt="" height="22">
-                                </span>
                                 <span class="logo-lg">
-                                    <img src="assets/images/logo-dark.png" alt="" height="20">
+                                    <img src="/images/logo.jpg" alt="" height="22">
                                 </span>
                             </a>
                         </div>
@@ -49,13 +46,13 @@
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img class="rounded-circle header-profile-user" src="{{ $user['foto_profil'] == null ? '/images/default.jpg' : $user['foto_profil']; }}" alt="Header Avatar">
+                                <img class="rounded-circle header-profile-user" src="{{ $user['foto_profil'] == null ? '/images/default.jpg' : '/images/foto-profil/' . $user['foto_profil']; }}" alt="Header Avatar">
                                 <span class="d-none d-sm-inline-block ml-1">{{ $user['fullname'] }}</span>
                                 <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right">
                                 <!-- item-->
-                                <a class="dropdown-item" href="profil.html"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Profile</a>
+                                <a class="dropdown-item" href="/dashboard/profil"><i class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Profil</a>
                                 <div class="dropdown-divider"></div>
                                 <form id="logout" action="/logout" method="POST">
                                   @csrf
@@ -136,7 +133,7 @@
                                 <div class="col-md-8">
                                     <h4 class="page-title mb-1">Dasbor</h4>
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
+                                        <li class="breadcrumb-item"><a href="/">Beranda</a></li>
                                       <li class="breadcrumb-item active">Beranda Aplikasi PEKERTI-AA</li>
                                       </ol>
                                 </div>
@@ -166,7 +163,7 @@
                                     <div class="card-body">
                                         <div class="col">
                                             <div class="mb-4">
-                                                <a href="update-profil.html" class="btn btn-primary">Perbarui Profil</a>
+                                                <a href="/dashboard/profil/edit-profil" class="btn btn-primary">Perbarui Profil</a>
                                             </div>
 
                                             <div class="table-responsive-md">
@@ -195,6 +192,10 @@
                                                         <tr>
                                                             <td><b>Gelar Setelah Nama</b></td>
                                                             <td>{{ $user['gelar_belakang'] }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Nama Instansi</b></td>
+                                                            <td>{{ $user['nama_instansi'] }}</td>
                                                         </tr>
                                                         <tr>
                                                           <td><b>Jenis Kelamin</b></td>
@@ -229,8 +230,12 @@
                                                             <td>{{ $user['kode_pos'] }}</td>
                                                         </tr>
                                                         <tr>
+                                                            <td><b>Telepon</b></td>
+                                                            <td>{{ $user['telepon'] }}</td>
+                                                        </tr>
+                                                        <tr>
                                                             <td><b>Foto Profil</b></td>
-                                                            <td><img src="{{ $user['foto_profil'] == null ? '/images/default.jpg' : $user['foto_profil']; }}"></td>
+                                                            <td><img src="{{ $user['foto_profil'] == null ? '/images/default.jpg' : '/images/foto-profil/' . $user['foto_profil']; }}" style="max-width:100%;height:auto" width="354" height="472"></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>

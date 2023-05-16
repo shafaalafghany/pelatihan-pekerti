@@ -5,6 +5,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PelatihanController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\GuestMiddleware;
@@ -47,7 +49,12 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
 });
 Route::group(['middleware' => 'role:web'], function () {
-    Route::get('dashboard', [PelatihanController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
+
+    //Users
+    Route::get('dashboard/profil', [UserController::class, 'ShowProfil'])->name('profil');
+    Route::get('dashboard/profil/edit-profil', [UserController::class, 'ShowEditProfil'])->name('edit_profil');
+    Route::post('profil/perbarui-profil', [UserController::class, 'UpdateProfil']);
 });
 
 // Route::controller(PelatihanController::class)->middleware([DosenMiddleware::class])->group(function () {
