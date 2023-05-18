@@ -150,10 +150,14 @@
                                     <div class="card-body">
                                         <div class="col">
                                             <h5>Selamat Datang Kembali, {{ $user['fullname'] }}!</h5>
-                                            @if ($user['id_pelatihan'] == 0)
+                                            @if ($user['status_pendaftaran'] == 4)
+                                              <h6 class="alert alert-warning"><b>Berkas anda telah ditolak, silahkan cek kembali berkas anda.</b></h6>
+                                            @elseif ($user['id_pelatihan'] == 0)
                                               <h6 class="text-muted">Anda belum terdaftar di pelatihan mana pun.</h6>
                                             @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 1)
                                               <h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, berkas anda sedang divalidasi Admin.</h6>
+                                            @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 2)  
+                                              <h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, silahkan lanjutkan pendaftaran dengan melakukan pembayaran <a href="/dashboard/pembayaran">disini</a>.</h6>
                                             @else
                                               <h6 class="text-muted">Anda sedang terdaftar pada {{ $pelatihan['nama'] }}</h6>
                                             @endif

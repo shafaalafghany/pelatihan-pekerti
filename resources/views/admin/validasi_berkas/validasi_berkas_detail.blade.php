@@ -199,7 +199,7 @@
                         @csrf
                         <a href="javascript:{}" class="btn btn-success mr-3" onclick="document.getElementById('terima').submit()">Terima Berkas</a>
                       </form>
-                      <form id="tolak" action="/validasi-berkas/{{ $peserta->id }}" method="POST">
+                      <form id="tolak" action="/validasi-berkas/tolak/{{ $peserta->id }}" method="POST">
                         @csrf
                         <a href="javascript:{}" class="btn btn-danger" onclick="document.getElementById('tolak').submit()">Tolak Berkas</a>
                       </form>

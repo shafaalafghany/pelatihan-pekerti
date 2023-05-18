@@ -169,6 +169,10 @@
                                 <div class="card-body">
                                     <div class="col">
 
+                                        @if (Session::has('message'))
+                                            <div class="alert alert-{{ Session::get('type') }} mb-3">{{ Session::get('message') }}</div>
+                                        @endif
+
                                         <h4>Validasi Berkas</h4>
 
                                         <div class="table-responsive-md">
@@ -181,16 +185,17 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                  @foreach ($peserta as $key => $item)
-                                                      <tr>
-                                                        <td>{{ $key + 1 }}</td>
-                                                        <td>{{ $item->fullname }}</td>
-                                                        <td class="d-flex justify-content-center">
-                                                          <a href="/admin/dashboard/validasi-berkas/detail/{{ $item->id }}"
-                                                            class="btn btn-primary waves-effect waves-light text-light">Lihat Berkas</a>
-                                                        </td>
-                                                      </tr>
-                                                  @endforeach
+                                                    @foreach ($peserta as $key => $item)
+                                                        <tr>
+                                                            <td>{{ $key + 1 }}</td>
+                                                            <td>{{ $item->fullname }}</td>
+                                                            <td class="d-flex justify-content-center">
+                                                                <a href="/admin/dashboard/validasi-berkas/detail/{{ $item->id }}"
+                                                                    class="btn btn-primary waves-effect waves-light text-light">Lihat
+                                                                    Berkas</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
