@@ -54,7 +54,9 @@ class LoginController extends Controller
         $this->validateLogin($request);
         // dd(session()->get('url.intended'));
         $user = User::whereEmail($request->email)->first();
-        // $admin = Admin::whereEmail($request->email)->first();
+        $admin = Admin::whereEmail($request->email)->first();
+
+        // dd($request->role);
         // dd($user && !$user->email_verified_at && $request->role == 'dosen',$user , !$user->email_verified_at , $request->role == 'dosen') ;
         if ($user && !$user->email_verified_at && $request->role == 'dosen') {
             session()->flash('message', 'Email anda belum diverifikasi');
@@ -88,12 +90,17 @@ class LoginController extends Controller
         // if ($request->role == 'admin') {
         //     session()->flash('message', 'Email atau Password anda salah');
         // }
-        // if ($user && $request->role == 'admin') {
-        //     session()->flash('message', 'Anda bukanlah admin, silahkan pilih peran yang sesuai');
-        //     return redirect('/login');
-        // }
-
-        // if ($admin)
+        if ($user && $request->role == 'admin') {
+            session()->flash('message', 'Anda bukanlah admin, silahkan pilih peran yang sesuai');
+            return redirect('/login');
+        }
+        
+        if ($admin && $request->role == 'dosen') {
+            session()->flash('message', 'Anda bukanlah dosen, silahkan pilih peran yang sesuai');
+            return redirect('/login');
+        }
+        
+        session()->flash('message', 'Email atau Password anda salah');
         return $this->sendFailedLoginResponse($request);
     }
 }

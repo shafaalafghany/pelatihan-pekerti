@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -54,7 +55,13 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'fullname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:dosen'],
-            'password' => ['required', 'string', 'min:6'],
+            'password' => [
+                'required', 
+                Password::min(6)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+            ],
         ]);
     }
 
@@ -88,6 +95,7 @@ class RegisterController extends Controller
         // return $request->wantsJson()
         //             ? new JsonResponse([], 201)
         //             : redirect($this->redirectPath());
+        session()->flash('register', 'Silahkan cek email anda untuk melakukan konfirmasi email.');
         return redirect('/login');
     }
 }

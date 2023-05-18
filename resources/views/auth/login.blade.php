@@ -23,14 +23,12 @@
 
 <body class="bg-primary bg-pattern">
 
-	<div class="account-pages my-5 pt-sm-5">
+	<div class="account-pages my-3">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="text-center mb-5">
-						<a href="index.html" class="logo"><img src="{{ asset('assets/images/logo-light.png') }}" height="24"
-								alt="logo"></a>
-						<h5 class="font-size-16 text-white-50 mb-4">Responsive Bootstrap 4 Admin Dashboard</h5>
+					<div class="text-center mb-2">
+						<a href="/" class="logo"><img src="/images/logo.jpg" height="24" alt="logo"></a>
 					</div>
 				</div>
 			</div>
@@ -45,10 +43,18 @@
 								<form method="POST" class="form-horizontal" action="/login">
 									@csrf
 									<div class="row">
-										@if (Session::has('message'))
-											<div class="alert alert-danger">{{ Session::get('message') }}</div>
-										@endif
 										<div class="col-md-12">
+											@if (Session::has('register'))
+												<div class="alert alert-success mb-3">{{ Session::get('register') }}</div>	
+											@endif
+
+											@if (Session::has('verify'))
+													<div class="alert alert-success mb-3">{{ Session::get('verify') }}</div>
+											@endif
+
+											@if (Session::has('message'))
+												<div class="alert alert-danger mb-3">{{ Session::get('message') }}</div>
+											@endif
 											<div class="form-group form-group-custom mb-4">
 												<input type="email" class="form-control" id="email" name="email" required>
 												<label for="email">Email</label>

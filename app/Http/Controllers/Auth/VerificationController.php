@@ -53,7 +53,7 @@ class VerificationController extends Controller
         }
 
         if ($user->hasVerifiedEmail()) {
-            session()->flash('message', 'Email anda telah terverifikasi, silahkan login.');
+            session()->flash('verify', 'Email anda telah terverifikasi sebelumnya, silahkan login menggunakan akun anda.');
 
             return redirect('/login');
         }
@@ -64,7 +64,7 @@ class VerificationController extends Controller
 
     
         session()->flash('message', 'Email anda telah terverifikasi, silahkan login menggunakan akun anda.');
-
+        session()->flash('type', 'success');
         return redirect()->to(route('verify_email'));
     }
 

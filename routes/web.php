@@ -82,12 +82,5 @@ Route::get('/email/verify', 'VerificationController@show')->name('verification.n
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware(['email']);
 Route::post('/email/resend', 'VerificationController@resend')->name('verification.resend');
 Route::get('/verify-email', function () {
-
-    if (Auth::guard('admin')) {
-        return redirect('/admin/dashboard');
-    } else {
-        return redirect('/dashboard');
-    }
-
     return view('auth.verify_email');
 })->name('verify_email');

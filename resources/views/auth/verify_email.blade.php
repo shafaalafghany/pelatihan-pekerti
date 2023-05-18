@@ -25,10 +25,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="text-center mb-5">
-                        <a href="/" class="logo"><img src="{{ asset('assets/images/logo-light.png') }}"
-                                height="24" alt="logo"></a>
-                        <h5 class="font-size-16 text-white-50 mb-4">Responsive Bootstrap 4 Admin Dashboard</h5>
+                    <div class="text-center mb-3">
+                        <a href="/" class="logo"><img src="/images/logo.jpg" height="24" alt="logo"></a>
                     </div>
                 </div>
             </div>
@@ -38,11 +36,12 @@
                 <div class="col-xl-5 col-sm-8">
                     <div class="card">
                         <div class="card-body p-4">
-                            <div class="p-2">
+                            <div class="row p-2">
                                 @if (Session::has('message'))
                                     <h5 class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</h5>
+                                    <h5 class="ml-3">Silahkan Login melalui link <a href="/login">berikut</a>.</h5>
                                 @else
-                                    <h5 class="mb-5 text-center">Silahkan Login melalui link <a href="/login">berikut</a>.</h5>
+                                    <h5 class="mb-2 text-center">Silahkan Login melalui link <a href="/login">berikut</a>.</h5>
                                 @endif
                             </div>
                         </div>

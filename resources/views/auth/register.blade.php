@@ -21,13 +21,12 @@
 
 <body class="bg-primary bg-pattern">
 
-  <div class="account-pages my-5 pt-sm-5">
+  <div class="account-pages my-3">
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <div class="text-center mb-5">
-            <a href="/" class="logo"><img src="{{ asset('assets/images/logo-light.png') }}" height="24" alt="logo"></a>
-            <h5 class="font-size-16 text-white-50 mb-4">Responsive Bootstrap 4 Admin Dashboard</h5>
+          <div class="text-center mb-2">
+            <a href="/" class="logo"><img src="/images/logo.jpg" height="24" alt="logo"></a>
           </div>
         </div>
       </div>
@@ -38,27 +37,29 @@
           <div class="card">
             <div class="card-body p-4">
               <div class="p-2">
-                <h5 class="mb-5 text-center">Register Account to Xoric.</h5>
+                <h5 class="mb-3 text-center">Daftar Akun PEKERTI Baru</h5>
                 <form method="POST" class="form-horizontal" action="/register">
                   @csrf
                   <div class="row">
                     <div class="col-md-12">
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
-                          <div class="alert alert-danger mb-0" role="alert">
-                            {{ $error }}
-                          </div>
+                          @if ($error == "validation.unique")
+                            <div class="alert alert-danger mb-4">Email sudah terdaftar, silahkan menggunakan email lain.</div>  
+                          @endif
+
+                          @if ($error == "validation.min.string")
+                            <div class="alert alert-danger mb-4">Kata Sandi minimal 8 karakter.</div>
+                          @endif
+
+                          @if ($error == "The password must contain at least one uppercase and one lowercase letter.")
+                            <div class="alert alert-danger mb-4">Kata Sandi harus mengandung karakter 1 huruf kapital dan 1 karakter huruf kecil.</div>
+                          @endif
+
+                          @if ($error == "The password must contain at least one number.")
+                            <div class="alert alert-danger mb-4">Kata Sandi harus mengandung karakter numerik.</div>
+                          @endif
                         @endforeach
-                    @endif
-                    @if (isset($error))
-                      <div class="alert alert-danger mb-0" role="alert">
-                        {{ $error }}
-                      </div>
-                    @endif
-                    @if (isset($success))
-                      <div class="alert alert-success mb-0" role="alert">
-                        {{ $success }}
-                      </div>  
                     @endif
                       <div class="form-group form-group-custom mb-4">
                         <input type="text" class="form-control" id="email" name="fullname" required>
