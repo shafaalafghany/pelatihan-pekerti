@@ -252,7 +252,7 @@
                                     </div>
                                 </div>
 
-                                @if ($user['id_pelatihan'] != 0)
+                                @if ($user['id_pelatihan'] != 0 && $user['status_pendaftaran'] == 2)
 
                                 <div class="card"> <!-- tugas card -->
                                     <div class="card-body">
