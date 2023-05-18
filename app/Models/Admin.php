@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\MustVerifyEmail as AuthMustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @property integer $id
@@ -13,8 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  */
-class Admin extends Model
+class Admin extends AuthenticableUser implements MustVerifyEmail
 {
+
+    use AuthMustVerifyEmail, Notifiable;
     /**
      * The table associated with the model.
      * 
