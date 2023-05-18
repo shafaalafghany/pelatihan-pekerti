@@ -64,6 +64,9 @@ Route::group(['middleware' => 'role:admin'], function () {
 
     //Berkas
     Route::get('admin/dashboard/validasi-berkas', [BerkasController::class, 'ShowValidasiBerkas'])->name('validasi_berkas');
+    Route::get('admin/dashboard/validasi-berkas/detail/{id_peserta}', [BerkasController::class, 'ShowValidasiBerkasDetail'])->name('validasi_berkas_detail');
+    Route::post('validasi-berkas/terima/{id_peserta}/{id_pelatihan}', [BerkasController::class, 'TerimaValidasiBerkas']);
+    Route::post('validasi-berkas/tolak/{id_peserta}', [BerkasController::class, 'TolakValidasiBerkas']);
 });
 
 // Dosen
