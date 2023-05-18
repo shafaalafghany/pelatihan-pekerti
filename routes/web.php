@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
@@ -60,9 +61,12 @@ Route::get('/home', function () {
 // Admin
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
+
+    //Berkas
+    Route::get('admin/dashboard/validasi-berkas', [BerkasController::class, 'ShowValidasiBerkas'])->name('validasi_berkas');
 });
 
-//Dosen
+// Dosen
 Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
 
@@ -77,6 +81,7 @@ Route::group(['middleware' => 'role:web'], function () {
     Route::post('pelatihan/daftar/{id_pelatihan}', [PelatihanController::class, 'DaftarPelatihan']);
 });
 
+// Auth
 Auth::routes();
 Route::get('/email/verify', 'VerificationController@show')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware(['email']);
