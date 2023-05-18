@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\GuestMiddleware;
+use App\Models\Admin;
 use App\Models\Pelatihan;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,8 +26,26 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
+    if (Auth::guard('admin')) {
+        return redirect('/admin/dashboard');
+    } else {
+        return redirect('/dashboard');
+    }
+
     return redirect('/login');
-})->name('landing-page');
+})->name('default_page');
+
+Route::get('/home', function () {
+    // $admin = Auth::guard('admin');
+    // $user = Admin::find($admin->id());
+    // dd($user['role']);
+    // dd(Auth::user());
+    // dd(auth()->user());
+    if (Auth::guard('admin')) {
+        return redirect('/admin/dashboard');
+    }
+    return redirect('/dashboard');
+})->name('home');
 
 // Route::controller(AuthController::class)->group(function () {
 //     Route::get('/register', 'register')->middleware([GuestMiddleware::class]);
@@ -37,10 +56,8 @@ Route::get('/', function () {
 //     Route::get('/logout', 'logout');
 // });
 // Route::get('/login', 'showLoginForm@LoginController');
-Route::get('/verify-email', function () {
-    return view('auth.verify_email');
-})->name('verify_email');
 
+// Admin
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
 });
@@ -64,9 +81,13 @@ Auth::routes();
 Route::get('/email/verify', 'VerificationController@show')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify')->middleware(['email']);
 Route::post('/email/resend', 'VerificationController@resend')->name('verification.resend');
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/home', function () {
-    // dd(auth()->guard('admin')->user());
-    // dd(auth()->user());
-    return redirect('/dashboard');
-})->name('home');
+Route::get('/verify-email', function () {
+
+    if (Auth::guard('admin')) {
+        return redirect('/admin/dashboard');
+    } else {
+        return redirect('/dashboard');
+    }
+
+    return view('auth.verify_email');
+})->name('verify_email');

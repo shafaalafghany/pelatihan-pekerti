@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Admin extends AuthenticableUser
 {
+
+    protected $guard = 'admin';
     /**
      * The table associated with the model.
      * 
