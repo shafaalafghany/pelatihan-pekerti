@@ -59,7 +59,7 @@ Route::get('/home', function () {
 
 // Admin
 Route::group(['middleware' => 'role:admin'], function () {
-    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
+    Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 });
 
 //Dosen

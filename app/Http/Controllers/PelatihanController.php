@@ -17,7 +17,7 @@ class PelatihanController extends Controller
         $user = auth()->user();
         $today = date("Y-m-d");
         $pelatihan = DB::table('pelatihan')->orderBy('batas_pendaftaran', 'desc')->orderBy('id', 'desc')->get();
-        foreach ($pelatihan as $key => $item) {
+        foreach ($pelatihan as $item) {
             $daftar = Carbon::parse($item->mulai_pendaftaran)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
             $item->mulai_pendaftaran = $daftar;
             $batas = Carbon::parse($item->batas_pendaftaran)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
