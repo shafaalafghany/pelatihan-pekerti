@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -53,6 +54,7 @@ class LoginController extends Controller
         $this->validateLogin($request);
         // dd(session()->get('url.intended'));
         $user = User::whereEmail($request->email)->first();
+        // $admin = Admin::whereEmail($request->email)->first();
         // dd($user && !$user->email_verified_at && $request->role == 'dosen',$user , !$user->email_verified_at , $request->role == 'dosen') ;
         if ($user && !$user->email_verified_at && $request->role == 'dosen') {
             session()->flash('message', 'Email anda belum diverifikasi');
@@ -61,7 +63,6 @@ class LoginController extends Controller
             return redirect()->to(route('verify_email'));
             // ('VerificationController@EmailResponse', ['message' => 'anda belum melakukan verifikasi email, silahkan periksa email anda kembali']);
         }
-
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -84,6 +85,15 @@ class LoginController extends Controller
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
 
+        // if ($request->role == 'admin') {
+        //     session()->flash('message', 'Email atau Password anda salah');
+        // }
+        // if ($user && $request->role == 'admin') {
+        //     session()->flash('message', 'Anda bukanlah admin, silahkan pilih peran yang sesuai');
+        //     return redirect('/login');
+        // }
+
+        // if ($admin)
         return $this->sendFailedLoginResponse($request);
     }
 }

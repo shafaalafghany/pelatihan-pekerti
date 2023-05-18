@@ -29,7 +29,7 @@
                 <div class="d-flex">
                     <!-- LOGO -->
                     <div class="navbar-brand-box">
-                        <a href="index.html" class="logo logo-dark">
+                        <a href="/" class="logo logo-dark">
                             <span class="logo-lg">
                                 <img src="/images/logo.jpg" alt="" height="22">
                             </span>

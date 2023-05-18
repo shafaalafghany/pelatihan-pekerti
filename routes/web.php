@@ -41,13 +41,11 @@ Route::get('/verify-email', function () {
     return view('auth.verify_email');
 })->name('verify_email');
 
-
-
-// Route::get('/dashboard', [PelatihanController::class, 'index'])->middleware([DosenMiddleware::class]);
-// Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware([AdminMiddleware::class])->name('admin-dashboard');
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin-dashboard');
 });
+
+//Dosen
 Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
 
@@ -55,21 +53,12 @@ Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard/profil', [UserController::class, 'ShowProfil'])->name('profil');
     Route::get('dashboard/profil/edit-profil', [UserController::class, 'ShowEditProfil'])->name('edit_profil');
     Route::post('profil/perbarui-profil', [UserController::class, 'UpdateProfil']);
+
+    //Pelatihan
+    Route::get('dashboard/pelatihan', [PelatihanController::class, 'ShowDaftarPelatihan'])->name('pelatihan');
+    Route::get('dashboard/pelatihan/{id_pelatihan}/cek-data-diri', [PelatihanController::class, 'ShowLanjutDaftarPelatihan'])->name('lanjut_daftar_pelatihan');
+    Route::post('pelatihan/daftar/{id_pelatihan}', [PelatihanController::class, 'DaftarPelatihan']);
 });
-
-// Route::controller(PelatihanController::class)->middleware([DosenMiddleware::class])->group(function () {
-//     Route::get('/dashboard', 'index');
-// });
-
-// Route::prefix('admin')->middleware([AdminMiddleware::class])->group(function () {
-//     Route::controller(AdminController::class)->group(function () {
-//         Route::get('/dashboard', 'index');
-//     });
-// });
-
-// Route::view('/admin/dashboard', function () {
-//     return view('dashboard');
-// })->middleware([DosenMiddleware::class]);
 
 Auth::routes();
 Route::get('/email/verify', 'VerificationController@show')->name('verification.notice');
@@ -81,7 +70,3 @@ Route::get('/home', function () {
     // dd(auth()->user());
     return redirect('/dashboard');
 })->name('home');
-
-// Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

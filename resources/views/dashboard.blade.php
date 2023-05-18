@@ -29,7 +29,7 @@
                     <div class="d-flex">
                         <!-- LOGO -->
                         <div class="navbar-brand-box">
-                            <a href="index.html" class="logo logo-dark">
+                            <a href="/" class="logo logo-dark">
                                 <span class="logo-lg">
                                     <img src="/images/logo.jpg" alt="" height="22">
                                 </span>
@@ -148,10 +148,12 @@
                             <div class="col">
                                 <div class="card"> <!-- selamat datang card -->
                                     <div class="card-body">
-                                        <div class="col-5">
+                                        <div class="col">
                                             <h5>Selamat Datang Kembali, {{ $user['fullname'] }}!</h5>
                                             @if ($user['id_pelatihan'] == 0)
                                               <h6 class="text-muted">Anda belum terdaftar di pelatihan mana pun.</h6>
+                                            @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 1)
+                                              <h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, berkas anda sedang divalidasi Admin.</h6>
                                             @else
                                               <h6 class="text-muted">Anda sedang terdaftar pada {{ $pelatihan['nama'] }}</h6>
                                             @endif
@@ -162,9 +164,14 @@
                                 <div class="card">  <!-- profil card -->
                                     <div class="card-body">
                                         <div class="col">
+                                            
                                             <div class="mb-4">
                                                 <a href="/dashboard/profil/edit-profil" class="btn btn-primary">Perbarui Profil</a>
                                             </div>
+
+                                            @if (Session::has('message'))
+                                                <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                            @endif
 
                                             <div class="table-responsive-md">
                                                 <table class="table table-bordered">

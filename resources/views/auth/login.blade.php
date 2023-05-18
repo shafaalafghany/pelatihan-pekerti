@@ -41,10 +41,13 @@
 					<div class="card">
 						<div class="card-body p-4">
 							<div class="p-2">
-								<h5 class="mb-5 text-center">Login untuk melanjutkan.</h5>
+								<h5 class="mb-3 text-center">Login untuk melanjutkan.</h5>
 								<form method="POST" class="form-horizontal" action="/login">
 									@csrf
 									<div class="row">
+										@if (Session::has('message'))
+											<div class="alert alert-danger">{{ Session::get('message') }}</div>
+										@endif
 										<div class="col-md-12">
 											<div class="form-group form-group-custom mb-4">
 												<input type="email" class="form-control" id="email" name="email" required>

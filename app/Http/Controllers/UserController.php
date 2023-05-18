@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -46,13 +47,13 @@ class UserController extends Controller
     ]);
 
     $ktp = $request->file('ktp');
-    $file_ktp = time() . '-' . $ktp->getClientOriginalName();
+    $file_ktp = Str::random(16) . time() . '-' . $ktp->getClientOriginalName();
 
     $dosen = $request->file('sk_dosen');
-    $file_dosen = time() . '-' . $dosen->getClientOriginalName();
+    $file_dosen = Str::random(16) . time() . '-' . $dosen->getClientOriginalName();
 
     $foto = $request->file('foto_profil');
-    $file_foto = time() . '-' . $foto->getClientOriginalName();
+    $file_foto = Str::random(16) . time() . '-' . $foto->getClientOriginalName();
 
     $user->nik = $request->nik;
     $user->nidn_nidk = $request->nidn_nidk;
@@ -75,7 +76,7 @@ class UserController extends Controller
     $file_pekerti = "";
     if ($request->file('sk_pekerti')) {
       $pekerti = $request->file('sk_pekerti');
-      $file_pekerti = time() . '-' . $pekerti->getClientOriginalName();
+      $file_pekerti = Str::random(16) . time() . '-' . $pekerti->getClientOriginalName();
       $user->berkas_sk_pekerti = $file_pekerti;
     }
 
