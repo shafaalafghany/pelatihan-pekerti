@@ -150,14 +150,15 @@
                                     <div class="card-body">
                                         <div class="col">
                                             <h5>Selamat Datang Kembali, {{ $user['fullname'] }}!</h5>
-                                            @if ($user['status_pendaftaran'] == 4)
-                                              <h6 class="alert alert-warning"><b>Berkas anda telah ditolak, silahkan cek kembali berkas anda.</b></h6>
-                                            @elseif ($user['id_pelatihan'] == 0)
-                                              <h6 class="text-muted">Anda belum terdaftar di pelatihan mana pun.</h6>
+
+                                            @if ($user['id_pelatihan'] == 0)
+                                            	<h6 class="text-muted">Anda belum terdaftar di pelatihan mana pun.</h6>
                                             @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 1)
-                                              <h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, berkas anda sedang divalidasi Admin.</h6>
+                                            	<h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, berkas anda sedang divalidasi Admin.</h6>
                                             @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 2)  
-                                              <h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, silahkan lanjutkan pendaftaran dengan melakukan pembayaran <a href="/dashboard/pembayaran">disini</a>.</h6>
+                                            	<h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, silahkan lanjutkan pendaftaran dengan melakukan pembayaran <a href="/dashboard/pembayaran">disini</a>.</h6>
+                                            @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 4)
+                                            	<h6 class="alert alert-warning"><b>Berkas anda telah ditolak, silahkan cek kembali berkas anda.</b></h6>
                                             @else
                                               <h6 class="text-muted">Anda sedang terdaftar pada {{ $pelatihan['nama'] }}</h6>
                                             @endif
@@ -172,8 +173,9 @@
                                             <div class="mb-4">
                                                 <a href="/dashboard/profil/edit-profil" class="btn btn-primary">Perbarui Profil</a>
                                             </div>
-
-                                            @if (Session::has('message'))
+                                            @if (Session::has('type') && Session::has('message'))
+                                                <div class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</div>
+                                            @elseif (Session::has('message'))
                                                 <div class="alert alert-success">{{ Session::get('message') }}</div>
                                             @endif
 

@@ -19,9 +19,9 @@ class PelatihanController extends Controller
         $pelatihan = DB::table('pelatihan')->orderBy('batas_pendaftaran', 'desc')->orderBy('id', 'desc')->get();
         foreach ($pelatihan as $item) {
             $daftar = Carbon::parse($item->mulai_pendaftaran)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
-            $item->mulai_pendaftaran = $daftar;
+            $item->daftar = $daftar;
             $batas = Carbon::parse($item->batas_pendaftaran)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
-            $item->batas_pendaftaran = $batas;
+            $item->batas = $batas;
         }
 
         return view('pelatihan.daftar_pelatihan', [
@@ -36,8 +36,8 @@ class PelatihanController extends Controller
         $pelatihan = Pelatihan::find($id_pelatihan);
 
         if ($user->id_pelatihan > 0) {
-            $message = "Anda sedang terdaftar pada " . $pelatihan->nama . ".";
-            session()->flash('message', $message);
+            session()->flash('type', 'danger');
+            session()->flash('message', "Anda sedang terdaftar pada " . $pelatihan->nama . ".");
             return redirect('/dashboard');
         }
 
@@ -57,8 +57,19 @@ class PelatihanController extends Controller
         $file_sk_pekerti = "";
 
         if ($user->id_pelatihan > 0) {
-            $message = "Anda sedang terdaftar pada " . $pelatihan->nama . ".";
-            session()->flash('message', $message);
+            session()->flash('message', "Anda sedang terdaftar pada " . $pelatihan->nama . ".");
+            return redirect('/dashboard');
+        }
+        
+        if ($pelatihan->jumlah_pendaftar == $pelatihan->kuota_pendaftar) {
+            session()->flash('type', 'danger');
+            session()->flash('message', "Kuota peserta telah penuh.");
+            return redirect('/dashboard');
+        }
+
+        if (date("Y-m-d") > $pelatihan->batas_pendaftaran) {
+            session()->flash('type', 'danger');
+            session()->flash('message', "Kuota peserta telah penuh.");
             return redirect('/dashboard');
         }
 
@@ -166,9 +177,7 @@ class PelatihanController extends Controller
                 $request->file('sk_pekerti')->move('files/sk-pekerti', $file_sk_pekerti);
             }
 
-            $message = "Berhasil mendaftar ke " . $pelatihan->nama . ".";
-
-            session()->flash('message', $message);
+            session()->flash('message', "Berhasil mendaftar ke " . $pelatihan->nama . ".");
             return redirect('/dashboard');
         }
     }

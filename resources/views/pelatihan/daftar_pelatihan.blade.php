@@ -170,17 +170,18 @@
                                                           <td>{{ $key + 1 }}</td>
                                                           <td>{{ $item->nama }}</td>
                                                           <td>{{ strtoupper($item->jenis_pelatihan) }}</td>
-                                                          <td>{{ $item->mulai_pendaftaran . ' - ' . $item->batas_pendaftaran }}</td>
-                                                          @if ($today > $item->mulai_pendaftaran && $today < $item->batas_pendaftaran)
+                                                          <td>{{ $item->daftar . ' - ' . $item->batas }}</td>
+
+                                                          @if ($today > $item->batas_pendaftaran || $item->jumlah_pendaftar == $item->kuota_pendaftar)
+                                                            <td class="text-danger">Pendaftaran sudah ditutup</td>  
+                                                            <td><a class="btn btn-secondary disabled waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>
+                                                          @else
                                                             <td class="text-success">Pendaftaran sedang dibuka</td>
                                                             @if ($user['id_pelatihan'] > 0)
                                                               <td><a class="btn btn-secondary disabled waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>  
                                                             @else
                                                               <td><a class="btn btn-primary waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>
                                                             @endif
-                                                          @else  
-                                                            <td class="text-danger">Pendaftaran sudah ditutup</td>
-                                                            <td><a class="btn btn-secondary disabled waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>  
                                                           @endif
                                                         </tr>
                                                       @endforeach
