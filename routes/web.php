@@ -8,6 +8,7 @@ use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\GuestMiddleware;
@@ -62,26 +63,31 @@ Route::get('/home', function () {
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 
-    //Berkas
+    // Berkas
     Route::get('admin/dashboard/validasi-berkas', [BerkasController::class, 'ShowValidasiBerkas'])->name('validasi_berkas');
     Route::get('admin/dashboard/validasi-berkas/detail/{id_peserta}', [BerkasController::class, 'ShowValidasiBerkasDetail'])->name('validasi_berkas_detail');
     Route::post('validasi-berkas/terima/{id_peserta}/{id_pelatihan}', [BerkasController::class, 'TerimaValidasiBerkas']);
     Route::post('validasi-berkas/tolak/{id_peserta}', [BerkasController::class, 'TolakValidasiBerkas']);
+
 });
 
 // Dosen
 Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard', [HomeController::class, 'index'])->name('dashboard');
-
+    
     //Users
     Route::get('dashboard/profil', [UserController::class, 'ShowProfil'])->name('profil');
     Route::get('dashboard/profil/edit-profil', [UserController::class, 'ShowEditProfil'])->name('edit_profil');
     Route::post('profil/perbarui-profil', [UserController::class, 'UpdateProfil']);
-
+    
     //Pelatihan
     Route::get('dashboard/pelatihan', [PelatihanController::class, 'ShowDaftarPelatihan'])->name('pelatihan');
     Route::get('dashboard/pelatihan/{id_pelatihan}/cek-data-diri', [PelatihanController::class, 'ShowLanjutDaftarPelatihan'])->name('lanjut_daftar_pelatihan');
     Route::post('pelatihan/daftar/{id_pelatihan}', [PelatihanController::class, 'DaftarPelatihan']);
+
+    // Pembayaran
+    Route::get('dashboard/pembayaran', [PembayaranController::class, 'ShowPembayaran'])->name('pembayaran');
+    Route::post('pembayaran/{id_pelatihan}', [PembayaranController::class, 'AddPembayaran']);
 });
 
 // Auth

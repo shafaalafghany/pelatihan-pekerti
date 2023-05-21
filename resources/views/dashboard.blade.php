@@ -159,6 +159,8 @@
                                             	<h6 class="text-muted">Anda sedang mendaftar pada {{ $pelatihan['nama'] }}, silahkan lanjutkan pendaftaran dengan melakukan pembayaran <a href="/dashboard/pembayaran">disini</a>.</h6>
                                             @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 4)
                                             	<h6 class="alert alert-warning"><b>Berkas anda telah ditolak, silahkan cek kembali berkas anda.</b></h6>
+                                            @elseif ($user['id_pelatihan'] > 0 && $user['status_pendaftaran'] == 5)
+                                            	<h6 class="alert alert-warning"><b>Anda belum membayar tagihan anda, silahkan tunggu sejenak.</b></h6>
                                             @else
                                               <h6 class="text-muted">Anda sedang terdaftar pada {{ $pelatihan['nama'] }}</h6>
                                             @endif
