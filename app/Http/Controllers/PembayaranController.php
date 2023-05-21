@@ -105,7 +105,7 @@ class PembayaranController extends Controller
     if ($hashed == $request->signature_key) {
       $pembayaran = Pembayaran::find($request->order_id);
       $user = User::find($pembayaran->id_dosen);
-      if ($request->transaction_status == 'capture' || $request->transaction == 'settlement') {
+      if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
         $user->status_pendaftaran = 3;
         $user->save();
         $pembayaran->status = 3;
