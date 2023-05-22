@@ -9,6 +9,7 @@ use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\SesiController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
@@ -88,6 +89,10 @@ Route::group(['middleware' => 'role:web'], function () {
 
     //Sesi
     Route::get('dashboard/sesi', [SesiController::class, 'ShowSesi'])->name('sesi');
+
+    //Presensi
+    Route::get('dashboard/presensi', [PresensiController::class, 'ShowPresensi'])->name('presensi');
+    Route::post('presensi', [PresensiController::class, 'CekPresensi']);
 
     // Pembayaran
     Route::get('dashboard/pembayaran', [PembayaranController::class, 'ShowPembayaran'])->name('pembayaran');
