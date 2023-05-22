@@ -9,7 +9,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $id_pelatihan
  * @property string $nama
  * @property string $keterangan
- * @property string $tanggal
+ * @property string $tempat_pelaksanaan
+ * @property string $waktu_mulai
+ * @property string $waktu_selesai
  * @property string $jenis_pelaksanaan
  * @property string $tautan_pelaksanaan
  * @property string $created_at
@@ -31,7 +33,7 @@ class Sesi extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_pelatihan', 'nama', 'keterangan', 'tanggal', 'jenis_pelaksanaan', 'tautan_pelaksanaan', 'created_at', 'updated_at'];
+    protected $fillable = ['id_pelatihan', 'nama', 'keterangan', 'tempat_pelaksanaan', 'waktu_mulai', 'waktu_selesai', 'jenis_pelaksanaan', 'tautan_pelaksanaan', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

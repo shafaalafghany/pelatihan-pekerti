@@ -23,6 +23,7 @@ class PembayaranController extends Controller
     // dd(Carbon::now()->toDateTimeString());
     // dd($bayar[0]->created_at . " --- " . Carbon::parse($bayar[0]->created_at)->addDay());
     // dd(Carbon::parse($bayar[0]->created_at)->format('Y-m-d'));
+    // dd(Carbon::now()->format('Y-m-d'));
     
     $lunas = DB::table('pembayaran')
     ->join('pelatihan', 'pembayaran.id_pelatihan', '=', 'pelatihan.id')

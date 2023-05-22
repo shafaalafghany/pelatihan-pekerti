@@ -9,6 +9,7 @@ use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\SesiController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\GuestMiddleware;
@@ -84,6 +85,9 @@ Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard/pelatihan', [PelatihanController::class, 'ShowDaftarPelatihan'])->name('pelatihan');
     Route::get('dashboard/pelatihan/{id_pelatihan}/cek-data-diri', [PelatihanController::class, 'ShowLanjutDaftarPelatihan'])->name('lanjut_daftar_pelatihan');
     Route::post('pelatihan/daftar/{id_pelatihan}', [PelatihanController::class, 'DaftarPelatihan']);
+
+    //Sesi
+    Route::get('dashboard/sesi', [SesiController::class, 'ShowSesi'])->name('sesi');
 
     // Pembayaran
     Route::get('dashboard/pembayaran', [PembayaranController::class, 'ShowPembayaran'])->name('pembayaran');
