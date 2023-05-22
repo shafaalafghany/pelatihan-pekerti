@@ -87,6 +87,7 @@ Route::group(['middleware' => 'role:web'], function () {
 
     // Pembayaran
     Route::get('dashboard/pembayaran', [PembayaranController::class, 'ShowPembayaran'])->name('pembayaran');
+    Route::get('pembayaran/{id_pembayaran}/invoice', [PembayaranController::class, 'ShowInvoice']);
     Route::post('pembayaran/{id_pelatihan}', [PembayaranController::class, 'AddPembayaran']);
 });
 

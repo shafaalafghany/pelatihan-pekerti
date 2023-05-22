@@ -52,6 +52,21 @@ class PembayaranController extends Controller
     ]);
   }
 
+  public function ShowInvoice($id_pembayaran)
+  {
+    $user = auth()->user();
+    $data = DB::table('dosen')
+    ->select('dosen.fullname', 'pelatihan.nama', 'pembayaran.invoice', 'pembayaran.updated_at')
+    ->join('pelatihan', 'pelatihan.id', '=', 'dosen.id_pelatihan')
+    ->join('pembayaran', 'pembayaran.id_dosen', '=', 'dosen.id')
+    ->where('dosen.id', $user->id)
+    ->orderBy('pembayaran.created_at', 'desc')
+    ->limit(1)
+    ->get();
+
+    return view('pembayaran.invoice', ['data' => $data[0]]);
+  }
+
   public function AddPembayaran($id_pelatihan)
   {
     $user = auth()->user();

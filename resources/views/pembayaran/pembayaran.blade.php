@@ -211,7 +211,7 @@
                                                                 <td class="d-flex justify-content-center"><a
                                                                         type="button"
                                                                         class="btn btn-primary waves-effect waves-light text-light"
-                                                                        href="#"><b>UNDUH BUKTI PEMBAYARAN</b></a>
+                                                                        href="#" onclick="window.open('/pembayaran/{{ $item->id }}/invoice', 'name', 'width=800,height=800')"><b>UNDUH BUKTI PEMBAYARAN</b></a>
                                                                 </td>
                                                             @endif
                                                         </tr>
