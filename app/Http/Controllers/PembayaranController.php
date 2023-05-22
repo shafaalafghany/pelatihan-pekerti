@@ -39,7 +39,7 @@ class PembayaranController extends Controller
       } elseif ($item->status == 2) {
         $item->keterangan = "Tagihan belum dibayar";
       } elseif ($item->status == 3) {
-        $waktu = Carbon::parse($item->updated_at)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('h:i ; j F Y');
+        $waktu = Carbon::parse($item->updated_at)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i');
         $item->keterangan = "Sudah dibayar pada ";
         $item->dibayar_pada = $waktu;
       }
@@ -56,10 +56,11 @@ class PembayaranController extends Controller
   {
     $user = auth()->user();
     $data = DB::table('dosen')
-    ->select('dosen.fullname', 'pelatihan.nama', 'pembayaran.invoice', 'pembayaran.updated_at')
+    ->select('dosen.fullname', 'pelatihan.nama', 'pembayaran.id', 'pembayaran.invoice', 'pembayaran.updated_at')
     ->join('pelatihan', 'pelatihan.id', '=', 'dosen.id_pelatihan')
     ->join('pembayaran', 'pembayaran.id_dosen', '=', 'dosen.id')
     ->where('dosen.id', $user->id)
+    ->where('pembayaran.id', $id_pembayaran)
     ->orderBy('pembayaran.created_at', 'desc')
     ->limit(1)
     ->get();
