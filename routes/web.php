@@ -101,7 +101,7 @@ Route::group(['middleware' => 'role:web'], function () {
     Route::post('presensi', [PresensiController::class, 'CekPresensi']);
 
     //Tugas
-    Route::get('dashboard/tugas', [TugasController::class, 'ShowTugas'])->name('tugas');
+    Route::get('dashboard/tugas', [TugasController::class, 'ShowTugas'])->name('tugas')->name('tugas');
     Route::get('dashboard/tugas/{id_tugas}', [TugasController::class, 'ShowTugasDetail']);
     Route::post('tugas/{id_tugas}', [TugasController::class, 'KumpulTugas']);
 

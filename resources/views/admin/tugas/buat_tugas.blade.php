@@ -426,6 +426,7 @@
     <script src="{{ asset('assets/js/pages/dashboard.init.js') }}"></script>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    
     <script type="text/javascript">
         $(document).ready(function() {
             $('.ckeditor').ckeditor();

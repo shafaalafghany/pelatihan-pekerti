@@ -7,6 +7,7 @@ use App\Models\BerkasTugas;
 use App\Models\Pelatihan;
 use App\Models\Sesi;
 use App\Models\Tugas;
+use App\Models\TugasDosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,11 +17,46 @@ class TugasController extends Controller {
   public function ShowTugas()
   {
     $user = auth()->user();
-    $tugas = DB::table('tugas')->get();
+    $tugas = DB::table('tugas')
+            ->where('id_pelatihan', $user->id_pelatihan)
+            ->get();
+    
+    // foreach ($tugas as $item) {
+    //   $berkas = DB::table('tugas_dosen')
+    //             ->where('id_dosen', $user->id)
+    //             ->where('id_tugas', $item->id)
+    //             ->get();
+    //   $item->berkas = $berkas;
+    // }
+
+    // dd($tugas);
 
     return view('tugas.tugas', [
       'user' => $user,
       'tugas' => $tugas,
+    ]);
+  }
+
+  public function ShowTugasDetail($id_tugas)
+  {
+    $user = auth()->user();
+    $tugas = Tugas::find($id_tugas);
+    $tugas_dosen = DB::table('tugas_dosen')
+                  ->where('id_tugas', $tugas->id)
+                  ->where('id_dosen', $user->id)
+                  ->get();
+    
+    if (count($tugas_dosen) > 0) {
+      foreach ($tugas_dosen as $item) {
+        $split = explode("-", $item->berkas_tugas);
+        $item->nama_berkas = $split[1];
+      }
+    }
+    
+    return view('tugas.tugas_detail', [
+      'user' => $user,
+      'tugas' => $tugas,
+      'tugas_dosen' => $tugas_dosen,
     ]);
   }
 
