@@ -10,12 +10,12 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PresensiController;
+use App\Http\Controllers\TugasController;
 use App\Http\Controllers\SesiController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\DosenMiddleware;
 use App\Http\Middleware\GuestMiddleware;
 use App\Models\Admin;
-use App\Models\Pelatihan;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -65,6 +65,12 @@ Route::get('/home', function () {
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 
+    //Tugas
+    Route::get('admin/dashboard/tugas', [TugasController::class, 'AdminShowTugas'])->name('admin_tugas');
+    Route::get('admin/dashboard/tugas/{id_pelatihan}/buat', [TugasController::class, 'AdminBuatTugas']);
+    Route::post('admin/dashboard/tugas/detail', [TugasController::class, 'AdminShowTugasDetail']);
+    Route::post('tugas/buat', [TugasController::class, 'BuatTugas']);
+
     // Berkas
     Route::get('admin/dashboard/validasi-berkas', [BerkasController::class, 'ShowValidasiBerkas'])->name('validasi_berkas');
     Route::get('admin/dashboard/validasi-berkas/detail/{id_peserta}', [BerkasController::class, 'ShowValidasiBerkasDetail'])->name('validasi_berkas_detail');
@@ -93,6 +99,11 @@ Route::group(['middleware' => 'role:web'], function () {
     //Presensi
     Route::get('dashboard/presensi', [PresensiController::class, 'ShowPresensi'])->name('presensi');
     Route::post('presensi', [PresensiController::class, 'CekPresensi']);
+
+    //Tugas
+    Route::get('dashboard/tugas', [TugasController::class, 'ShowTugas'])->name('tugas');
+    Route::get('dashboard/tugas/{id_tugas}', [TugasController::class, 'ShowTugasDetail']);
+    Route::post('tugas/{id_tugas}', [TugasController::class, 'KumpulTugas']);
 
     // Pembayaran
     Route::get('dashboard/pembayaran', [PembayaranController::class, 'ShowPembayaran'])->name('pembayaran');

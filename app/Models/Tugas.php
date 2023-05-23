@@ -12,9 +12,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $batas_pengumpulan
  * @property string $created_at
  * @property string $updated_at
- * @property BerkasTuga[] $berkasTugas
+ * @property BerkasTugas[] $berkasTugas
  * @property DetailNilai[] $detailNilais
  * @property Sesi $sesi
+ * @property Pelatihan $pelatihan
  * @property TugasDosen[] $tugasDosens
  */
 class Tugas extends Model
@@ -22,7 +23,7 @@ class Tugas extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_sesi', 'judul', 'deskripsi', 'batas_pengumpulan', 'created_at', 'updated_at'];
+    protected $fillable = ['id_pelatihan', 'id_sesi', 'judul', 'deskripsi', 'batas_pengumpulan', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -46,6 +47,14 @@ class Tugas extends Model
     public function sesi()
     {
         return $this->belongsTo('App\Models\Sesi', 'id_sesi');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function pelatihan()
+    {
+        return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
     }
 
     /**

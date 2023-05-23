@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $batas_pendaftaran
  * @property integer $kuota_pendaftar
  * @property integer $jumlah_pendaftar
+ * @property boolean $is_active
  * @property string $created_at
  * @property string $updated_at
  * @property Dosen[] $dosens
@@ -21,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Presensi[] $presensis
  * @property Sertifikat[] $sertifikats
  * @property Sesi[] $sesis
+ * @property Tugas[] $tugas
  */
 class Pelatihan extends Model
 {
@@ -34,7 +36,7 @@ class Pelatihan extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nama', 'jenis_pelatihan', 'mulai_pendaftaran', 'batas_pendaftaran', 'kuota_pendaftar', 'jumlah_pendaftar', 'created_at', 'updated_at'];
+    protected $fillable = ['nama', 'jenis_pelatihan', 'mulai_pendaftaran', 'batas_pendaftaran', 'kuota_pendaftar', 'jumlah_pendaftar', 'is_active', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -90,5 +92,13 @@ class Pelatihan extends Model
     public function sesis()
     {
         return $this->hasMany('App\Models\Sesi', 'id_pelatihan');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tugas()
+    {
+        return $this->hasMany('App\Models\Tugas', 'id_pelatihan');
     }
 }
