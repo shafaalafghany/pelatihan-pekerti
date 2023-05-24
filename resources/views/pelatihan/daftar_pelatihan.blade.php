@@ -177,7 +177,7 @@
                                                             <td><a class="btn btn-secondary disabled waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>
                                                           @else
                                                             <td class="text-success">Pendaftaran sedang dibuka</td>
-                                                            @if ($user['id_pelatihan'] > 0)
+                                                            @if ($user['id_pelatihan'] == 3)
                                                               <td><a class="btn btn-secondary disabled waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>  
                                                             @else
                                                               <td><a class="btn btn-primary waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>
