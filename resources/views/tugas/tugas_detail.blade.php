@@ -158,6 +158,12 @@
                                 <div class="card-body">
                                     <div class="col">
 
+                                        @if (Session::has('type') && Session::has('message'))
+                                            <div class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</div>
+                                        @elseif (Session::has('message'))
+                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                        @endif
+
                                         <h4 class="mb-3">{{ $tugas->judul }}</h4>
 
                                         <strong>Deskripsi Tugas:</strong><br>
@@ -165,25 +171,35 @@
                                         <hr>
                                         <strong>Batas Pengumpulan:</strong> {{ \Carbon\Carbon::parse($tugas->batas_pengumpulan)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y, h:i') }} WIB <br>
 
-                                        @if (count($tugas_dosen) > 0)
-                                          @foreach ($tugas_dosen as $item)
+                                        @if (count($berkas_tugas) > 0)
+                                          @foreach ($berkas_tugas as $item)
                                             <div class="bg-light mb-1">
-                                                <a href="/files/berkas-tugas/{{ $item->berkas_tugas }}">{{ $item->nama_berkas }}</a>
+                                                <a href="/files/berkas-tugas/{{ $item->nama_berkas }}">{{ $item->nama }}</a>
                                             </div>
                                           @endforeach
                                         @endif
 
-                                        <form action="/tugas/kumpul" method="POST" enctype="multipart/form-data">
+                                        <form action="/tugas/{{ $tugas->id }}" method="POST" enctype="multipart/form-data">
                                           @csrf
                                             <label class="col-form-label">Online Text</label>
-                                            <textarea class="ckeditor" name="online_text"></textarea>
-
+                                            
+                                            
+                                            @if (count($tugas_dosen) > 0)
+                                                @foreach ($tugas_dosen as $item)
+                                                    <textarea class="ckeditor" name="online_text">{!! $item->online_text !!}</textarea>
+                                                    <div class="bg-light mb-1 mt-3">
+                                                        <a href="/files/berkas-tugas/{{ $item->berkas_tugas }}">Lihat berkas tugas anda</a>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <textarea class="ckeditor" name="online_text"></textarea> 
+                                            @endif
                                             <div class="col">
                                                 <div class="form-group row mt-3">
                                                     <div class="custom-file col-md">
-                                                        <input type="file" name="berkas_tugas"
-                                                            class="custom-file-input" accept=".pdf">
                                                         <label class="custom-file-label">Pilih Berkas</label>
+                                                        <input type="file" name="berkas"
+                                                            class="custom-file-input" accept=".pdf">
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,7 +261,7 @@
 
         <script type="text/javascript">
             $(document).ready(function() {
-                $('.ckeditor').ckeditor();
+                $('.ckeditor').ckeditor().;
             });
         </script>
 

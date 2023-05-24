@@ -8,6 +8,8 @@ use App\Models\Pelatihan;
 use App\Models\Sesi;
 use App\Models\Tugas;
 use App\Models\TugasDosen;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,14 +22,25 @@ class TugasController extends Controller {
     $tugas = DB::table('tugas')
             ->where('id_pelatihan', $user->id_pelatihan)
             ->get();
-    
-    // foreach ($tugas as $item) {
-    //   $berkas = DB::table('tugas_dosen')
-    //             ->where('id_dosen', $user->id)
-    //             ->where('id_tugas', $item->id)
-    //             ->get();
-    //   $item->berkas = $berkas;
-    // }
+
+    foreach ($tugas as $item) {
+      $item->keterangan = null;
+      $time_tugas = new DateTime(Carbon::parse($item->batas_pengumpulan)->toDateTimeString());
+      $berkas = DB::table('tugas_dosen')
+                ->where('id_dosen', $user->id)
+                ->where('id_tugas', $item->id)
+                ->get();
+      if (count($berkas) > 0) {
+        $time_pengumpulan = new DateTime(Carbon::parse($berkas[0]->created_at)->toDateTimeString());
+        if ($berkas[0]->id_tugas == $item->id) {
+          if ($time_pengumpulan > $time_tugas) {
+            $item->keterangan = "Telat Mengumpulkan";
+          } else {
+            $item->keterangan = "Sudah Mengumpulkan";
+          }
+        }
+      }
+    }
 
     // dd($tugas);
 
@@ -41,23 +54,65 @@ class TugasController extends Controller {
   {
     $user = auth()->user();
     $tugas = Tugas::find($id_tugas);
+    $berkas_tugas  = DB::table('berkas_tugas')
+                      ->where('id_tugas', $id_tugas)
+                      ->get();
     $tugas_dosen = DB::table('tugas_dosen')
                   ->where('id_tugas', $tugas->id)
                   ->where('id_dosen', $user->id)
                   ->get();
-    
-    if (count($tugas_dosen) > 0) {
-      foreach ($tugas_dosen as $item) {
-        $split = explode("-", $item->berkas_tugas);
-        $item->nama_berkas = $split[1];
+
+    if (count($berkas_tugas) > 0) {
+      foreach ($berkas_tugas as $item) {
+        $split = explode("-", $item->nama_berkas);
+        $item->nama = $split[1];
       }
     }
-    
+
     return view('tugas.tugas_detail', [
       'user' => $user,
       'tugas' => $tugas,
+      'berkas_tugas' => $berkas_tugas,
       'tugas_dosen' => $tugas_dosen,
     ]);
+  }
+
+  public function KumpulTugas(Request $request, $id_tugas)
+  {
+    $user = auth()->user();
+    $request->validate([
+      'berkas' => 'mimetypes:application/pdf|max:10240',
+    ]);
+
+    $file_berkas = "";
+    $tugas_dosen = new TugasDosen();
+    $tugas_dosen->id_tugas = $id_tugas;
+    $tugas_dosen->id_dosen = $user->id;
+
+    if ($request->online_text == null && $request->file('berkas') == null) {
+      session()->flash('message', 'Salah satu dari online teks atau berkas tidak boleh kosong!');
+      session()->flash('type', 'danger');
+      return to_route('tugas');
+    }
+
+    if ($request->online_text != null) {
+      $tugas_dosen->online_text = $request->online_text;
+    }
+
+    if ($request->file('berkas') != null) {
+      $berkas = $request->file('berkas');
+      $file_berkas = Str::random(16) . time() . '-' . str_replace(" ", "_", $berkas->getClientOriginalName());
+      $tugas_dosen->berkas_tugas = $file_berkas;
+    }
+
+    if ($tugas_dosen->save()) {
+      if ($request->file('berkas')) {
+        $request->file('berkas')->move('files/berkas_tugas', $file_berkas);
+      }
+
+      session()->flash('message', 'Berhasil mengumpulkan tugas');
+      return redirect('dashboard/tugas');
+    }
   }
 
   public function AdminShowTugas()

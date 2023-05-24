@@ -171,48 +171,16 @@
                                                         <td>{{ $key + 1 }}</td>
                                                         <td>{{ $item->judul }}</td>
                                                         <td>{{ \Carbon\Carbon::parse($item->batas_pengumpulan)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('h:i, j F Y') }}</td>
-                                                        <td>Belum Mengumpulkan</td>
+                                                        @if ($item->keterangan == null)
+                                                            <td class="text-danger">Belum Mengumpulkan</td>
+                                                        @else
+                                                            <td>{{ $item->keterangan }}</td>
+                                                        @endif
                                                         <td><a type="button"
                                                           class="btn btn-primary waves-effect waves-light text-light"
                                                           href="/dashboard/tugas/{{ $item->id }}">Lihat Tugas</a></td>
                                                       </tr>
                                                   @endforeach
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Tugas Sesi 1</td>
-                                                        <td>20.00 WIB, 1 November 2022</td>
-                                                        <td>Sudah Mengumpulkan</td>
-                                                        <td><a type="button"
-                                                                class="btn btn-primary waves-effect waves-light text-light"
-                                                                href="tugas-detail.html">Lihat Tugas</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>Tugas Sesi 2</td>
-                                                        <td>20.00 WIB, 30 November 2022</td>
-                                                        <td class="text-danger">Belum Mengumpulkan</td>
-                                                        <td><a type="button"
-                                                                class="btn btn-primary waves-effect waves-light text-light"
-                                                                href="tugas-detail.html">Lihat Tugas</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>Tugas Sesi 3</td>
-                                                        <td>20.00 WIB, 30 November 2022</td>
-                                                        <td>Sudah Mengumpulkan</td>
-                                                        <td><a type="button"
-                                                                class="btn btn-primary waves-effect waves-light text-light"
-                                                                href="tugas-detail.html">Lihat Tugas</button></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>4</td>
-                                                        <td>Tugas Sesi</td>
-                                                        <td>20.00 WIB, 30 November 2022</td>
-                                                        <td>Telat Mengumpulkan</td>
-                                                        <td><a type="button"
-                                                                class="btn btn-primary waves-effect waves-light text-light"
-                                                                href="tugas-detail.html">Lihat Tugas</button></td>
-                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
