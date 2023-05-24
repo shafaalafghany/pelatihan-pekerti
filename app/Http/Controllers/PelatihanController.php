@@ -137,26 +137,26 @@ class PelatihanController extends Controller
 
         if ($request->foto_profil) {
             $foto = $request->file('foto_profil');
-            $file_foto = Str::random(16) . time() . '-' . $foto->getClientOriginalName();
+            $file_foto = Str::random(16) . time() . '-' . str_replace(" ", "_", $foto->getClientOriginalName());
             $user->foto_profil = $file_foto;
         }
 
 
         if ($request->ktp) {
             $ktp = $request->file('ktp');
-            $file_ktp = Str::random(16) . time() . '-' . $ktp->getClientOriginalName();
+            $file_ktp = Str::random(16) . time() . '-' . str_replace(" ", "_", $ktp->getClientOriginalName());
             $user->berkas_ktp = $file_ktp;
         }
 
         if ($request->sk_dosen) {
             $sk_dosen = $request->file('sk_dosen');
-            $file_sk_dosen = Str::random(16) . time() . '-' . $sk_dosen->getClientOriginalName();
+            $file_sk_dosen = Str::random(16) . time() . '-' . str_replace(" ", "_", $sk_dosen->getClientOriginalName());
             $user->berkas_sk_dosen = $file_sk_dosen;
         }
 
         if ($request->sk_pekerti) {
             $sk_pekerti = $request->file('sk_pekerti');
-            $file_sk_pekerti = Str::random(16) . time() . '-' . $sk_pekerti->getClientOriginalName();
+            $file_sk_pekerti = Str::random(16) . time() . '-' . str_replace(" ", "_", $sk_pekerti->getClientOriginalName());
             $user->berkas_sk_pekerti = $file_sk_pekerti;
         }
 
