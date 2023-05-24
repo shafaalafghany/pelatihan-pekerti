@@ -171,7 +171,8 @@
 
                     <strong>Nama: </strong> {{ $peserta->fullname }} <br>
                     <strong>Nama Institusi: </strong> {{ $peserta->nama_instansi }} <br>
-                    <strong>Nama Pelatihan yang didaftar:</strong> {{ $pelatihan->nama }}
+                    <strong>Nama Pelatihan yang didaftar:</strong> {{ $pelatihan->nama }} <br>
+                    <strong>Nama Pelatihan yang didaftar:</strong> {{ strtoupper($pelatihan->jenis_pelatihan) }}
 
                     <div class="table-responsive-md mt-3">
                       <table class="table table-bordered">
