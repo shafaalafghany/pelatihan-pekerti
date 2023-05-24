@@ -47,13 +47,13 @@ class UserController extends Controller
     ]);
 
     $ktp = $request->file('ktp');
-    $file_ktp = Str::random(16) . time() . '-' . $ktp->getClientOriginalName();
+    $file_ktp = Str::random(16) . time() . '-' . str_replace(" ", "_", $ktp->getClientOriginalName());
 
     $dosen = $request->file('sk_dosen');
-    $file_dosen = Str::random(16) . time() . '-' . $dosen->getClientOriginalName();
+    $file_dosen = Str::random(16) . time() . '-' . str_replace(" ", "_", $dosen->getClientOriginalName());
 
     $foto = $request->file('foto_profil');
-    $file_foto = Str::random(16) . time() . '-' . $foto->getClientOriginalName();
+    $file_foto = Str::random(16) . time() . '-' . str_replace(" ", "_", $foto->getClientOriginalName());
 
     $user->nik = $request->nik;
     $user->nidn_nidk = $request->nidn_nidk;
@@ -76,7 +76,7 @@ class UserController extends Controller
     $file_pekerti = "";
     if ($request->file('sk_pekerti')) {
       $pekerti = $request->file('sk_pekerti');
-      $file_pekerti = Str::random(16) . time() . '-' . $pekerti->getClientOriginalName();
+      $file_pekerti = Str::random(16) . time() . '-' . str_replace(" ", "_", $pekerti->getClientOriginalName());
       $user->berkas_sk_pekerti = $file_pekerti;
     }
 
