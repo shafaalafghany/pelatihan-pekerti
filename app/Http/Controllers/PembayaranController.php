@@ -6,6 +6,7 @@ use App\Models\DosenPelatihan;
 use App\Models\Pelatihan;
 use App\Models\Pembayaran;
 use App\Models\User;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +17,7 @@ class PembayaranController extends Controller
   {
     $user = auth()->user();
     $pelatihan = [];
-    if ($user->status_pendaftaran != 3) {
+    if ($user->status_pendaftaran == 2) {
       $pelatihan = Pelatihan::find($user->id_pelatihan);
     }
 
@@ -35,7 +36,7 @@ class PembayaranController extends Controller
 
     
     foreach ($lunas as $item) {
-      if ($item->status == 2 && (Carbon::parse($item->created_at)->addDay() > Carbon::parse($item->created_at))) {
+      if ($item->status == 4) {
         $item->keterangan = "Melebihi waktu batas pembayaran";
       } elseif ($item->status == 2) {
         $item->keterangan = "Tagihan belum dibayar";
@@ -135,6 +136,11 @@ class PembayaranController extends Controller
         $pelatihan = Pelatihan::find($user->id_pelatihan);
         $pelatihan->jumlah_pendaftar += 1;
         $pelatihan->save(); 
+      } elseif ($request->transaction_status == 'expire') {
+        $user->status_pendaftaran = 5;
+        $user->save();
+        $pembayaran->status = 4;
+        $pembayaran->save();
       } else {
         $user->status_pendaftaran = 5;
         $user->save();
