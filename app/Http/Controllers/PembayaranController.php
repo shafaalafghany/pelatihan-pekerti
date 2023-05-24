@@ -26,14 +26,14 @@ class PembayaranController extends Controller
     // dd(Carbon::now()->format('Y-m-d'));
     
     $lunas = DB::table('pembayaran')
-    ->join('pelatihan', 'pembayaran.id_pelatihan', '=', 'pelatihan.id')
     ->select('pembayaran.*', 'pelatihan.nama')
-    ->where('pembayaran.id_dosen', $user->id)
-    ->where('pembayaran.status', '=', 2)
-    ->orWhere('pembayaran.status', '=', 3)
+    ->join('pelatihan', 'pembayaran.id_pelatihan', '=', 'pelatihan.id')
+    ->where('pembayaran.id_dosen', '=', $user->id)
+    ->where('pembayaran.status', '<>', 1)
     ->orderBy('pembayaran.created_at', 'desc')
     ->get();
 
+    
     foreach ($lunas as $item) {
       if ($item->status == 2 && (Carbon::parse($item->created_at)->addDay() > Carbon::parse($item->created_at))) {
         $item->keterangan = "Melebihi waktu batas pembayaran";
@@ -132,6 +132,9 @@ class PembayaranController extends Controller
         $dosenPelatihan->id_dosen = $user->id;
         $dosenPelatihan->id_pelatihan = $user->id_pelatihan;
         $dosenPelatihan->save();
+        $pelatihan = Pelatihan::find($user->id_pelatihan);
+        $pelatihan->jumlah_pendaftar += 1;
+        $pelatihan->save(); 
       } else {
         $user->status_pendaftaran = 5;
         $user->save();
