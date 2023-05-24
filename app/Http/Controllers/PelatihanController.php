@@ -170,7 +170,7 @@ class PelatihanController extends Controller
             }
 
             if ($request->file('sk_dosen')) {
-                $request->file('ktp')->move('files/sk-dosen', $file_sk_dosen);
+                $request->file('sk_dosen')->move('files/sk-dosen', $file_sk_dosen);
             }
 
             if ($request->file('sk_pekerti')) {
