@@ -54,8 +54,6 @@ class BerkasController extends Controller
 
     $peserta->save();
 
-    $this->addPembayaran($id_peserta, $id_pelatihan, $pelatihan->jenis_pelatihan);
-
     $message = "Berkas " . $peserta->fullname . " telah berhasil divalidasi";
     session()->flash('message', $message);
     session()->flash('type', 'success');
@@ -83,47 +81,5 @@ class BerkasController extends Controller
     session()->flash('message', $message);
     session()->flash('type', 'warning');
     return redirect('/admin/dashboard/validasi-berkas');
-  }
-
-  private function addPembayaran($id_peserta, $id_pelatihan, $jenis_pelatihan)
-  {
-    $peserta = User::find($id_peserta);
-    $kode_pelatihan = "";
-    if ($jenis_pelatihan == "pekerti") {
-      $kode_pelatihan = "PKT";
-    } else {
-      $kode_pelatihan = "AA";
-    }
-
-    $pembayaran = new Pembayaran();
-    $pembayaran->id_dosen = $id_peserta;
-    $pembayaran->id_pelatihan = $id_pelatihan;
-    $pembayaran->invoice = "INV/" . date("Ymd") . "/" . $kode_pelatihan . "/" . random_int(1000000000, 9999999999);
-    $pembayaran->status = 1;
-    $pembayaran->save();
-    
-    \Midtrans\Config::$serverKey = config('midtrans.server_key');
-    // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
-    \Midtrans\Config::$isProduction = config('midtrans.is_production');
-    // Set sanitization on (default)
-    \Midtrans\Config::$isSanitized = config('midtrans.is_sanitized');
-    // Set 3DS transaction for credit card to true
-    \Midtrans\Config::$is3ds = config('midtrans.is_3ds');
-
-    $params = array(
-      'transaction_details' => array(
-        'order_id' => $pembayaran->id,
-        'gross_amount' => 200000,
-      ),
-      'customer_details' => array(
-        'fullname' => $peserta->fullname,
-        'email' => $peserta->email,
-        'phone' => $peserta->telepon,
-      ),
-    );
-
-    $snapToken = \Midtrans\Snap::getSnapToken($params);
-    $pembayaran->snap_token = $snapToken;
-    $pembayaran->save();
   }
 }
