@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerkasController;
+use App\Http\Controllers\DokumenRiwayatController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
@@ -109,6 +110,10 @@ Route::group(['middleware' => 'role:web'], function () {
     Route::get('dashboard/pembayaran', [PembayaranController::class, 'ShowPembayaran'])->name('pembayaran');
     Route::get('pembayaran/{id_pembayaran}/invoice', [PembayaranController::class, 'ShowInvoice']);
     Route::post('pembayaran/{id_pelatihan}', [PembayaranController::class, 'AddPembayaran']);
+
+    //Cetak Dokumen
+    Route::get('dashboard/cetak-dokumen', [DokumenRiwayatController::class, 'ShowDokumenRiwayatTest'])->name('cetak_dokumen');
+    Route::get('cetak-dokumen/kartu-peserta/{id_kartu_peserta}', [DokumenRiwayatController::class, 'ShowKartuPeserta']);
 });
 
 // Auth

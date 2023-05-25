@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $jenis_pelatihan
  * @property string $mulai_pendaftaran
  * @property string $batas_pendaftaran
+ * @property string $tanggal_pelaksanaan
  * @property integer $kuota_pendaftar
  * @property integer $jumlah_pendaftar
  * @property boolean $is_active
@@ -36,7 +37,7 @@ class Pelatihan extends Model
     /**
      * @var array
      */
-    protected $fillable = ['nama', 'jenis_pelatihan', 'mulai_pendaftaran', 'batas_pendaftaran', 'kuota_pendaftar', 'jumlah_pendaftar', 'is_active', 'created_at', 'updated_at'];
+    protected $fillable = ['nama', 'jenis_pelatihan', 'mulai_pendaftaran', 'batas_pendaftaran', 'tanggal_pelaksanaan', 'kuota_pendaftar', 'jumlah_pendaftar', 'is_active', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
