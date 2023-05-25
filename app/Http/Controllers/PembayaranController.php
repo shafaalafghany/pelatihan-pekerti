@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\DosenPelatihan;
+use App\Models\KartuPeserta;
 use App\Models\Pelatihan;
 use App\Models\Pembayaran;
 use App\Models\User;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -126,13 +126,21 @@ class PembayaranController extends Controller
       if ($request->transaction_status == 'capture' || $request->transaction_status == 'settlement') {
         $user->status_pendaftaran = 3;
         $user->save();
+
         $pembayaran->status = 3;
         $pembayaran->snap_token = null;
         $pembayaran->save();
+
         $dosenPelatihan = new DosenPelatihan();
         $dosenPelatihan->id_dosen = $user->id;
         $dosenPelatihan->id_pelatihan = $user->id_pelatihan;
         $dosenPelatihan->save();
+
+        $kartuPeserta = new KartuPeserta();
+        $kartuPeserta->id_dosen = $user->id;
+        $kartuPeserta->id_pelatihan = $user->id_pelatihan;
+        $kartuPeserta->save();
+
         $pelatihan = Pelatihan::find($user->id_pelatihan);
         $pelatihan->jumlah_pendaftar += 1;
         $pelatihan->save(); 
