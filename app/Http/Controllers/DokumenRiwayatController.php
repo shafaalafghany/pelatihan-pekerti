@@ -9,7 +9,7 @@ class DokumenRiwayatController extends Controller {
   public function ShowDokumenRiwayatTest()
   {
     $user = auth()->user();
-    $kartu_peserta = DB::table('kartu_peserta')
+    $data = DB::table('kartu_peserta')
             ->select(
               'kartu_peserta.*',
               'dosen.id as dosen_id',
@@ -22,11 +22,22 @@ class DokumenRiwayatController extends Controller {
             ->where('dosen.id', $user->id)
             ->get();
 
-    // $sertifikat = DB::();
+    foreach ($data as $item) {
+      $sertifikat = DB::table('sertifikat')
+                    ->where('id_dosen', $item->dosen_id)
+                    ->where('id_pelatihan', $item->pelatihan_id)
+                    ->get();
+      if (count($sertifikat) > 0) {
+        $item->sertifikat = true;
+        $item->id_sertifikat = $sertifikat[0]->id;
+      } else {
+        $item->sertifikat = false;
+      }
+    }
 
     return view('cetak_dokumen.dokumen_riwayat_test', [
       'user' => $user,
-      'kartu_peserta' => $kartu_peserta,
+      'data' => $data,
     ]);
   }
 

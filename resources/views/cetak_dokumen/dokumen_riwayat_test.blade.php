@@ -161,7 +161,7 @@
                                     <h4 class="mb-3">Cetak Dokumen dan Riwayat Tes</h4>
 
                                     <h5 class="mb-3">Kartu Peserta</h5>
-                                    <div class="table-responsive-md mb-5">
+                                    <div class="table-responsive-md">
                                         <table class="table md-0">
                                             <thead class="thead-light">
                                                 <tr>
@@ -169,37 +169,35 @@
                                                     <th>Nama Pelatihan</th>
                                                     <th>Tanggal Pelaksanaan</th>
                                                     <th>Kartu Peserta</th>
+                                                    <th>Sertifikat</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                              @foreach ($kartu_peserta as $key => $item)
+                                              @foreach ($data as $key => $item)
                                                   <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $item->nama }}</td>
                                                     <td>{{ $item->tanggal_pelaksanaan }}</td>
-                                                    <td class="d-flex justify-content-center"><a
+                                                    <td><a
                                                       type="button"
                                                       class="btn btn-primary waves-effect waves-light text-light"
-                                                      href="#" onclick="window.open('/cetak-dokumen/kartu-peserta/{{ $item->id }}', 'name', 'width=1000,height=800')"><b>CETAK KARTU PESERTA</b></a></td>
+                                                      href="#"
+                                                      onclick="window.open('/cetak-dokumen/kartu-peserta/{{ $item->id }}', 'name', 'width=1000, height=800')"><b>CETAK KARTU PESERTA</b></a>
+                                                    </td>
+                                                    @if ($item->sertifikat)
+                                                        <td><a
+                                                          type="button"
+                                                          class="btn btn-primary waves-effect waves-light text-light"
+                                                          href="#"
+                                                          onclick="window.open('/cetak-dokumen/sertifikat/{{ $item->id_sertifikat }}', 'name', 'width=1000, height=800')"><b>CETAK SERTIFIKAT</b></a>
+                                                        </td>
+                                                    @else
+                                                        <td>Sertifikat Belum Tersedia</td>
+                                                    @endif
                                                   </tr>
                                               @endforeach
                                             </tbody>
                                         </table>
-                                    </div>
-
-                                    <h5 class="mb-3">Sertifikat</h5>
-                                    <div class="table-responsive-md">
-                                      <table class="table md-0">
-                                        <thead class="thead-light">
-                                          <tr>
-                                            <th>No.</th>
-                                            <th>Nama Pelatihan</th>
-                                            <th>Tanggal Pelaksanaan</th>
-                                            <th>Sertifikat</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                      </table>
                                     </div>
 
                                 </div>
