@@ -77,7 +77,7 @@
                             <h4><b>Angkatan V Tahun {{ \Carbon\Carbon::parse($data->created_at)->format('Y') }}</b>
                             </h4>
                         @endif
-                        <h4><b>Dilaksanakan Pada Tanggal {{ $data->tanggal_pelaksanaan }}</b></h4>
+                        <h4><b>Dilaksanakan Pada Tanggal {{ $data->pelaksanaan }}</b></h4>
                     </td>
                 </tr>
                 <tr>

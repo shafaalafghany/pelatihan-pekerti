@@ -23,6 +23,8 @@ class DokumenRiwayatController extends Controller {
             ->get();
 
     foreach ($data as $item) {
+      $split = explode(" - ", $item->tanggal_pelaksanaan);
+      $item->pelaksanaan = Carbon::parse($split[0])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y') . " - " . Carbon::parse($split[1])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
       $sertifikat = DB::table('sertifikat')
                     ->where('id_dosen', $item->dosen_id)
                     ->where('id_pelatihan', $item->pelatihan_id)
@@ -83,7 +85,8 @@ class DokumenRiwayatController extends Controller {
             ->where('sertifikat.id', $id_sertifikat)
             ->get();
 
-    // dd($data[0]);
+    $split = explode(" - ", $data[0]->tanggal_pelaksanaan);
+    $data[0]->pelaksanaan = Carbon::parse($split[0])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y') . " - " . Carbon::parse($split[1])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
 
     return view('cetak_dokumen.sertifikat',[
       'data' => $data[0],

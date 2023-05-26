@@ -177,7 +177,7 @@
                                                   <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ $item->nama }}</td>
-                                                    <td>{{ $item->tanggal_pelaksanaan }}</td>
+                                                    <td>{{ $item->pelaksanaan }}</td>
                                                     <td><a
                                                       type="button"
                                                       class="btn btn-primary waves-effect waves-light text-light"
