@@ -18,6 +18,11 @@ class PresensiController extends Controller {
       return redirect('/dashboard');
     }
 
+    if ($user->id_pelatihan == 0 && $user->status_pendaftaran != 3) {
+      session()->flash('message', 'Anda belum terdaftar dalam pelatihan manapun');
+      return redirect('/dashboard');
+    }
+
     return view('presensi.presensi', ['user' => $user]);
   }
 

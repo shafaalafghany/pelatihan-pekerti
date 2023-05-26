@@ -23,6 +23,11 @@ class TugasController extends Controller {
             ->where('id_pelatihan', $user->id_pelatihan)
             ->get();
 
+    if ($user->id_pelatihan == 0 && $user->status_pendaftaran != 3) {
+      session()->flash('message', 'Anda belum terdaftar dalam pelatihan manapun');
+      return redirect('/dashboard');
+    }
+
     foreach ($tugas as $item) {
       $item->keterangan = null;
       $time_tugas = new DateTime(Carbon::parse($item->batas_pengumpulan)->toDateTimeString());
@@ -51,6 +56,12 @@ class TugasController extends Controller {
   public function ShowTugasDetail($id_tugas)
   {
     $user = auth()->user();
+
+    if ($user->id_pelatihan == 0 && $user->status_pendaftaran != 3) {
+      session()->flash('message', 'Anda belum terdaftar dalam pelatihan manapun');
+      return redirect('/dashboard');
+    }
+
     $tugas = Tugas::find($id_tugas);
     $berkas_tugas  = DB::table('berkas_tugas')
                       ->where('id_tugas', $id_tugas)
