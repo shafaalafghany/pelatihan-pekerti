@@ -42,8 +42,6 @@ class TugasController extends Controller {
       }
     }
 
-    // dd($tugas);
-
     return view('tugas.tugas', [
       'user' => $user,
       'tugas' => $tugas,
