@@ -189,7 +189,7 @@
                                                           type="button"
                                                           class="btn btn-primary waves-effect waves-light text-light"
                                                           href="#"
-                                                          onclick="window.open('/cetak-dokumen/sertifikat/{{ $item->id_sertifikat }}', 'name', 'width=1000, height=800')"><b>CETAK SERTIFIKAT</b></a>
+                                                          onclick="window.open('/cetak-dokumen/sertifikat/{{ $item->id_sertifikat }}', 'name', 'width=1500, height=1000')"><b>CETAK SERTIFIKAT</b></a>
                                                         </td>
                                                     @else
                                                         <td>Sertifikat Belum Tersedia</td>

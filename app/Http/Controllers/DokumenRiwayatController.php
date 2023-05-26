@@ -69,15 +69,21 @@ class DokumenRiwayatController extends Controller {
             ->select(
               'sertifikat.*',
               'dosen.id as dosen_id',
+              'dosen.gelar_depan',
+              'dosen.gelar_belakang',
               'dosen.fullname',
               'dosen.foto_profil',
               'pelatihan.id as pelatihan_id',
               'pelatihan.nama',
+              'pelatihan.jenis_pelatihan',
+              'pelatihan.tanggal_pelaksanaan'
               )
-            ->join('dosen', 'kartu_peserta.id_dosen', '=', 'dosen.id')
-            ->join('pelatihan', 'kartu_peserta.id_pelatihan', '=', 'pelatihan.id')
+            ->join('dosen', 'sertifikat.id_dosen', '=', 'dosen.id')
+            ->join('pelatihan', 'sertifikat.id_pelatihan', '=', 'pelatihan.id')
             ->where('sertifikat.id', $id_sertifikat)
             ->get();
+
+    // dd($data[0]);
 
     return view('cetak_dokumen.sertifikat',[
       'data' => $data[0],
