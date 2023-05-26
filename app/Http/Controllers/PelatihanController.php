@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Pelatihan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -180,5 +182,89 @@ class PelatihanController extends Controller
             session()->flash('message', "Berhasil mendaftar ke " . $pelatihan->nama . ".");
             return redirect('/dashboard');
         }
+    }
+
+    public function AdminShowPelatihan()
+    {
+        $user = Admin::find(Auth::guard('admin')->id());
+        $pelatihan = DB::table('pelatihan')
+                    ->orderBy('batas_pendaftaran', 'desc')
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+        foreach ($pelatihan as $item) {
+            $split = explode(" - ", $item->tanggal_pelaksanaan);
+            $item->pelaksanaan = Carbon::parse($split[0])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y') . " - " . Carbon::parse($split[1])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
+        }
+        return view('admin.pelatihan.pelatihan', [
+            'user' => $user,
+            'pelatihan' => $pelatihan,
+        ]);
+    }
+
+    public function AdminShowPelatihanDetail($id_pelatihan)
+    {
+        $user = Admin::find(Auth::guard('admin')->id());
+        $pelatihan = Pelatihan::find($id_pelatihan);
+        $split = explode(" - ", $pelatihan->tanggal_pelaksanaan);
+        $pelatihan->pelaksanaan = Carbon::parse($split[0])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y') . " - " . Carbon::parse($split[1])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
+
+        $peserta = DB::table('dosen_pelatihan')
+                    ->select('dosen_pelatihan.id_dosen', 'dosen_pelatihan.id_pelatihan', 'dosen.*')
+                    ->join('dosen', 'dosen_pelatihan.id_dosen', '=', 'dosen.id')
+                    ->where('dosen.id_pelatihan', $id_pelatihan)
+                    ->get();
+
+        return view('admin.pelatihan.pelatihan_detail', [
+            'user' => $user,
+            'pelatihan' => $pelatihan,
+            'peserta' => $peserta
+        ]);
+    }
+
+    public function AdminBuatPelatihan()
+    {
+        $user = Admin::find(Auth::guard('admin')->id());
+
+        return view('admin.pelatihan.buat_pelatihan', [
+            'user' => $user,
+        ]);
+    }
+
+    public function BuatPelatihan(Request $request)
+    {
+        $request->validate([
+            'nama_pelatihan' => 'required|string',
+            'jenis_pelatihan' => 'required',
+            'mulai_pendaftaran' => 'required',
+            'batas_pendaftaran' => 'required',
+            'mulai_pelaksanaan' => 'required',
+            'akhir_pelaksanaan' => 'required',
+            'kuota_peserta' => 'required',
+        ]);
+
+        $check_pelatihan = DB::table('pelatihan')
+                            ->where('jenis_pelatihan', $request->jenis_pelatihan)
+                            ->where('is_active', 1)
+                            ->get();
+        if (count($check_pelatihan) > 0) {
+            session()->flash('message', 'Ada pelatihan ' . strtoupper($request->jenis_pelatihan) . ' sedang aktif, silahkan nonaktifkan terlebih dahulu pelatihan tersebut sebelum membuat pelatihan baru.');
+            session()->flash('type', 'danger');
+            return back();
+        }
+
+        $pelatihan = new Pelatihan();
+        $pelatihan->nama = $request->nama_pelatihan;
+        $pelatihan->jenis_pelatihan = $request->jenis_pelatihan;
+        $pelatihan->mulai_pendaftaran = $request->mulai_pendaftaran;
+        $pelatihan->batas_pendaftaran = $request->batas_pendaftaran;
+        $pelatihan->tanggal_pelaksanaan = $request->mulai_pelaksanaan . " - " . $request->akhir_pelaksanaan;
+        $pelatihan->kuota_pendaftar = $request->kuota_peserta;
+        $pelatihan->is_active = 1;
+
+        $pelatihan->save();
+
+        session()->flash('message', 'Berhasil membuat pelatihan baru');
+        return to_route('admin_pelatihan');
     }
 }

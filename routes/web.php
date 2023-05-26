@@ -66,6 +66,12 @@ Route::get('/home', function () {
 Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard', [AdminController::class, 'index'])->name('admin_dashboard');
 
+    //Pelatihan
+    Route::get('admin/dashboard/pelatihan', [PelatihanController::class, 'AdminShowPelatihan'])->name('admin_pelatihan');
+    Route::get('admin/dashboard/pelatihan/buat-pelatihan', [PelatihanController::class, 'AdminBuatPelatihan']);
+    Route::get('admin/dashboard/pelatihan/{id_pelatihan}', [PelatihanController::class, 'AdminShowPelatihanDetail']);
+    Route::post('pelatihan/buat', [PelatihanController::class, 'BuatPelatihan']);
+
     //Tugas
     Route::get('admin/dashboard/tugas', [TugasController::class, 'AdminShowTugas'])->name('admin_tugas');
     Route::get('admin/dashboard/tugas/{id_pelatihan}/buat', [TugasController::class, 'AdminBuatTugas']);
