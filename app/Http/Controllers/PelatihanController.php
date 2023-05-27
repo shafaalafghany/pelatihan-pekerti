@@ -38,8 +38,9 @@ class PelatihanController extends Controller
         $pelatihan = Pelatihan::find($id_pelatihan);
 
         if ($user->id_pelatihan > 0) {
+            $registered_pelatihan = Pelatihan::find($user->id_pelatihan);
             session()->flash('type', 'danger');
-            session()->flash('message', "Anda sedang terdaftar pada " . $pelatihan->nama . ".");
+            session()->flash('message', "Anda sedang terdaftar pada " . $registered_pelatihan->nama . ".");
             return redirect('/dashboard');
         }
 
