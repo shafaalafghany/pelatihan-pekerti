@@ -78,6 +78,13 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::post('admin/dashboard/tugas/detail', [TugasController::class, 'AdminShowTugasDetail']);
     Route::post('tugas/buat', [TugasController::class, 'BuatTugas']);
 
+    //Sesi
+    Route::get('admin/dashboard/sesi', [SesiController::class, 'AdminShowSesi'])->name('admin_sesi');
+    Route::get('admin/dashboard/sesi/{id_pelatihan}', [SesiController::class, 'AdminShowSesiDetail']);
+    Route::get('admin/dashboard/sesi/{id_pelatihan}/buat', [SesiController::class, 'AdminBuatSesi']);
+    Route::post('sesi/buat', [SesiController::class, 'BuatSesi']);
+    Route::post('sesi/pilih-pelatihan', [SesiController::class, 'AdminPilihPelatihan']);
+
     // Berkas
     Route::get('admin/dashboard/validasi-berkas', [BerkasController::class, 'ShowValidasiBerkas'])->name('validasi_berkas');
     Route::get('admin/dashboard/validasi-berkas/detail/{id_peserta}', [BerkasController::class, 'ShowValidasiBerkasDetail'])->name('validasi_berkas_detail');
@@ -108,7 +115,7 @@ Route::group(['middleware' => 'role:web'], function () {
     Route::post('presensi', [PresensiController::class, 'CekPresensi']);
 
     //Tugas
-    Route::get('dashboard/tugas', [TugasController::class, 'ShowTugas'])->name('tugas')->name('tugas');
+    Route::get('dashboard/tugas', [TugasController::class, 'ShowTugas'])->name('tugas');
     Route::get('dashboard/tugas/{id_tugas}', [TugasController::class, 'ShowTugasDetail']);
     Route::post('tugas/{id_tugas}', [TugasController::class, 'KumpulTugas']);
 
