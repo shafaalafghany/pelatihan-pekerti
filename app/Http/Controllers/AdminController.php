@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 
 class AdminController extends Controller
 {
@@ -37,5 +39,39 @@ class AdminController extends Controller
             'jumlah_pendaftar' => $jumlah,
             'peserta_validasi' => $validasi,
         ]);
+    }
+
+    public function ShowTambahAdmin()
+    {
+        $user = Admin::find(Auth::guard('admin')->id());
+
+        return view('admin.tambah_admin', [
+            'user' => $user,
+        ]);
+    }
+
+    public function TambahAdmin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|unique:admin',
+            'nama' => 'required',
+            'password' => [
+                'required', 
+                Password::min(6)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+            ],
+        ]);
+
+        $admin = new Admin();
+        $admin->name = $request->nama;
+        $admin->email = $request->email;
+        $admin->password = Hash::make($request->password);
+        $admin->role = "staff";
+        $admin->save();
+
+        session()->flash('message', 'Berhasil menambahkan admin baru');
+        return to_route('tambah_admin');
     }
 }
