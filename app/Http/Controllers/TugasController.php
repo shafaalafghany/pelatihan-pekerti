@@ -127,7 +127,7 @@ class TugasController extends Controller {
   public function AdminShowTugas()
   {
     $user = Admin::find(Auth::guard('admin')->id());
-    $pelatihan = DB::table('pelatihan')->where('is_active', 1)->get();
+    $pelatihan = DB::table('pelatihan')->orderByDesc('created_at')->get();
 
     return view('admin.tugas.tugas', [
       'user' => $user,
