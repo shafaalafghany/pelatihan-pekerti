@@ -177,6 +177,13 @@
 
                                         <h5>Informasi Pelatihan</h5>
 
+                                        @if (Session::has('type') && Session::has('message'))
+                                            <div class="alert alert-{{ Session::get('type') }}">
+                                                {{ Session::get('message') }}</div>
+                                        @elseif (Session::has('message'))
+                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                        @endif
+
                                         <h6><strong>Jumlah Peserta yang telah mengikuti Pelatihan:</strong>
                                             {{ $jumlah_pendaftar }}</h6>
 

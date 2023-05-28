@@ -45,6 +45,12 @@ class AdminController extends Controller
     {
         $user = Admin::find(Auth::guard('admin')->id());
 
+        if ($user->role != "superadmin") {
+            session()->flash('message', 'Maaf, halaman tersebut hanya bisa dibuka oleh pengguna dengan peran Superadmin');
+            session()->flash('type', 'danger');
+            return redirect('/');
+        } 
+
         return view('admin.tambah_admin', [
             'user' => $user,
         ]);

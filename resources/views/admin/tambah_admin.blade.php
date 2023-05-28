@@ -174,6 +174,26 @@
                                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                                         @endif
 
+                                        @if ($errors->any())
+                                            @foreach ($errors->all() as $error)
+                                            @if ($error == "validation.unique")
+                                                <div class="alert alert-danger mb-4">Email sudah terdaftar, silahkan menggunakan email lain.</div>  
+                                            @endif
+
+                                            @if ($error == "validation.min.string")
+                                                <div class="alert alert-danger mb-4">Kata Sandi minimal 8 karakter.</div>
+                                            @endif
+
+                                            @if ($error == "The password must contain at least one uppercase and one lowercase letter.")
+                                                <div class="alert alert-danger mb-4">Kata Sandi harus mengandung karakter 1 huruf kapital dan 1 karakter huruf kecil.</div>
+                                            @endif
+
+                                            @if ($error == "The password must contain at least one number.")
+                                                <div class="alert alert-danger mb-4">Kata Sandi harus mengandung karakter numerik.</div>
+                                            @endif
+                                            @endforeach
+                                        @endif
+
                                         <form action="/buat-admin" method="post">
                                           @csrf
                                             <div class="form-group row">
