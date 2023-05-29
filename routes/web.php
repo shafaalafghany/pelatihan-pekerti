@@ -87,6 +87,14 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::post('sesi/buat', [SesiController::class, 'BuatSesi']);
     Route::post('sesi/pilih-pelatihan', [SesiController::class, 'AdminPilihPelatihan']);
 
+    //Presensi
+    Route::get('admin/dashboard/presensi', [PresensiController::class, 'AdminShowPresensi'])->name('admin_presensi');
+    Route::get('admin/dashboard/presensi/{id_pelatihan}', [PresensiController::class, 'AdminShowPrensensiDetail']);
+    Route::get('admin/dashboard/presensi/{id_pelatihan}/buat', [PresensiController::class, 'AdminBuatPresensi']);
+    Route::get('admin/dashboard/presensi/{id_pelatihan}/{id_sesi}', [PresensiController::class, 'AdminShowPresensiDetailSesi']);
+    Route::post('presensi/sesi', [PresensiController::class, 'PilihPelatihan']);
+    Route::post('presensi/buat', [PresensiController::class, 'BuatPresensi']);
+
     // Berkas
     Route::get('admin/dashboard/validasi-berkas', [BerkasController::class, 'ShowValidasiBerkas'])->name('validasi_berkas');
     Route::get('admin/dashboard/validasi-berkas/detail/{id_peserta}', [BerkasController::class, 'ShowValidasiBerkasDetail'])->name('validasi_berkas_detail');

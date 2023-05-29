@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Beranda | Pelatihan PEKERTI-AA</title>
+    <title>Presensi {{ $pelatihan->nama }} | Pelatihan PEKERTI-AA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -65,9 +65,10 @@
                                         class="mdi mdi-logout font-size-16 align-middle mr-1"></i> Logout</a>
                             </form>
                         </div>
-
                     </div>
+
                 </div>
+            </div>
 
         </header>
 
@@ -128,7 +129,6 @@
 
                 </div>
                 <!-- Sidebar -->
-                
             </div>
         </div>
         <!-- Left Sidebar End -->
@@ -145,10 +145,11 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h4 class="page-title mb-1">Dasbor</h4>
+                                <h4 class="page-title mb-1">Presensi</h4>
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                                    <li class="breadcrumb-item active">Beranda Admin Aplikasi PEKERTI-AA</li>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard/presensi">Presensi</a></li>
+                                    <li class="breadcrumb-item active">Detail Presensi {{ $sesi->nama }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -160,104 +161,38 @@
                 <div class="page-content-wrapper">
                     <div class="container-fluid">
                         <div class="col">
-
                             <div class="card">
                                 <!-- selamat datang card -->
                                 <div class="card-body">
                                     <div class="col">
-                                        <h5>Selamat Datang Kembali, {{ $user['name'] }}!</h5>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="card">
-                                <!-- Pelatihan card -->
-                                <div class="card-body">
-                                    <div class="col">
+                                        <h4>Presensi {{ $sesi->nama }}</h4>
 
-                                        @if (Session::has('type') && Session::has('message'))
-                                            <div class="alert alert-{{ Session::get('type') }}">
-                                                {{ Session::get('message') }}</div>
-                                        @elseif (Session::has('message'))
-                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
-                                        @endif
-
-                                        <h5>Informasi Pelatihan</h5>
-
-                                        <h6><strong>Jumlah Peserta yang telah mengikuti Pelatihan:</strong>
-                                            {{ $jumlah_pendaftar }}</h6>
+                                        <strong>Nama Sesi: </strong> {{ $sesi->nama }} <br>
+                                        <strong>Keterangan: </strong> {{ $sesi->keterangan }} <br>
+                                        <strong>Kode Presensi: </strong> {{ $presensi->kode_presensi }} <br>
+                                        <strong>Batas Presensi: </strong> {{ \Carbon\Carbon::parse($presensi->batas_presensi)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i') }} WIB <br>
+                                        <strong>Jumlah: </strong> {{ count($data) }}
 
                                         <div class="table-responsive-md mt-3">
                                             <table class="table md-0">
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th>No.</th>
-                                                        <th>Nama Pelatihan</th>
-                                                        <th>Jenis Pelatihan</th>
-                                                        <th>Periode Pendaftaran</th>
-                                                        <th>Kuota Peserta</th>
-                                                        <th>Jumlah Pendaftar</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($pelatihan as $key => $item)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->nama }}</td>
-                                                            <td>{{ strtoupper($item->jenis_pelatihan) }}</td>
-                                                            <td>{{ $item->mulai_pendaftaran . ' - ' . $item->batas_pendaftaran }}
-                                                            </td>
-                                                            <td>{{ $item->kuota_pendaftar }}</td>
-                                                            <td>{{ $item->jumlah_pendaftar }}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex flex-row-reverse mb-3">
-                                        <a href="/admin/dashboard/pelatihan"
-                                            class="btn btn-primary waves-effect waves-light text-light"><i
-                                                class="mdi mdi-arrow-right"></i> Lihat Pelatihan</a>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="card">
-                                <!-- Validasi Berkas card -->
-                                <div class="card-body">
-                                    <div class="col">
-
-                                        <h5>Validasi Berkas</h5>
-                                        <h6 class="mt3">Berkas Calon Peserta yang perlu divalidasi</h6>
-
-                                        <div class="table-responsive-md mt-3">
-                                            <table class="table md-0">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Nama Calon Peserta</th>
+                                                        <th>Nama Peserta</th>
                                                         <th>Nama Institusi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($peserta_validasi as $key => $peserta)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $peserta->fullname }}</td>
-                                                            <td>{{ $peserta->nama_instansi }}</td>
-                                                        </tr>
-                                                    @endforeach
+                                                  @foreach ($data as $key => $item)
+                                                      <tr>
+                                                        <td>{{ $key + 1 }}</td>
+                                                        <td>{{ $item->fullname }}</td>
+                                                        <td>{{ $item->nama_instansi }}</td>
+                                                      </tr>
+                                                  @endforeach
                                                 </tbody>
                                             </table>
-                                        </div>
-
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="/admin/dashboard/validasi-berkas"
-                                                class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-arrow-right"></i> Lihat Validasi Berkas</a>
                                         </div>
 
                                     </div>
