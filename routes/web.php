@@ -77,6 +77,8 @@ Route::group(['middleware' => 'role:admin'], function () {
     //Tugas
     Route::get('admin/dashboard/tugas', [TugasController::class, 'AdminShowTugas'])->name('admin_tugas');
     Route::get('admin/dashboard/tugas/{id_pelatihan}/buat', [TugasController::class, 'AdminBuatTugas']);
+    Route::get('admin/dashboard/tugas/detail/{id_tugas}', [TugasController::class, 'AdminTugasDetail']);
+    Route::get('admin/dashboard/tugas/detail/{id_tugas}/{id_tugas_dosen}', [TugasController::class, 'AdminShowTugasDosen']);
     Route::post('admin/dashboard/tugas/detail', [TugasController::class, 'AdminShowTugasDetail']);
     Route::post('tugas/buat', [TugasController::class, 'BuatTugas']);
 

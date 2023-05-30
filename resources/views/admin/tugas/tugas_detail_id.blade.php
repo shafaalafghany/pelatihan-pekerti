@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Tugas PEKERTI Batch 1 | Pelatihan PEKERTI-AA</title>
+    <title>Tugas Sesi 1 | Pelatihan PEKERTI-AA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -149,7 +149,7 @@
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="/">Beranda</a></li>
                                     <li class="breadcrumb-item"><a href="/admin/dashboard/tugas">Tugas</a></li>
-                                    <li class="breadcrumb-item active">{{ $pelatihan->nama }}</li>
+                                    <li class="breadcrumb-item active">Tugas {{ $sesi->nama }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -166,34 +166,48 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <h4>Daftar Tugas {{ $pelatihan->nama }}</h4>
+                                        <h4 class="mb-3">Tugas {{ $sesi->nama }}</h4>
 
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="/admin/dashboard/tugas/{{ $pelatihan->id }}/buat"
-                                                class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-square-edit-outline"></i> Buat Baru</a>
-                                        </div>
+                                        <strong>Deskripsi Tugas:</strong><br>
+                                        {!! $tugas->deskripsi !!}
+                                        <hr>
+                                        <strong class="mb-2">Batas Pengumpulan:</strong>
+                                        {{ \Carbon\Carbon::parse($tugas->batas_pengumpulan)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y, h:i') }}
+                                        WIB <br>
 
-                                        <div class="table-responsive-md">
+                                        @if (count($berkas_tugas) > 0)
+                                            @foreach ($berkas_tugas as $item)
+                                                <div class="bg-light mb-1">
+                                                    <a
+                                                        href="/files/berkas-tugas/{{ $item->nama_berkas }}">{{ $item->nama }}</a>
+                                                </div>
+                                            @endforeach
+                                        @endif
+
+                                        <div class="table-responsive-md mt-3">
                                             <table class="table md-0">
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th>No.</th>
-                                                        <th>Nama</th>
-                                                        <th>Sesi</th>
+                                                        <th>Nama Peserta</th>
+                                                        <th>Status</th>
                                                         <th>Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
 
-                                                    @foreach ($tugas as $key => $item)
+                                                    @foreach ($peserta as $key => $item)
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->judul }}</td>
-                                                            <td>{{ $item->nama }}</td>
-                                                            <td><a href="/admin/dashboard/tugas/detail/{{ $item->id }}"
-                                                                    class="btn btn-primary waves-effect waves-light text-light">Lihat
-                                                                    Tugas</a></td>
+                                                            <td>{{ $item->fullname }}</td>
+                                                            @if ($item->keterangan == null)
+                                                                <td>Belum Mengumpulkan</td>
+                                                            @else
+                                                                <td>{{ $item->keterangan }}</td>
+                                                                <td><a href="/admin/dashboard/tugas/detail/{{ $tugas->id }}/{{ $item->id }}"
+                                                                        class="btn btn-primary waves-effect waves-light text-light">Lihat
+                                                                        Tugas</a></td>
+                                                            @endif
                                                         </tr>
                                                     @endforeach
 

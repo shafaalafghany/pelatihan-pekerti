@@ -185,10 +185,12 @@
                                             
                                             
                                             @if (count($tugas_dosen) > 0)
-                                                <textarea class="ckeditor" name="online_text">{!! $tugas_dosen[0]->online_text !!}</textarea>
-                                                <div class="bg-light mb-1 mt-3">
-                                                    <a href="/files/berkas-tugas/{{ $tugas_dosen[0]->berkas_tugas }}">Lihat berkas tugas anda</a>
-                                                </div>
+                                                <textarea class="ckeditor" name="online_text">{!! $tugas_dosen[count($tugas_dosen) - 1]->online_text !!}</textarea>
+                                                @if ($tugas_dosen[count($tugas_dosen) - 1]->berkas_tugas != null)
+                                                    <div class="bg-light mb-1 mt-3">
+                                                        <a href="/files/berkas-tugas-dosen/{{ $tugas_dosen[0]->berkas_tugas }}">Lihat berkas tugas anda</a>
+                                                    </div>
+                                                @endif
                                             @else
                                                 <textarea class="ckeditor" name="online_text"></textarea> 
                                             @endif

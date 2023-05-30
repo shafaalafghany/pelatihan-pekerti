@@ -69,6 +69,8 @@ class TugasController extends Controller {
     $tugas_dosen = DB::table('tugas_dosen')
                   ->where('id_tugas', $tugas->id)
                   ->where('id_dosen', $user->id)
+                  ->orderByDesc('id')
+                  ->limit(1)
                   ->get();
 
     if (count($berkas_tugas) > 0) {
@@ -116,7 +118,7 @@ class TugasController extends Controller {
 
     if ($tugas_dosen->save()) {
       if ($request->file('berkas')) {
-        $request->file('berkas')->move('files/berkas_tugas', $file_berkas);
+        $request->file('berkas')->move('files/berkas-tugas-dosen', $file_berkas);
       }
 
       session()->flash('message', 'Berhasil mengumpulkan tugas');
@@ -217,5 +219,80 @@ class TugasController extends Controller {
 
     session()->flash('message', 'Berhasil membuat tugas baru.');
     return redirect('/admin/dashboard/tugas');
+  }
+
+  public function AdminTugasDetail($id_tugas)
+  {
+    $user = Admin::find(Auth::guard('admin')->id());
+    $tugas = Tugas::find($id_tugas);
+    $time_tugas = new DateTime(Carbon::parse($tugas->batas_pengumpulan)->toDateTimeString());
+    $sesi = Sesi::find($tugas->id_sesi);
+    $berkas_tugas  = DB::table('berkas_tugas')
+                      ->where('id_tugas', $id_tugas)
+                      ->get();
+    $peserta = DB::table('dosen_pelatihan')
+              ->select('dosen_pelatihan.*', 'dosen.id as dosen_id', 'dosen.fullname')
+              ->join('dosen', 'dosen_pelatihan.id_dosen', '=', 'dosen.id')
+              ->where('dosen_pelatihan.id_pelatihan', $tugas->id_pelatihan)
+              ->get();
+    foreach ($peserta as $item) {
+      $item->keterangan = null;
+      $pengumpulan = DB::table('tugas_dosen')
+          ->where('id_dosen', $item->dosen_id)
+          ->where('id_tugas', $tugas->id)
+          ->get();
+      if (count($pengumpulan) > 0) {
+        $time_pengumpulan = new DateTime(Carbon::parse($pengumpulan[0]->created_at)->toDateTimeString());
+        if ($time_pengumpulan > $time_tugas) {
+          $item->keterangan = "Telat Mengumpulkan";
+        } else {
+          $item->keterangan = "Sudah Mengumpulkan";
+        }
+      }
+    }
+
+    if (count($berkas_tugas) > 0) {
+      foreach ($berkas_tugas as $item) {
+        $split = explode("-", $item->nama_berkas);
+        $item->nama = $split[1];
+      }
+    }
+
+    return view('admin.tugas.tugas_detail_id', [
+      'user' => $user,
+      'tugas' => $tugas,
+      'sesi' => $sesi,
+      'berkas_tugas' => $berkas_tugas,
+      'peserta' => $peserta,
+    ]);
+  }
+
+  public function AdminShowTugasDosen($id_tugas, $id_tugas_dosen)
+  {
+    $user = Admin::find(Auth::guard('admin')->id());
+    $tugas = Tugas::find($id_tugas);
+    $sesi = Sesi::find($tugas->id_sesi);
+    $tugas_dosen = DB::table('tugas_dosen')
+                    ->select('tugas_dosen.*', 'dosen.id', 'dosen.fullname', 'dosen.nama_instansi')
+                    ->join('dosen', 'tugas_dosen.id_dosen', '=', 'dosen.id')
+                    ->where('tugas_dosen.id_tugas', $tugas->id)
+                    ->orderByDesc('tugas_dosen.id')
+                    ->limit(1)
+                    ->get();
+
+    $last_tugas = $tugas_dosen[0];
+    if ($last_tugas->berkas_tugas != null) {
+      $split = explode("-", $last_tugas->berkas_tugas);
+      $last_tugas->nama_tugas = $split[1];
+    }
+
+
+
+    return view('admin.tugas.tugas_dosen_detail', [
+      'user' => $user,
+      'tugas' => $tugas,
+      'sesi' => $sesi,
+      'tugas_dosen' => $last_tugas,
+    ]);
   }
 }

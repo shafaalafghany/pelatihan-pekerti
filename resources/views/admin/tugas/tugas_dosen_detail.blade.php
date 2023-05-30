@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Tugas PEKERTI Batch 1 | Pelatihan PEKERTI-AA</title>
+    <title>Tugas Nanda Sumbul | Pelatihan PEKERTI-AA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -149,7 +149,8 @@
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="/">Beranda</a></li>
                                     <li class="breadcrumb-item"><a href="/admin/dashboard/tugas">Tugas</a></li>
-                                    <li class="breadcrumb-item active">{{ $pelatihan->nama }}</li>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard/tugas/detail/{{ $tugas->id }}">Tugas {{ $sesi->nama }}</a></li>
+                                    <li class="breadcrumb-item active">Tugas {{ $tugas_dosen->fullname }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -166,40 +167,20 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <h4>Daftar Tugas {{ $pelatihan->nama }}</h4>
+                                        <h4 class="mb-3">Tugas {{ $sesi->nama }}</h4>
 
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="/admin/dashboard/tugas/{{ $pelatihan->id }}/buat"
-                                                class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-square-edit-outline"></i> Buat Baru</a>
+                                        <strong>Nama: </strong> {{ $tugas_dosen->fullname }} <br>
+                                        <strong>Nama Institusi: </strong> {{ $tugas_dosen->nama_instansi }}
+
+                                        <div class="mt-3 mb-3">
+                                            {!! $tugas_dosen->online_text !!}
                                         </div>
 
-                                        <div class="table-responsive-md">
-                                            <table class="table md-0">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Nama</th>
-                                                        <th>Sesi</th>
-                                                        <th>Aksi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                    @foreach ($tugas as $key => $item)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->judul }}</td>
-                                                            <td>{{ $item->nama }}</td>
-                                                            <td><a href="/admin/dashboard/tugas/detail/{{ $item->id }}"
-                                                                    class="btn btn-primary waves-effect waves-light text-light">Lihat
-                                                                    Tugas</a></td>
-                                                        </tr>
-                                                    @endforeach
-
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        @if ($tugas_dosen->berkas_tugas != null)
+                                          <div class="bg-light mb-1">
+                                            <a href="/files/berkas-tugas-dosen/{{ $tugas_dosen->berkas_tugas }}">{{ $tugas_dosen->nama_tugas }}</a>
+                                          </div>
+                                        @endif
 
                                     </div>
                                 </div>
