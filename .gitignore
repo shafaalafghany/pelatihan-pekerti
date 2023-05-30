@@ -8,6 +8,7 @@
 /public/files/sk-dosen/*.pdf
 /public/files/sk-pekerti/*.pdf
 /public/files/berkas-tugas/*.pdf
+/public/files/berkas-tugas-dosen/*.pdf
 /public/files/tugas/*.pdf
 /storage/*.key
 /vendor
