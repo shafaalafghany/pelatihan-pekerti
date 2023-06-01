@@ -208,12 +208,19 @@ class PelatihanController extends Controller
         $pelatihan = Pelatihan::find($id_pelatihan);
         $split = explode(" - ", $pelatihan->tanggal_pelaksanaan);
         $pelatihan->pelaksanaan = Carbon::parse($split[0])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y') . " - " . Carbon::parse($split[1])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y');
+        $pelatihan->status_nilai = true;
 
         $peserta = DB::table('dosen_pelatihan')
                     ->select('dosen_pelatihan.id_dosen', 'dosen_pelatihan.id_pelatihan', 'dosen.*')
                     ->join('dosen', 'dosen_pelatihan.id_dosen', '=', 'dosen.id')
                     ->where('dosen.id_pelatihan', $id_pelatihan)
                     ->get();
+
+        $nilai = DB::table('nilai')->where('id_pelatihan', $id_pelatihan)->get();
+
+        if (count($nilai) == 0) {
+            $pelatihan->status_nilai = false;
+        }
 
         return view('admin.pelatihan.pelatihan_detail', [
             'user' => $user,

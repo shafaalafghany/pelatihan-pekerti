@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Pelatihan {{ $pelatihan->nama }} | Pelatihan PEKERTI-AA</title>
+    <title>Tambah Kolom Penilaian {{ $pelatihan->nama }} | Pelatihan PEKERTI-AA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -145,10 +145,13 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h4 class="page-title mb-1">{{ $pelatihan->nama }}</h4>
+                                <h4 class="page-title mb-1">Tambah Kolom Penilaian</h4>
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="/admin/dashboard/pelatihan">Pelatihan</a></li>
-                                    <li class="breadcrumb-item active">Detail {{ $pelatihan->nama }}</li>
+                                    <li class="breadcrumb-item"><a
+                                            href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}">Detail
+                                            {{ $pelatihan->nama }}</a></li>
+                                    <li class="breadcrumb-item active">Tambah Kolom Nilai</li>
                                 </ol>
                             </div>
                         </div>
@@ -165,23 +168,7 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <h4>{{ $pelatihan->nama }}</h4>
-
-                                        <strong>Nama Pelatihan: </strong> {{ $pelatihan->nama }} <br>
-                                        <strong>Jenis Pelatihan: </strong>
-                                        {{ strtoupper($pelatihan->jenis_pelatihan) }} <br>
-                                        <strong>Tanggal Pelaksanaan: </strong> {{ $pelatihan->pelaksanaan }} <br>
-                                        <strong>Status Pelatihan: </strong>
-                                        {{ $pelatihan->is_active ? 'Aktif' : 'Tidak Aktif' }}
-
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="#"
-                                                class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-file-edit-outline"></i> Terbitkan Sertifikat</a>
-                                            <a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/tambah-kolom-nilai"
-                                                class="btn btn-primary waves-effect waves-light text-light mr-3"><i
-                                                    class="mdi mdi-shape-square-plus"></i> Tambah Kolom Nilai</a>
-                                        </div>
+                                        <h4>Tambah Kolom Penilaian {{ $pelatihan->nama }}</h4>
 
                                         @if (Session::has('type') && Session::has('message'))
                                             <div class="alert alert-{{ Session::get('type') }}">
@@ -190,30 +177,38 @@
                                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                                         @endif
 
-                                        <div class="table-responsive-md">
-                                            <table class="table md-0">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Nama Peserta</th>
-                                                        <th>Nama Institusi</th>
-                                                        <th>Nilai</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($peserta as $key => $item)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->fullname }}</td>
-                                                            <td>{{ $item->nama_instansi }}</td>
-                                                            <td><a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/nilai/{{ $item->id_dosen }}"
-                                                                    class="btn btn-primary waves-effect waves-light text-light mr-3 {{ $pelatihan->status_nilai ? '' : 'disabled' }}">Input
-                                                                    Nilai</a></td>
-                                                        </tr>
+                                        <strong>Nama Pelatihan: </strong> {{ $pelatihan->nama }} <br>
+                                        <strong>Jenis Pelatihan: </strong>
+                                        {{ strtoupper($pelatihan->jenis_pelatihan) }}
+                                        <br>
+                                        <div class="mb-5">
+                                            <h6><b>Kolom nilai yang telah ditambahkan:</b></h6>
+                                            @if (count($kolom) == 0)
+                                                &ensp;<strong>Belum ada kolom nilai yang ditambahkan</strong>
+                                            @else
+                                                <ul>
+                                                    @foreach ($kolom as $item)
+                                                        &ensp;<li><strong>{{ $item->nama_nilai }}</strong></li>
                                                     @endforeach
-                                                </tbody>
-                                            </table>
+                                                </ul>
+                                            @endif
                                         </div>
+
+                                        <h5>Tambah Kolom Nilai</h5>
+                                        <form action="/nilai/tambah-kolom" method="POST">
+                                            @csrf
+                                            <input class="form-control" type="text" name="pelatihan"
+                                                value="{{ $pelatihan->id }}" hidden>
+                                            <div class="form-group row">
+                                                <label class="col-md-2 col-form-label">Nama Kolom Nilai*</label>
+                                                <div class="col-md-10 mb-3">
+                                                    <input class="form-control" type="text" name="kolom_nilai"
+                                                        required>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-primary btn-block waves-effect waves-light w-25"
+                                                type="submit">Simpan</button>
+                                        </form>
 
                                     </div>
                                 </div>

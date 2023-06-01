@@ -9,6 +9,7 @@ use App\Http\Controllers\DokumenRiwayatController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\TugasController;
@@ -73,6 +74,12 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard/pelatihan/buat-pelatihan', [PelatihanController::class, 'AdminBuatPelatihan']);
     Route::get('admin/dashboard/pelatihan/{id_pelatihan}', [PelatihanController::class, 'AdminShowPelatihanDetail']);
     Route::post('pelatihan/buat', [PelatihanController::class, 'BuatPelatihan']);
+
+    //Nilai
+    Route::get('admin/dashboard/pelatihan/{id_pelatihan}/tambah-kolom-nilai', [NilaiController::class, 'AdminTambahKolomNilai']);
+    Route::get('admin/dashboard/pelatihan/{id_pelatihan}/nilai/{id_dosen}', [NilaiController::class, 'AdminInputNilai']);
+    Route::post('nilai/tambah-kolom', [NilaiController::class, 'TambahKolomNilai']);
+    Route::post('nilai/tambah-nilai', [NilaiController::class, 'TambahNilai']);
 
     //Tugas
     Route::get('admin/dashboard/tugas', [TugasController::class, 'AdminShowTugas'])->name('admin_tugas');

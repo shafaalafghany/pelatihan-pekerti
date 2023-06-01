@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Pelatihan {{ $pelatihan->nama }} | Pelatihan PEKERTI-AA</title>
+    <title>Input Nilai {{ $dosen->fullname }} | Pelatihan PEKERTI-AA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -148,7 +148,10 @@
                                 <h4 class="page-title mb-1">{{ $pelatihan->nama }}</h4>
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="/admin/dashboard/pelatihan">Pelatihan</a></li>
-                                    <li class="breadcrumb-item active">Detail {{ $pelatihan->nama }}</li>
+                                    <li class="breadcrumb-item"><a
+                                            href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}">Detail
+                                            {{ $pelatihan->nama }}</a></li>
+                                    <li class="breadcrumb-item active">Input Nilai {{ $dosen->fullname }}</li>
                                 </ol>
                             </div>
                         </div>
@@ -165,55 +168,32 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <h4>{{ $pelatihan->nama }}</h4>
+                                        <h4>Nilai {{ $dosen->fullname }}</h4>
 
-                                        <strong>Nama Pelatihan: </strong> {{ $pelatihan->nama }} <br>
-                                        <strong>Jenis Pelatihan: </strong>
-                                        {{ strtoupper($pelatihan->jenis_pelatihan) }} <br>
-                                        <strong>Tanggal Pelaksanaan: </strong> {{ $pelatihan->pelaksanaan }} <br>
-                                        <strong>Status Pelatihan: </strong>
-                                        {{ $pelatihan->is_active ? 'Aktif' : 'Tidak Aktif' }}
+                                        <strong>Nama Peserta: </strong> {{ $dosen->fullname }} <br>
+                                        <strong>Nama Institusi: </strong> {{ $dosen->nama_instansi }}
 
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="#"
-                                                class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-file-edit-outline"></i> Terbitkan Sertifikat</a>
-                                            <a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/tambah-kolom-nilai"
-                                                class="btn btn-primary waves-effect waves-light text-light mr-3"><i
-                                                    class="mdi mdi-shape-square-plus"></i> Tambah Kolom Nilai</a>
-                                        </div>
 
-                                        @if (Session::has('type') && Session::has('message'))
-                                            <div class="alert alert-{{ Session::get('type') }}">
-                                                {{ Session::get('message') }}</div>
-                                        @elseif (Session::has('message'))
-                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
-                                        @endif
+                                        <h5 class="mt-5">Masukkan Nilai Peserta</h5>
+                                        <form action="/nilai/tambah-nilai" method="POST">
+                                            @csrf
+                                            <input class="form-control" type="text" name="pelatihan"
+                                                value="{{ $pelatihan->id }}" hidden>
+                                            <input class="form-control" type="text" name="dosen"
+                                                value="{{ $dosen->id }}" hidden>
+                                            @foreach ($kolom as $item)
+                                                <div class="form-group row">
+                                                    <label class="col-md-2 col-form-label">{{ $item->nama_nilai }}*</label>
+                                                    <div class="col-md-10 mb-3">
+                                                        <input class="form-control" type="text" name="{{ $item->id }}"
+                                                            value="{{ $item->nilai }}"  required>
+                                                    </div>
+                                                </div>
+                                            @endforeach
 
-                                        <div class="table-responsive-md">
-                                            <table class="table md-0">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Nama Peserta</th>
-                                                        <th>Nama Institusi</th>
-                                                        <th>Nilai</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($peserta as $key => $item)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->fullname }}</td>
-                                                            <td>{{ $item->nama_instansi }}</td>
-                                                            <td><a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/nilai/{{ $item->id_dosen }}"
-                                                                    class="btn btn-primary waves-effect waves-light text-light mr-3 {{ $pelatihan->status_nilai ? '' : 'disabled' }}">Input
-                                                                    Nilai</a></td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            <button class="btn btn-primary btn-block waves-effect waves-light w-25"
+                                                type="submit">Simpan</button>
+                                        </form>
 
                                     </div>
                                 </div>
