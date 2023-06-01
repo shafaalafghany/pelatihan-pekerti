@@ -25,20 +25,23 @@
 
 	<div class="account-pages my-3">
 		<div class="container">
-			<div class="row">
+			{{-- <div class="row">
 				<div class="col-lg-12">
 					<div class="text-center mb-2">
 						<a href="/" class="logo"><img src="/images/logo.jpg" height="24" alt="logo"></a>
 					</div>
 				</div>
-			</div>
+			</div> --}}
 			<!-- end row -->
 
 			<div class="row justify-content-center">
 				<div class="col-xl-5 col-sm-8">
 					<div class="card">
-						<div class="card-body p-4">
-							<div class="p-2">
+						<div class="card-body">
+							<div class="m-auto">
+								<div class="text-center">
+									<a href="/" class="logo"><img src="/images/logo.jpg" height="24" alt="logo"></a>
+								</div>
 								<h5 class="mb-3 text-center">Login untuk melanjutkan.</h5>
 								<form method="POST" class="form-horizontal" action="/login">
 									@csrf
