@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property integer $id_dosen
  * @property integer $id_pelatihan
+ * @property string $nama_nilai
+ * @property string $created_at
+ * @property string $updated_at
  * @property DetailNilai[] $detailNilais
  * @property Pelatihan $pelatihan
- * @property Dosen $dosen
  */
 class Nilai extends Model
 {
@@ -24,7 +25,7 @@ class Nilai extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_dosen', 'id_pelatihan'];
+    protected $fillable = ['id_pelatihan', 'nama_nilai', 'created_at', 'updated_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -40,13 +41,5 @@ class Nilai extends Model
     public function pelatihan()
     {
         return $this->belongsTo('App\Models\Pelatihan', 'id_pelatihan');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function dosen()
-    {
-        return $this->belongsTo('App\Models\Dosen', 'id_dosen');
     }
 }

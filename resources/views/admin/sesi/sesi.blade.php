@@ -198,7 +198,7 @@
                                 <td>{{ strtoupper($item->jenis_pelaksanaan) }}</td>
                                 @if ($item->jenis_pelaksanaan == "daring")
                                   <td>-</td>
-                                  <td><a href="{{ $item->tautan_pelaksanaan }}">Tautan Klik Disini</a></td>
+                                  <td><a href="{{ $item->tautan_pelaksanaan }}" target="_blank">Tautan Klik Disini</a></td>
                                 @else
                                   <td>{{ $item->tempat_pelaksanaan }}</td>
                                   <td>-</td>

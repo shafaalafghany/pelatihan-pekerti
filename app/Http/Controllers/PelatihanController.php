@@ -72,7 +72,7 @@ class PelatihanController extends Controller
 
         if (date("Y-m-d") > $pelatihan->batas_pendaftaran) {
             session()->flash('type', 'danger');
-            session()->flash('message', "Kuota peserta telah penuh.");
+            session()->flash('message', "Waktu Pendaftaran telah melewati waktu batas pendaftaran.");
             return redirect('/dashboard');
         }
 
@@ -163,26 +163,25 @@ class PelatihanController extends Controller
             $user->berkas_sk_pekerti = $file_sk_pekerti;
         }
 
-        if ($user->save()) {
-            if ($request->file('foto_profil')) {
-                $request->file('foto_profil')->move('images/foto-profil', $file_foto);
-            }
-
-            if ($request->file('ktp')) {
-                $request->file('ktp')->move('files/ktp', $file_ktp);
-            }
-
-            if ($request->file('sk_dosen')) {
-                $request->file('sk_dosen')->move('files/sk-dosen', $file_sk_dosen);
-            }
-
-            if ($request->file('sk_pekerti')) {
-                $request->file('sk_pekerti')->move('files/sk-pekerti', $file_sk_pekerti);
-            }
-
-            session()->flash('message', "Berhasil mendaftar ke " . $pelatihan->nama . ".");
-            return redirect('/dashboard');
+        $user->save();
+        if ($request->file('foto_profil')) {
+            $request->file('foto_profil')->move('images/foto-profil', $file_foto);
         }
+
+        if ($request->file('ktp')) {
+            $request->file('ktp')->move('files/ktp', $file_ktp);
+        }
+
+        if ($request->file('sk_dosen')) {
+            $request->file('sk_dosen')->move('files/sk-dosen', $file_sk_dosen);
+        }
+
+        if ($request->file('sk_pekerti')) {
+            $request->file('sk_pekerti')->move('files/sk-pekerti', $file_sk_pekerti);
+        }
+
+        session()->flash('message', "Berhasil mendaftar ke " . $pelatihan->nama . ".");
+        return redirect('/dashboard');
     }
 
     public function AdminShowPelatihan()

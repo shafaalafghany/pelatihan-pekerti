@@ -170,8 +170,8 @@
 
                                         <strong>Nama Sesi: </strong> {{ $sesi->nama }} <br>
                                         <strong>Keterangan: </strong> {{ $sesi->keterangan }} <br>
-                                        <strong>Kode Presensi: </strong> {{ $presensi->kode_presensi }} <br>
-                                        <strong>Batas Presensi: </strong> {{ \Carbon\Carbon::parse($presensi->batas_presensi)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i') }} WIB <br>
+                                        <strong>Kode Presensi: </strong> {{ $presensi[0]->kode_presensi }} <br>
+                                        <strong>Batas Presensi: </strong> {{ \Carbon\Carbon::parse($presensi[0]->batas_presensi)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i') }} WIB <br>
                                         <strong>Jumlah: </strong> {{ count($data) }}
 
                                         <div class="table-responsive-md mt-3">

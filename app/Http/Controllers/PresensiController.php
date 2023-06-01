@@ -105,7 +105,7 @@ class PresensiController extends Controller {
     $user = Admin::find(Auth::guard('admin')->id());
     $pelatihan = Pelatihan::find($id_pelatihan);
     $presensi = DB::table('presensi')
-                ->select('presensi.*', 'sesi.nama as nama_sesi', 'sesi.id_pelatihan')
+                ->select('presensi.*', 'sesi.id as sesi_id', 'sesi.nama as nama_sesi', 'sesi.id_pelatihan')
                 ->join('sesi', 'presensi.id_sesi', '=', 'sesi.id')
                 ->where('sesi.id_pelatihan', $id_pelatihan)
                 ->get();
@@ -133,7 +133,7 @@ class PresensiController extends Controller {
       'user' => $user,
       'pelatihan' => $pelatihan,
       'sesi' => $sesi,
-      'presensi' => $presensi[0],
+      'presensi' => $presensi,
       'data' => $data,
     ]);
   }

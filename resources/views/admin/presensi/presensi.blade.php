@@ -195,7 +195,7 @@
                                 <td>{{ $item->nama_sesi }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->batas_presensi)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i') }} WIB</td>
                                 <td>{{ $item->kode_presensi }}</td>
-                                <td><a href="/admin/dashboard/presensi/{{ $pelatihan->id }}/{{ $item->id }}" class="btn btn-primary waves-effect waves-light text-light">Lihat Presensi</a></td>
+                                <td><a href="/admin/dashboard/presensi/{{ $pelatihan->id }}/{{ $item->id_sesi }}" class="btn btn-primary waves-effect waves-light text-light">Lihat Presensi</a></td>
                               </tr>
                           @endforeach
                         </tbody>
