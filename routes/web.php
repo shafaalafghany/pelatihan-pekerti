@@ -110,6 +110,12 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::post('validasi-berkas/terima/{id_peserta}/{id_pelatihan}', [BerkasController::class, 'TerimaValidasiBerkas']);
     Route::post('validasi-berkas/tolak/{id_peserta}', [BerkasController::class, 'TolakValidasiBerkas']);
 
+    //Sertifikat
+    Route::get('admin/dashboard/pelatihan/{id_pelatihan}/pilih-peserta', [DokumenRiwayatController::class, 'AdminShowPilihPeserta']);
+    Route::get('admin/dashboard/pelatihan/{id_pelatihan}/{id_dosen}/sertifikat', [DokumenRiwayatController::class, 'AdminShowTerbitSertifikat']);
+    Route::post('berkas/pilih-peserta-sertifikat', [DokumenRiwayatController::class, 'PilihPesertaSertifikat']);
+    Route::post('berkas/terbitkan-sertifikat', [DokumenRiwayatController::class, 'TerbitkanSertifikat']);
+
 });
 
 // Dosen

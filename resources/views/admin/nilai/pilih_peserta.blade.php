@@ -177,7 +177,7 @@
                                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                                         @endif
 
-                                        <form action="/nilai/pilih-peserta-nilai" method="POST">
+                                        <form action="/berkas/pilih-peserta-sertifikat" method="POST">
                                             @csrf
                                             <input class="form-control" type="text" name="pelatihan"
                                                 value="{{ $pelatihan->id }}" hidden>
@@ -187,7 +187,7 @@
                                                     <select name="peserta" class="form-control" required>
                                                         <option value="0" selected>Pilih Peserta</option>
                                                         @foreach ($peserta as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->fullname }}
+                                                            <option value="{{ $item->dosen_id }}">{{ $item->fullname }}
                                                             </option>
                                                         @endforeach
                                                     </select>
