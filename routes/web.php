@@ -73,7 +73,9 @@ Route::group(['middleware' => 'role:admin'], function () {
     Route::get('admin/dashboard/pelatihan', [PelatihanController::class, 'AdminShowPelatihan'])->name('admin_pelatihan');
     Route::get('admin/dashboard/pelatihan/buat-pelatihan', [PelatihanController::class, 'AdminBuatPelatihan']);
     Route::get('admin/dashboard/pelatihan/{id_pelatihan}', [PelatihanController::class, 'AdminShowPelatihanDetail']);
+    Route::get('admin/dashboard/pelatihan/{id_pelatihan}/perbarui-tautan-sertifikat', [PelatihanController::class, 'AdminShowTautanSertifikat']);
     Route::post('pelatihan/buat', [PelatihanController::class, 'BuatPelatihan']);
+    Route::post('pelatihan/tautan-sertifikat', [PelatihanController::class, 'PerbaruiTautan']);
 
     //Nilai
     Route::get('admin/dashboard/pelatihan/{id_pelatihan}/tambah-kolom-nilai', [NilaiController::class, 'AdminTambahKolomNilai']);

@@ -229,6 +229,17 @@ class PelatihanController extends Controller
         ]);
     }
 
+    public function AdminShowTautanSertifikat($id_pelatihan)
+    {
+        $user = Admin::find(Auth::guard('admin')->id());
+        $pelatihan = Pelatihan::find($id_pelatihan);
+        
+        return view('admin.pelatihan.tautan_sertifikat', [
+            'user' => $user,
+            'pelatihan' => $pelatihan,
+        ]);
+    }
+
     public function AdminBuatPelatihan()
     {
         $user = Admin::find(Auth::guard('admin')->id());
@@ -273,5 +284,20 @@ class PelatihanController extends Controller
 
         session()->flash('message', 'Berhasil membuat pelatihan baru');
         return to_route('admin_pelatihan');
+    }
+
+    public function PerbaruiTautan(Request $request)
+    {
+        $request->validate([
+            'pelatihan' => 'required',
+            'tautan_sertifikat' => 'required',
+        ]);
+
+        $pelatihan = Pelatihan::find($request->pelatihan);
+        $pelatihan->tautan_sertifikat = $request->tautan_sertifikat;
+        $pelatihan->save();
+
+        session()->flash('message', 'Berhasil memperbarui tautan sertifikat ' . $pelatihan->nama);
+        return redirect('/admin/dashboard/pelatihan/' . $request->pelatihan);
     }
 }
