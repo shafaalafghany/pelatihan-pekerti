@@ -138,10 +138,12 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h4 class="page-title mb-1">Cetak Dokumen dan Riwayat Tes</h4>
+                                <h4 class="page-title mb-1">Unggah Sertifikat</h4>
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                                    <li class="breadcrumb-item active">Cetak Dokumen dan Riwayat Tes</li>
+                                    <li class="breadcrumb-item"><a href="/dashboard/cetak-dokumen">Cetak Dokumen dan
+                                            Riwayat Tes</a></li>
+                                    <li class="breadcrumb-item active">Unggah Sertifikat</li>
                                 </ol>
                             </div>
                         </div>
@@ -158,12 +160,7 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <h4 class="mb-3">Cetak Dokumen dan Riwayat Tes</h4>
-
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="/dashboard/cetak-dokumen/unggah-sertifikat" class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-file-edit-outline"></i> Unggah Sertifikat yang Belum Ditandatangani</a>
-                                        </div>
+                                        <h4 class="mb-3">Unggah Sertifikat yang Belum Ditandatangani</h4>
 
                                         @if (Session::has('type') && Session::has('message'))
                                             <div class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</div>
@@ -171,54 +168,35 @@
                                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                                         @endif
 
-                                        <div class="table-responsive-md">
-                                            <table class="table md-0">
-                                                <thead class="thead-light">
-                                                    <tr>
-                                                        <th>No.</th>
-                                                        <th>Nama Pelatihan</th>
-                                                        <th>Tanggal Pelaksanaan</th>
-                                                        <th>Kartu Peserta</th>
-                                                        <th>Sertifikat</th>
-                                                        <th>Sertifikat Ditanda tangani</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($data as $key => $item)
-                                                        <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->nama }}</td>
-                                                            <td>{{ $item->pelaksanaan }}</td>
-                                                            <td><a type="button"
-                                                                    class="btn btn-primary waves-effect waves-light text-light"
-                                                                    href="#"
-                                                                    onclick="window.open('/cetak-dokumen/kartu-peserta/{{ $item->id }}', 'name', 'width=1000, height=800')"><b>CETAK
-                                                                        KARTU PESERTA</b></a>
-                                                            </td>
-                                                            @if ($item->sertifikat)
-                                                                <td><a type="button"
-                                                                        class="btn btn-primary waves-effect waves-light text-light"
-                                                                        href="#"
-                                                                        onclick="window.open('/cetak-dokumen/sertifikat/{{ $item->id_sertifikat }}', 'name', 'width=1500, height=1000')"><b>CETAK
-                                                                            SERTIFIKAT</b></a>
-                                                                </td>
-                                                            @else
-                                                                <td>Sertifikat Belum Tersedia</td>
-                                                            @endif
-                                                            @if ($item->tautan_sertifikat == null)
-                                                                <td>Tautan Sertifikat Belum Tersedia</td>
-                                                            @else
-                                                                <td><a href="{{ $item->tautan_sertifikat }}"
-                                                                        class="btn btn-primary waves-effect waves-light text-light"
-                                                                        type="button"
-                                                                        target="_blank">LIHAT SERTIFIKAT</a></td>
-                                                            @endif
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                        <form action="/unggah-sertifikat" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="text" name="user" value="{{ $user->id }}" hidden>
+                                            <div class="form-group row">
+                                                <label class="col-md-2 col-form-label">Pelatihan</label>
+                                                <div class="col-md-10">
+                                                    <select name="pelatihan" class="form-control" required>
+                                                        <option value="0" selected>Pilih Pelatihan</option>
+                                                        @foreach ($pelatihan as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->nama }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
 
+                                            <div class="form-group row">
+                                                <label class="col-md-2 col-form-label">Sertifikat</label>
+                                                <div class="col-md-10">
+                                                    <label class="custom-file-label">Pilih Berkas Sertifikat</label>
+                                                    <input type="file" name="sertifikat"
+                                                        class="custom-file-input" required>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn btn-primary btn-block waves-effect waves-light w-25"
+                                                type="submit">Simpan</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

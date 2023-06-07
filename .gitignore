@@ -10,6 +10,7 @@
 /public/files/berkas-tugas/*.pdf
 /public/files/berkas-tugas-dosen/*.pdf
 /public/files/tugas/*.pdf
+/public/files/berkas-sertifikat/*.pdf
 /storage/*.key
 /vendor
 .env

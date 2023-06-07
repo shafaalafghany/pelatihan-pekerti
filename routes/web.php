@@ -153,8 +153,10 @@ Route::group(['middleware' => 'role:web'], function () {
 
     //Cetak Dokumen
     Route::get('dashboard/cetak-dokumen', [DokumenRiwayatController::class, 'ShowDokumenRiwayatTest'])->name('cetak_dokumen');
+    Route::get('dashboard/cetak-dokumen/unggah-sertifikat', [DokumenRiwayatController::class, 'ShowUnggahSertifikat']);
     Route::get('cetak-dokumen/kartu-peserta/{id_kartu_peserta}', [DokumenRiwayatController::class, 'ShowKartuPeserta']);
     Route::get('cetak-dokumen/sertifikat/{id_sertifikat}', [DokumenRiwayatController::class, 'ShowSertifikat']);
+    Route::post('/unggah-sertifikat', [DokumenRiwayatController::class, 'UnggahSertifikat']);
 });
 
 // Auth

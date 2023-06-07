@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Pelatihan;
 use App\Models\Sertifikat;
+use App\Models\SertifikatTandaTangan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DokumenRiwayatController extends Controller {
   public function ShowDokumenRiwayatTest()
@@ -22,6 +24,7 @@ class DokumenRiwayatController extends Controller {
               'pelatihan.id as pelatihan_id',
               'pelatihan.nama',
               'pelatihan.tanggal_pelaksanaan',
+              'pelatihan.tautan_sertifikat',
               )
             ->join('dosen', 'kartu_peserta.id_dosen', '=', 'dosen.id')
             ->join('pelatihan', 'kartu_peserta.id_pelatihan', '=', 'pelatihan.id')
@@ -99,6 +102,21 @@ class DokumenRiwayatController extends Controller {
     ]);
   }
 
+  public function ShowUnggahSertifikat()
+  {
+    $user = auth()->user();
+    $pelatihan = DB::table('dosen_pelatihan')
+                ->select('dosen_pelatihan.*', 'pelatihan.id', 'pelatihan.nama')
+                ->join('pelatihan', 'dosen_pelatihan.id_pelatihan', '=', 'pelatihan.id')
+                ->where('dosen_pelatihan.id_dosen', $user->id)
+                ->get();
+
+    return view('cetak_dokumen.unggah_sertifikat', [
+      'user' => $user,
+      'pelatihan' => $pelatihan,
+    ]);
+  }
+
   public function AdminShowPilihPeserta($id_pelatihan)
   {
     $user = Admin::find(Auth::guard('admin')->id());
@@ -139,45 +157,45 @@ class DokumenRiwayatController extends Controller {
     $id_pelatihan = $request->pelatihan;
     $id_dosen = $request->peserta;
 
-    // $presensi = DB::table('presensi')->where('id_pelatihan', $id_pelatihan)->get();
-    // $jumlah_presensi = 0;
-    // foreach ($presensi as $item) {
-    //   $cek_presensi = DB::table('dosen_presensi')
-    //                   ->where('id_dosen', $id_dosen)
-    //                   ->where('id_sesi', $item->id_sesi)
-    //                   ->get();
-    //   if (count($cek_presensi) > 0) {
-    //     $jumlah_presensi++;
-    //   }
-    // }
+    $presensi = DB::table('presensi')->where('id_pelatihan', $id_pelatihan)->get();
+    $jumlah_presensi = 0;
+    foreach ($presensi as $item) {
+      $cek_presensi = DB::table('dosen_presensi')
+                      ->where('id_dosen', $id_dosen)
+                      ->where('id_sesi', $item->id_sesi)
+                      ->get();
+      if (count($cek_presensi) > 0) {
+        $jumlah_presensi++;
+      }
+    }
 
-    // $presenstase_presensi = (float)bcdiv($jumlah_presensi, count($presensi), 1);
-    // if ($presenstase_presensi < 0.9) {
-    //   session()->flash('message', 'Kehadiran peserta kurang dari 90%, agar sertifikat dapat diterbitkan presentase kehadiran peserta minimal 90%');
-    //   session()->flash('type', 'danger');
-    //   return back();
-    // }
+    $presenstase_presensi = (float)bcdiv($jumlah_presensi, count($presensi), 1);
+    if ($presenstase_presensi < 0.9) {
+      session()->flash('message', 'Kehadiran peserta kurang dari 90%, agar sertifikat dapat diterbitkan presentase kehadiran peserta minimal 90%');
+      session()->flash('type', 'danger');
+      return back();
+    }
 
-    // $tugas = DB::table('tugas')->where('id_pelatihan', $id_pelatihan)->get();
-    // $jumlah_tugas = 0;
-    // foreach ($tugas as $item) {
-    //   $cek_tugas = DB::table('tugas_dosen')
-    //               ->where('id_dosen', $id_dosen)
-    //               ->where('id_tugas', $item->id)
-    //               ->orderByDesc('id')
-    //               ->limit(1)
-    //               ->get();
-    //   if (count($cek_tugas) > 0) {
-    //     $jumlah_tugas++;
-    //   }
-    // }
+    $tugas = DB::table('tugas')->where('id_pelatihan', $id_pelatihan)->get();
+    $jumlah_tugas = 0;
+    foreach ($tugas as $item) {
+      $cek_tugas = DB::table('tugas_dosen')
+                  ->where('id_dosen', $id_dosen)
+                  ->where('id_tugas', $item->id)
+                  ->orderByDesc('id')
+                  ->limit(1)
+                  ->get();
+      if (count($cek_tugas) > 0) {
+        $jumlah_tugas++;
+      }
+    }
 
-    // $presentase_tugas = $jumlah_tugas / count($tugas);
-    // if ($presentase_tugas < 1) {
-    //   session()->flash('message', 'Peserta belum mengumpulkan seluruh tugas, agar sertifikat dapat diterbitkan presentase peserta diwajibkan mengumpulkan seluruh tugas');
-    //   session()->flash('type', 'danger');
-    //   return back();
-    // }
+    $presentase_tugas = $jumlah_tugas / count($tugas);
+    if ($presentase_tugas < 1) {
+      session()->flash('message', 'Peserta belum mengumpulkan seluruh tugas, agar sertifikat dapat diterbitkan presentase peserta diwajibkan mengumpulkan seluruh tugas');
+      session()->flash('type', 'danger');
+      return back();
+    }
 
     // $nilai = DB::table('nilai')->where('id_pelatihan', $id_pelatihan)->get();
     // $jumlah_nilai = 0;
@@ -227,5 +245,46 @@ class DokumenRiwayatController extends Controller {
 
     session()->flash('message', 'Berhasil menerbitkan sertifikat untuk ' . $peserta->fullname);
     return redirect('/admin/dashboard/pelatihan/' . $request->pelatihan);
+  }
+
+  public function UnggahSertifikat(Request $request)
+  {
+    $request->validate([
+      'user' => 'required',
+      'pelatihan' => 'required',
+      'sertifikat' => 'required|mimetypes:application/pdf|max:5120'
+    ]);
+
+
+    if ($request->pelatihan == 0) {
+      session()->flash('message', 'Mohon memilih pelatihan dengan benar');
+      session()->flash('type', 'danger');
+      return back();
+    }
+
+    $file_sertifikat = '';
+    $sertifikat = [];
+
+    $sertif = $request->files;
+    foreach ($sertif as $item) {
+      $sertifikat = $item;
+      $file_sertifikat = Str::random(16) . time() . '-' . str_replace(" ", "_", $item->getClientOriginalName());
+    }
+
+    $berkas = new SertifikatTandaTangan();
+    $berkas->id_pelatihan = $request->pelatihan;
+    $berkas->id_dosen = $request->user;
+    $berkas->nama_berkas = $file_sertifikat;
+    
+    if ($berkas->save()) {
+      $sertifikat->move('files/berkas-sertifikat', $file_sertifikat);
+      session()->flash('message', 'Berhasil mengunggah sertifikat');
+      return redirect('/dashboard/cetak-dokumen');
+    } else {
+      session()->flash('message', 'Gagal mengunggah sertifikat');
+      session()->flash('type', 'danger');
+      return redirect('/dashboard/cetak-dokumen');
+    }
+
   }
 }
