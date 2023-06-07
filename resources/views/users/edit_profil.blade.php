@@ -336,9 +336,9 @@
                         <label class="col-md col-form-label"><a href="{{ '/files/sk-pekerti/' . $user['berkas_sk_pekerti'] }}">Lihat Berkas SK PEKERTI</a></label>
                       @endif
                       <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Berkas SK PEKERTI</label>
+                        <label class="col-md-2 col-form-label">Berkas Sertifikat PEKERTI</label>
                         <div class="custom-file col-md">
-                          <label class="custom-file-label">Pilih Berkas SK PEKERTI</label>
+                          <label class="custom-file-label">Pilih Berkas Sertifikat PEKERTI</label>
                           <input type="file" name="sk_pekerti" class="custom-file-input" accept="application/pdf">
                         </div>
                       </div>
