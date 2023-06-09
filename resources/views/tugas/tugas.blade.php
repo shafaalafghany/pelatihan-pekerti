@@ -154,6 +154,12 @@
 
                                         <h4 class="mb-3">Daftar Tugas</h4>
 
+                                        @if (Session::has('type') && Session::has('message'))
+                                            <div class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</div>
+                                        @elseif (Session::has('message'))
+                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                        @endif
+
                                         <div class="table-responsive-md">
                                             <table class="table md-0">
                                                 <thead class="thead-light">

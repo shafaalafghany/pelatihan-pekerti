@@ -101,9 +101,9 @@ class TugasController extends Controller {
     $tugas_dosen->id_dosen = $user->id;
 
     if ($request->online_text == null && $request->file('berkas') == null) {
-      session()->flash('message', 'Salah satu dari online teks atau berkas tidak boleh kosong!');
+      session()->flash('message', 'Salah satu dari online teks atau berkas tidak boleh kosong');
       session()->flash('type', 'danger');
-      return to_route('tugas');
+      return back();
     }
 
     if ($request->online_text != null) {
