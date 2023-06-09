@@ -172,8 +172,8 @@
                                                           <td>{{ strtoupper($item->jenis_pelatihan) }}</td>
                                                           <td>{{ $item->daftar . ' - ' . $item->batas }}</td>
 
-                                                          @if ($today > $item->batas_pendaftaran || $item->jumlah_pendaftar == $item->kuota_pendaftar)
-                                                            <td class="text-danger">Pendaftaran sudah ditutup</td>  
+                                                          @if ($today > $item->batas_pendaftaran || $item->jumlah_pendaftar == $item->kuota_pendaftar || $item->is_active == 0)
+                                                            <td class="text-danger">Pendaftaran sudah ditutup</td>
                                                             <td><a class="btn btn-secondary disabled waves-effect waves-light text-light" href="/dashboard/pelatihan/{{ $item->id }}/cek-data-diri">Daftar</a></td>
                                                           @else
                                                             <td class="text-success">Pendaftaran sedang dibuka</td>
