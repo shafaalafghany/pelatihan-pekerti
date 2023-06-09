@@ -168,17 +168,26 @@
 
                                         <h4 class="mb-3">Buat Presensi Baru</h4>
 
-                                        <form action="/presensi/buat" method="POST">
-                                          @csrf
+                                        @if (Session::has('type') && Session::has('message'))
+                                            <div class="alert alert-{{ Session::get('type') }}">
+                                                {{ Session::get('message') }}</div>
+                                        @elseif (Session::has('message'))
+                                            <div class="alert alert-success">{{ Session::get('message') }}</div>
+                                        @endif
 
-                                          <input type="text" name="pelatihan" value="{{ $pelatihan->id }}" hidden>
+                                        <form action="/presensi/buat" method="POST">
+                                            @csrf
+
+                                            <input type="text" name="pelatihan" value="{{ $pelatihan->id }}"
+                                                hidden>
                                             <div class="form-group row">
                                                 <label class="col-md-2 col-form-label">Sesi*</label>
                                                 <div class="col-md-10">
                                                     <select name="sesi" class="form-control" required>
                                                         <option value="0" selected>Pilih Sesi</option>
                                                         @foreach ($sesi as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                                            <option value="{{ $item->id }}">{{ $item->nama }}
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
