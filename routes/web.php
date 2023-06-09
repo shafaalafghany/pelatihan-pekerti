@@ -42,11 +42,6 @@ Route::get('/', function () {
 })->name('default_page');
 
 Route::get('/home', function () {
-    // $admin = Auth::guard('admin');
-    // $user = Admin::find($admin->id());
-    // dd($user['role']);
-    // dd(Auth::user());
-    // dd(auth()->user());
     if (Auth::guard('admin')) {
         return redirect('/admin/dashboard');
     }
