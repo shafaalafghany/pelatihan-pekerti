@@ -218,7 +218,7 @@
                       </div>
 
                       <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Nama Instansi*</label>
+                        <label class="col-md-2 col-form-label">Nama Institusi*</label>
                         <div class="col-md-10">
                           <input class="form-control" required type="text" name="nama_instansi"
                             placeholder="Nama instansi adalah nama perguruan tinggi calon peserta berasal"

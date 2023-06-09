@@ -196,7 +196,7 @@
                                                         <td>{{ $user['gelar_belakang'] }}</td>
                                                     </tr>
                                                     <tr>
-                                                      <td><b>Nama Instansi</b></td>
+                                                      <td><b>Nama Institusi</b></td>
                                                       <td>{{ $user['nama_instansi'] }}</td>
                                                   </tr>
                                                     <tr>
