@@ -16,7 +16,7 @@ class BerkasController extends Controller
   {
     $user = Admin::find(Auth::guard('admin')->id());
 
-    $peserta = DB::table('dosen')->select('id', 'fullname')->where('is_berkas_submited', 1)->orderBy('updated_at', 'desc')->get();
+    $peserta = DB::table('dosen')->select('id', 'fullname')->where('is_berkas_submited', 1)->orderBy('created_at')->get();
     
     return view('admin.validasi_berkas.validasi_berkas', [
       'user' => $user,

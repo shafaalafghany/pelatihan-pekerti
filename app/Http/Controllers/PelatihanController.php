@@ -189,7 +189,7 @@ class PelatihanController extends Controller
         $user = Admin::find(Auth::guard('admin')->id());
         $pelatihan = DB::table('pelatihan')
                     ->orderBy('batas_pendaftaran', 'desc')
-                    ->orderBy('id', 'desc')
+                    ->orderBy('is_active', 'desc')
                     ->get();
 
         foreach ($pelatihan as $item) {
@@ -213,7 +213,7 @@ class PelatihanController extends Controller
         $peserta = DB::table('dosen_pelatihan')
                     ->select('dosen_pelatihan.id_dosen', 'dosen_pelatihan.id_pelatihan', 'dosen.*')
                     ->join('dosen', 'dosen_pelatihan.id_dosen', '=', 'dosen.id')
-                    ->where('dosen.id_pelatihan', $id_pelatihan)
+                    ->where('dosen_pelatihan.id_pelatihan', $id_pelatihan)
                     ->get();
 
         $nilai = DB::table('nilai')->where('id_pelatihan', $id_pelatihan)->get();
@@ -246,6 +246,25 @@ class PelatihanController extends Controller
 
         return view('admin.pelatihan.buat_pelatihan', [
             'user' => $user,
+        ]);
+    }
+
+    public function AdminShowSertifikat($id_pelatihan)
+    {
+        $user = Admin::find(Auth::guard('admin')->id());
+        $pelatihan = Pelatihan::find($id_pelatihan);
+        $data = DB::table('sertifikat_tandatangan')
+                    ->select('sertifikat_tandatangan.*', 'dosen.id', 'dosen.fullname', 'pelatihan.id')
+                    ->join('dosen', 'sertifikat_tandatangan.id_dosen', '=', 'dosen.id')
+                    ->join('pelatihan', 'sertifikat_tandatangan.id_pelatihan', '=', 'pelatihan.id')
+                    ->where('sertifikat_tandatangan.id_pelatihan', $id_pelatihan)
+                    ->get();
+
+        // dd($data);
+        return view('admin.pelatihan.sertifikat_tandatangan', [
+            'user' => $user,
+            'pelatihan' => $pelatihan,
+            'data' => $data,
         ]);
     }
 

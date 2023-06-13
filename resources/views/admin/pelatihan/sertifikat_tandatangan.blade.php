@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Cetak Dokumen dan Riwayat Tes | Pelatihan PEKERTI-AA</title>
+    <title>Sertifikat Peserta Pelatihan {{ $pelatihan->nama }} | Pelatihan PEKERTI-AA</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesdesign" name="author" />
@@ -48,15 +48,14 @@
                     <div class="dropdown d-inline-block">
                         <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <img class="rounded-circle header-profile-user"
-                                src="{{ $user['foto_profil'] == null ? '/images/default.jpg' : '/images/foto-profil/' . $user['foto_profil'] }}"
+                            <img class="rounded-circle header-profile-user" src="/images/default.jpg"
                                 alt="Header Avatar">
-                            <span class="d-none d-sm-inline-block ml-1">{{ $user['fullname'] }}</span>
+                            <span class="d-none d-sm-inline-block ml-1">{{ $user['name'] }}</span>
                             <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <!-- item-->
-                            <a class="dropdown-item" href="/dashboard/profil"><i
+                            <a class="dropdown-item" href="#"><i
                                     class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Profil</a>
                             <div class="dropdown-divider"></div>
                             <form id="logout" action="/logout" method="POST">
@@ -86,37 +85,45 @@
 
                         <li>
                             <a href="/" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-airplay"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i class="mdi mdi-warehouse mdi-24px"></i>
+                                </div>
                                 <span>Beranda</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-apps"></i></div>
+                                <div class="d-inline-block icons-sm mr-1"><i
+                                        class="mdi mdi-view-grid-outline mdi-24px"></i></div>
                                 <span>Pelatihan</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="/dashboard/pelatihan">Daftar Pelatihan</a></li>
-                                <li><a href="/dashboard/sesi">Sesi</a></li>
-                                <li><a href="/dashboard/presensi">Presensi</a></li>
-                                <li><a href="/dashboard/tugas">Tugas</a></li>
+                                <li><a href="/admin/dashboard/pelatihan">Daftar Pelatihan</a></li>
+                                <li><a href="/admin/dashboard/sesi">Sesi</a></li>
+                                <li><a href="/admin/dashboard/presensi">Presensi</a></li>
+                                <li><a href="/admin/dashboard/tugas">Tugas</a></li>
                             </ul>
                         </li>
 
                         <li>
-                            <a href="/dashboard/pembayaran" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-3"><i class="ti-money"></i></div>
-                                <span>Pembayaran</span>
+                            <a href="/admin/dashboard/validasi-berkas" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i
+                                        class="mdi mdi mdi-file-multiple-outline mdi-24px"></i>
+                                </div>
+                                <span>Validasi Berkas</span>
                             </a>
                         </li>
 
-                        <li>
-                            <a href="/dashboard/cetak-dokumen" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-paperclip"></i></div>
-                                <span>Cetak Dokumen dan Riwayat Tes</span>
-                            </a>
-                        </li>
+                        @if ($user['role'] == 'superadmin')
+                            <li>
+                                <a href="/admin/dashboard/tambah-admin" class="waves-effect">
+                                    <div class="d-inline-block icons-sm mr-1"><i
+                                            class="mdi mdi-account-multiple-plus-outline mdi-24px"></i>
+                                    </div>
+                                    <span>Tambah Admin</span>
+                                </a>
+                            </li>
+                        @endif
 
                     </ul>
 
@@ -138,10 +145,11 @@
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-md-8">
-                                <h4 class="page-title mb-1">Cetak Dokumen dan Riwayat Tes</h4>
+                                <h4 class="page-title mb-1">{{ $pelatihan->nama }}</h4>
                                 <ol class="breadcrumb m-0">
-                                    <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                                    <li class="breadcrumb-item active">Cetak Dokumen dan Riwayat Tes</li>
+                                    <li class="breadcrumb-item"><a href="/admin/dashboard/pelatihan">Pelatihan</a></li>
+                                    <li class="breadcrumb-item "><a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}">Detail {{ $pelatihan->nama }}</a></li>
+                                    <li class="breadcrumb-item active">Unduh Sertifikat yang Belum Ditandatangani</li>
                                 </ol>
                             </div>
                         </div>
@@ -158,61 +166,31 @@
                                 <div class="card-body">
                                     <div class="col">
 
-                                        <h4 class="mb-3">Cetak Dokumen dan Riwayat Tes</h4>
-
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="/dashboard/cetak-dokumen/unggah-sertifikat" class="btn btn-primary waves-effect waves-light text-light"><i
-                                                    class="mdi mdi-file-edit-outline"></i> Unggah Sertifikat yang Belum Ditandatangani</a>
-                                        </div>
+                                        <h4>Sertifikat Peserta {{ $pelatihan->nama }} yang Belum Ditandatangani</h4>
 
                                         @if (Session::has('type') && Session::has('message'))
-                                            <div class="alert alert-{{ Session::get('type') }}">{{ Session::get('message') }}</div>
+                                            <div class="alert alert-{{ Session::get('type') }}">
+                                                {{ Session::get('message') }}</div>
                                         @elseif (Session::has('message'))
                                             <div class="alert alert-success">{{ Session::get('message') }}</div>
                                         @endif
 
-                                        <div class="table-responsive-md">
+                                        <div class="table-responsive-md mt-3">
                                             <table class="table md-0">
                                                 <thead class="thead-light">
                                                     <tr>
                                                         <th>No.</th>
-                                                        <th>Nama Pelatihan</th>
-                                                        <th>Tanggal Pelaksanaan</th>
-                                                        <th>Kartu Peserta</th>
-                                                        <th>Sertifikat</th>
-                                                        <th>Sertifikat Ditanda tangani</th>
+                                                        <th>Nama Peserta</th>
+                                                        <th>Aksi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($data as $key => $item)
                                                         <tr>
                                                             <td>{{ $key + 1 }}</td>
-                                                            <td>{{ $item->nama }}</td>
-                                                            <td>{{ $item->pelaksanaan }}</td>
-                                                            <td><a type="button"
-                                                                    class="btn btn-primary waves-effect waves-light text-light"
-                                                                    href="#"
-                                                                    onclick="window.open('/cetak-dokumen/kartu-peserta/{{ $item->id }}', 'name', 'width=1000, height=800')"><b>CETAK
-                                                                        KARTU PESERTA</b></a>
-                                                            </td>
-                                                            @if ($item->sertifikat)
-                                                                <td><a type="button"
-                                                                        class="btn btn-primary waves-effect waves-light text-light"
-                                                                        href="#"
-                                                                        onclick="window.open('/cetak-dokumen/sertifikat/{{ $item->id_sertifikat }}', 'name', 'width=1500, height=1000')"><b>CETAK
-                                                                            SERTIFIKAT</b></a>
-                                                                </td>
-                                                            @else
-                                                                <td>Sertifikat Belum Tersedia</td>
-                                                            @endif
-                                                            @if ($item->tautan_sertifikat == null)
-                                                                <td>Tautan Sertifikat Belum Tersedia</td>
-                                                            @else
-                                                                <td><a href="{{ $item->tautan_sertifikat }}"
-                                                                        class="btn btn-primary waves-effect waves-light text-light"
-                                                                        type="button"
-                                                                        target="_blank"><b>LIHAT SERTIFIKAT</b></a></td>
-                                                            @endif
+                                                            <td>{{ $item->fullname }}</td>
+                                                            <td><a href="/files/berkas-sertifikat/{{ $item->nama_berkas }}"
+                                                                    class="btn btn-primary waves-effect waves-light text-light mr-3 {{ $pelatihan->status_nilai }}">Unduh Berkas</a></td>
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

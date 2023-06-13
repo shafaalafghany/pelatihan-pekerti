@@ -174,8 +174,10 @@
                                         <strong>Status Pelatihan: </strong>
                                         {{ $pelatihan->is_active ? 'Aktif' : 'Tidak Aktif' }}
 
-                                        <div class="d-flex flex-row-reverse mb-3">
-                                            <a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/pilih-peserta" class="btn btn-primary waves-effect waves-light text-light"><i
+                                        <div class="d-flex flex-row-reverse mt-3 mb-3">
+                                            <a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/sertifikat" class="btn btn-primary waves-effect waves-light text-light"><i
+                                                    class="mdi mdi-file-account-outline"></i> Unduh Sertifikat yang belum ditandatangani</a>
+                                            <a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/pilih-peserta" class="btn btn-primary waves-effect waves-light text-light mr-3"><i
                                                     class="mdi mdi-file-edit-outline"></i> Terbitkan Sertifikat</a>
                                             <a href="/admin/dashboard/pelatihan/{{ $pelatihan->id }}/perbarui-tautan-sertifikat" class="btn btn-primary waves-effect waves-light text-light mr-3"><i
                                                     class="mdi mdi-square-edit-outline"></i> Perbarui Tautan Sertifikat</a>

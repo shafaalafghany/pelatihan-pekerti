@@ -236,6 +236,11 @@ class DokumenRiwayatController extends Controller {
     ]);
 
     $peserta = User::find($request->peserta);
+    $peserta->id_pelatihan = null;
+    $peserta->status_pendaftaran = 0;
+    // dd($peserta->save());
+    $peserta->save();
+    
 
     $sertifikat = new Sertifikat();
     $sertifikat->id_dosen = $request->peserta;
