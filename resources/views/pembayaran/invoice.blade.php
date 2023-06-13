@@ -33,7 +33,7 @@
             <td><strong>INVOICE</strong></td>
           </tr>
           <tr>
-            <td>{{ $data->invoice }}</td>
+            <td>{{ $data['invoice'] }}</td>
           </tr>
           <tr>
             <td colspan="3"><strong>DITERBITKAN OLEH</strong></td>
@@ -41,10 +41,10 @@
           </tr>
           <tr>
             <td rowspan="2" colspan="3">Nama  : <strong>PEKERTI-AA UB</strong></td>
-            <td>Peserta : <strong>{{ strtoupper($data->fullname) }}</strong></td>
+            <td>Peserta : <strong>{{ strtoupper($data['fullname']) }}</strong></td>
           </tr>
           <tr>
-            <td>Tanggal Pembayaran : <strong>{{ strtoupper(\Carbon\Carbon::parse($data->updated_at)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y')) }}</strong></td>
+            <td>Tanggal Pembayaran : <strong>{{ strtoupper(\Carbon\Carbon::parse($data['updated_at'])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y')) }}</strong></td>
           </tr>
           <tr>
             <td colspan="4"><hr></td>
@@ -57,7 +57,7 @@
             <td colspan="4"><hr></td>
           </tr>
           <tr>
-            <td colspan="3"><strong>{{ $data->nama }}</strong></td>
+            <td colspan="3"><strong>{{ $data['nama'] }}</strong></td>
             <td>Rp200.000</td>
           </tr>
           <tr>
@@ -70,7 +70,7 @@
           </tr>
           <tr>
             <td colspan="3">Invoice ini sah dan diproses oleh komputer<br>Silakan hubungi Admin apabila kamu membutuhkan bantuan.</td>
-            <td><i>Terakhir diupdate: {{ \Carbon\Carbon::parse($data->updated_at)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i') }}</i></td>
+            <td><i>Terakhir diupdate: {{ \Carbon\Carbon::parse($data['updated_at'])->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y h:i') }}</i></td>
           </tr>
         </table>
       </div>
