@@ -18,15 +18,17 @@
     <!-- App Css-->
     <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <style>
-        @media print{@page {
-            size: landscape;
-        }}
+        /* @media print{ */
+        @page {
+            size: A4 landscape;
+        }
+    /* } */
     </style>
 </head>
 
 <body>
-    <div class="row justify-content-center">
-        <div class="col-7">
+    <div class="row justify-content-center" style="background-image: url('/images/bg.jpg');height: 100%;background-position: center;background-repeat: no-repeat;background-size: cover;">
+        <div class="d-flex flex-column justify-content-center" style="transform: scale(0.8,0.7);">
             <table class="table table-borderless">
                 <tr>
                     <td class="d-flex align-self-center col-1"><img src="{{ asset('/images/kemdikbud.png') }}"
@@ -85,9 +87,9 @@
                         <h4><b>Dilaksanakan Pada Tanggal {{ $data->pelaksanaan }}</b></h4>
                     </td>
                 </tr>
-                <tr>
-                    <td class="" colspan="3">
-                        <div class="d-flex w-auto">
+                <tr class="w-100 mx-auto">
+                    <td class="w-100 mx-auto" colspan="3">
+                        {{-- <div class="d-flex justify-content-center align-items-center w-auto">
                             <div class="container w-auto d-flex">
                                 <div class="row">
                                     <div class="col-sm w-auto p-0 text-right">
@@ -108,11 +110,32 @@
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
+                        </div> --}}
                     </td>
                 </tr>
             </table>
+            <div class="d-flex justify-content-center align-items-center w-100 mx-auto">
+                <div class="container w-auto d-flex">
+                    <div class="d-flex align-items-center mx-auto">
+                        <div class="col-sm w-auto p-0 text-right">
+                            <img class=""
+                                src="{{ asset('/images/foto-profil/' . $data->foto_profil) }}"
+                                width="125" height="175">
+                        </div>
+                        <div class="d-flex flex-column align-items-start h-100 col-sm w-auto pr-0 pl-1">
+                            <div class="">
+                                <b>Malang,
+                                    {{ \Carbon\Carbon::parse($data->created_at)->locale('id')->settings(['formatFunction' => 'translatedFormat'])->format('j F Y') }}</b><br>
+                                <b>Ketua P2ATP,</b><br>
+                            </div>
+                            <div class="mt-auto w-auto" style="min-width: max-content;">
+                                <b>Ir. Ishardita Pambudi Tama, ST., MT., Ph.D.</b><br>
+                                <b>NIP 197308191999031002</b><br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
