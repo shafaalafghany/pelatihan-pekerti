@@ -18,7 +18,8 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('id_tugas')->index('fk_tugas_tugas_dosen');
             $table->integer('id_dosen')->index('fk_dosen_tugas_dosen');
-            $table->string('berkas_tugas', 150);
+            $table->string('berkas_tugas', 150)->nullable();
+            $table->string('online_text', 65535)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('nilai', function (Blueprint $table) {
+        Schema::create('detail_nilai', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_dosen')->index('fk_nilai_dosen');
-            $table->integer('id_pelatihan')->index('fk_nilai_pelatihan');
+            $table->integer('id_nilai')->index('fk_nilai_detail_nilai');
+            $table->integer('id_dosen')->index('fk_dosen_detail_nilai');
+            $table->integer('nilai');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nilai');
+        Schema::dropIfExists('detail_nilai');
     }
 };

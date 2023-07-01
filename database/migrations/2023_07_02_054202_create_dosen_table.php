@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('jenis_kelamin', 100)->nullable();
             $table->string('tempat_lahir', 100)->nullable();
             $table->string('tanggal_lahir', 0)->nullable();
+            $table->string('nama_instansi', 150)->nullable();
             $table->string('alamat', 65535)->nullable();
             $table->string('provinsi', 100)->nullable();
             $table->string('kota', 100)->nullable();
@@ -42,6 +43,7 @@ return new class extends Migration
             $table->boolean('is_sk_pekerti_validated')->nullable();
             $table->tinyInteger('is_berkas_submited')->nullable()->default(0);
             $table->integer('id_pelatihan')->nullable()->index('id_dosen_pelatihan');
+            $table->tinyInteger('status_pendaftaran')->nullable()->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

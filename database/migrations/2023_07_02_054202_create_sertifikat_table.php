@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('id_dosen')->index('fk_dosen_sertifikat');
             $table->integer('id_pelatihan')->index('fk_dosen_pelatihan');
-            $table->string('berkas_sertifikat', 150);
+            $table->string('nomor_sertifikat', 225)->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

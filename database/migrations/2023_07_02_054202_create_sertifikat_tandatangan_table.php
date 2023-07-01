@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pembayaran', function (Blueprint $table) {
+        Schema::create('sertifikat_tandatangan', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_dosen')->index('fk_dosen_pembayaran');
-            $table->string('invoice', 50);
-            $table->string('kode_pembayaran');
-            $table->tinyInteger('status');
+            $table->integer('id_pelatihan')->index('fk_sertifikat_ttd_pelatihan');
+            $table->integer('id_dosen')->index('fk_sertifikat_ttd_dosen');
+            $table->string('nama_berkas');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pembayaran');
+        Schema::dropIfExists('sertifikat_tandatangan');
     }
 };

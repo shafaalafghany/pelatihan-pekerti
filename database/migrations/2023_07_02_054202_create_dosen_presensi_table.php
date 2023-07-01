@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('detail_nilai', function (Blueprint $table) {
+        Schema::create('dosen_presensi', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_nilai')->index('fk_nilai_detail_nilai');
-            $table->integer('id_tugas')->nullable()->index('fk_tugas_detail_nilai');
-            $table->string('nama_nilai', 50);
-            $table->integer('nilai');
+            $table->integer('id_dosen')->index('fk_dosen_dosen_presensi');
+            $table->integer('id_sesi')->index('fk_dosen_presensi_sesi');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_nilai');
+        Schema::dropIfExists('dosen_presensi');
     }
 };

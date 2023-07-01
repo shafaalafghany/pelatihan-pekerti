@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('tugas', function (Blueprint $table) {
             $table->foreign(['id_sesi'], 'fk_tugas_sesi')->references(['id'])->on('sesi');
+            $table->foreign(['id_pelatihan'], 'fk_tugas_pelatihan')->references(['id'])->on('pelatihan');
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
     {
         Schema::table('tugas', function (Blueprint $table) {
             $table->dropForeign('fk_tugas_sesi');
+            $table->dropForeign('fk_tugas_pelatihan');
         });
     }
 };

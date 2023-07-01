@@ -13,15 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sesi', function (Blueprint $table) {
+        Schema::create('pelatihan', function (Blueprint $table) {
             $table->comment('');
             $table->integer('id', true);
-            $table->integer('id_pelatihan')->index('fk_pelatihan_sesi');
-            $table->string('nama', 100);
-            $table->string('keterangan', 100)->nullable();
-            $table->string('tanggal');
-            $table->enum('jenis_pelaksanaan', ['luring', 'daring']);
-            $table->string('tautan_pelaksanaan');
+            $table->string('nama', 150);
+            $table->enum('jenis_pelatihan', ['pekerti', 'aa']);
+            $table->string('mulai_pendaftaran', 0);
+            $table->string('batas_pendaftaran', 0);
+            $table->string('tanggal_pelaksanaan');
+            $table->integer('kuota_pendaftar');
+            $table->integer('jumlah_pendaftar')->default(0);
+            $table->string('tautan_sertifikat')->nullable();
+            $table->tinyInteger('is_active')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });
@@ -34,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sesi');
+        Schema::dropIfExists('pelatihan');
     }
 };
