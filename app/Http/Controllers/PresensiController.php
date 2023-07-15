@@ -42,8 +42,9 @@ class PresensiController extends Controller {
     $kode_presensi = $request->kode_presensi;
     $cek_kode = DB::table('presensi')->where('kode_presensi', $kode_presensi)->get();
     $time_now = new DateTime(Carbon::now()->toDateTimeString());
+    $presensi = $cek_kode[0];
 
-    if (count($cek_kode) == 0) {
+    if (count($cek_kode) == 0 || $user->id_pelatihan != $presensi->id_pelatihan) {
       session()->flash('message', 'Kode presensi salah');
       session()->flash('type', 'danger');
       return to_route('presensi');
